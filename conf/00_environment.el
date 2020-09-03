@@ -8,7 +8,11 @@
 (setq command-line-default-directory "~/")
 (setq inhibit-startup-message t)
 (savehist-mode 1)
-(global-hungry-delete-mode 1)
+
+(use-package hungry-delete
+  :ensure t
+  :config
+  (global-hungry-delete-mode 1))
 
 (use-package disable-mouse
   :ensure t

@@ -30,7 +30,6 @@
   (setq helm-buffers-fuzzy-matching t
 		helm-recentf-fuzzy-match    t)
   (use-package helm-config
-	:ensure t
 	:config
 	(setq helm-split-window-in-side-p           t
 		  helm-move-to-line-cycle-in-source     t
