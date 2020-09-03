@@ -1,0 +1,55 @@
+# -*- mode: snippet -*-
+# name: Linear Sieve
+# key: sieve
+# --
+class LinearSieve {
+    public:
+        vector<int> lp, pr;
+        LinearSieve() {}
+        LinearSieve(int n) {
+            lp.resize(n + 1);
+            lp[0] = -1, lp[1] = -1;
+            init(n);
+        }
+
+        void init(int x) {
+            FOR (i, 2, x + 1) {
+                if (lp[i] == 0) {
+                    lp[i] = i;
+                    pr.push_back(i);
+                }
+                for (int j = 0; j < (int)pr.size() && pr[j] <= lp[i] && (ll)i * pr[j] <= x; ++j) {
+                    lp[i * pr[j]] = pr[j];
+                }
+            }
+        }
+
+        bool isPrime(int x) {
+            return lp[x] == x;
+        }
+
+        vector<int> factorList(int x) {
+            vector<int> res;
+            while (x != 1) {
+                res.push_back(lp[x]);
+                x /= lp[x];
+            }
+
+            return res;
+        }
+
+        vector<pair<int, int> > factorize(int x) {
+            vector<int> p = factorList(x);
+            if (p.size() == 0) return {};
+            vector<pair<int, int> > res(1, make_pair(p[0], 0));
+            rep (i, p.size()) {
+                if (res.back().first == p[i]) {
+                    res.back().second++;
+                } else {
+                    res.emplace_back(p[i], 1);
+                }
+            }
+
+            return res;
+        }
+};
