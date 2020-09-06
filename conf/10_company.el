@@ -3,8 +3,6 @@
 
 (use-package company
   :ensure t
-  :init
-  (global-company-mode)
   :bind
   (("C-M-i" . company-complete)
    :map company-active-map
@@ -16,6 +14,8 @@
    ("C-s" . company-filter-candidates)
    ("C-i" . company-complete-selection)
    ([tab] . company-complete-selection))
+  :init
+  (global-company-mode)
   :config
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2)

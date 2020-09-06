@@ -3,9 +3,8 @@
 
 (use-package flycheck
   :ensure t
-  :init
-  (global-flycheck-mode t)
   :config
+  (global-flycheck-mode t)
   (setq flycheck-check-syntax-automatically '(mode-enabled save))
   '(progn
 	 (when (locate-library "flycheck-irony")
