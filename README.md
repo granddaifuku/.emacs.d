@@ -14,7 +14,7 @@ $ (Follow some instructions showen after installation)
 2. install ccls  
 ```
 $ cd /usr/local/opt
-$ git clone $([ccls git repository](https://github.com/MaskRay/ccls))
+$ git clone $[ccls git repository](https://github.com/MaskRay/ccls)
 ```
 
 3. build 
