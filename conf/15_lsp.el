@@ -76,7 +76,7 @@
   :ensure t
   :after (lsp-mode)
   :custom
-  (ccls-executable "/usr/local/opt/ccls/Release/ccls")
+  (ccls-executable "/usr/local/Cellar/ccls/0.20190823.6/bin/ccls")
   (lsp-prefer-flymake nil)
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp)))

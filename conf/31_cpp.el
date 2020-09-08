@@ -1,14 +1,12 @@
 ;; irony
 (require 'use-package)
 
-(use-package cmake-ide
-  :ensure t)
+;; (use-package rtags
+;;   :ensure t)
 
-(use-package rtags
-  :ensure t
-  :after (cmake-ide)
-  :config
-  (cmake-ide-setup))
+;; (use-package cmake-ide
+;;   :after rtags
+;;   :ensure t)
 
 ;; (use-package irony
 ;;   :ensure t

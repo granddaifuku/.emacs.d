@@ -7,7 +7,7 @@ For more detail, see [github ccls wiki](https://github.com/MaskRay/ccls/wiki/Bui
 1. install llvm  
 ```
 $ brew install llvm
-$ (Follow some instructions showen after installation)
+$ (Follow some instructions shown after installation)
 ```
 
 
