@@ -37,7 +37,7 @@ $ cd rtags
 ```
 $ mkdir build && cd build
 $ brew info llvm
-$ cmake -DLIBCLANG_LLVM_CONFIG_EXECUTABLE=/usr/local/Cellar/llvm/<llvm-version>/bin/llvm-config -DRTAGS_BUILD_CLANG=1 ..
-$ make
-$ make install
+$ cmake LIBCLANG_LLVM_CONFIG_EXECUTABLE=/usr/local/Cellar/llvm/10.0.1/bin/llvm-config OPENSSL_ROOT_DIR=/usr/local/opt/openssl cmake -DRTAGS_BUILD_CLANG=1 -DCMAKE_BUILD_TYPE=Release -DCMAKE_EXPORT_COMPILE_COMMANDS=ON ..
+$ sudo make
+$ sudo make install
 ```

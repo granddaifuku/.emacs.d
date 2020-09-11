@@ -20,6 +20,9 @@
 ;; (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/") t)
 (package-initialize)
 
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 (require 'use-package)
 
 ;; init-loader
@@ -51,7 +54,7 @@
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
  '(frame-background-mode 'dark)
  '(package-selected-packages
-   '(helm-rtags company-rtags ccls company-lsp lsp-ui helm-config package-utils tide--cleanup-kinds helm-flycheck tide typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete rainbow-delimiters auto-async-byte-compile hungry-delete racer quickrun helm-gtags lsp-mode use-package magit rustic elpy init-loader cmake-ide rtags flycheck-irony irony-eldoc color-theme-modern all-the-icons neotree company-irony irony yasnippet multi-term flycheck color-theme-sanityinc-tomorrow helm))
+   '(flycheck-pkg-config flycheck-rust helm-rtags company-rtags ccls company-lsp lsp-ui helm-config package-utils tide--cleanup-kinds helm-flycheck tide typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete rainbow-delimiters auto-async-byte-compile hungry-delete racer quickrun helm-gtags lsp-mode use-package magit rustic elpy init-loader cmake-ide rtags flycheck-irony irony-eldoc color-theme-modern all-the-icons neotree company-irony irony yasnippet multi-term flycheck color-theme-sanityinc-tomorrow helm))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    '((20 . "#d54e53")

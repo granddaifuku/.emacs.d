@@ -11,10 +11,14 @@
   (lsp-document-sync-method 'incremental)
   (lsp-response-timeout 5)
   (lsp-enable-completion-at-point nil)
-  (lsp-prefer-flymake nil)
-  (lsp-prefer-capf t)
+  :hook
+  ((rustic-mode . lsp))
   :config
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc)))
+;;  (setq lsp-prefer-flymake 'flymake)
+
+  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck))
+  (setq rustic-lsp-server 'rust-analyzer))
+;;  (setq lsp-rust-analyzer-server-command '("~/.cargo/bin/rust-analyzer")))
 
 ;; (use-package company-lsp
 ;;   :after (lsp-mode company)
@@ -66,19 +70,19 @@
 		("C-c C-r" . lsp-ui-peek-find-references)
 		("C-c C-j" . lsp-ui-peek-find-definitions)
 		("C-c i"   . lsp-ui-peek-find-implementation)
-		("C-c C-m"   . lsp-ui-imenu)
+		("C-c C-m" . lsp-ui-imenu)
 		("C-c s"   . lsp-ui-sideline-mode)
 		("C-c d"   . ladicle/toggle-lsp-ui-doc))
   :hook
-  (lsp-mode . lsp-ui-mode))
+  (lsp-mode . lsp-ui-mode)
+  (add-hook 'lsp-managed-mode-hook (lambda () (setq-local company-backends '(company-capf)))))
 
 (use-package ccls
   :ensure t
-  :after (lsp-mode)
-  :custom
-  (ccls-executable "/usr/local/Cellar/ccls/0.20190823.6/bin/ccls")
-  (lsp-prefer-flymake nil)
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp)))
   :config
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc)))
+  (setq ccls-executable "/usr/local/bin/ccls")
+  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck))
+;;  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+  (setq ccls-args '("--log-file=/tmp/ccls.log")))

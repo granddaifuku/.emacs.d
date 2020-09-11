@@ -1,12 +1,42 @@
 ;; irony
 (require 'use-package)
 
-;; (use-package rtags
-;;   :ensure t)
+;; (require 'flymake)
+
+;; (defun flymake-cc-init ()
+;;   (let* ((temp-file   (flymake-proc-init-create-temp-buffer-copy
+;;                        'flymake-create-temp-inplace))
+;;          (local-file  (file-relative-name
+;;                        temp-file
+;;                        (file-name-directory buffer-file-name))))
+;;     (list "g++" (list "-Wall" "-Wextra" "-fsyntax-only" local-file))))
+
+;; (push '("\\.cpp$" flymake-cc-init) flymake-proc-allowed-file-name-masks)
+
+;; (add-hook 'c++-mode-hook
+;;           '(lambda ()
+;;              (flymake-mode t)))
+;; (remove-hook 'c++-mode-hook
+;;           '(lambda ()
+;;              (flycheck-mode t)))
+
 
 ;; (use-package cmake-ide
-;;   :after rtags
-;;   :ensure t)
+;;   :ensure t
+;;   :defer t)
+
+;; (use-package rtags
+;;   :ensure t
+;;   :defer t
+;;   :config
+;;   (progn
+;; 	(rtags-enable-standard-keybindings c-mode-base-map)
+;; 	(cmake-ide-setup))
+;;   (setq rtags-completions-enabled t))
+
+
+
+
 
 ;; (use-package irony
 ;;   :ensure t
