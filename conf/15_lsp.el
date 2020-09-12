@@ -15,8 +15,7 @@
   ((rustic-mode . lsp))
   :config
 ;;  (setq lsp-prefer-flymake 'flymake)
-
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck))
+;;  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck))
   (setq rustic-lsp-server 'rust-analyzer))
 ;;  (setq lsp-rust-analyzer-server-command '("~/.cargo/bin/rust-analyzer")))
 
@@ -82,7 +81,6 @@
   :hook ((c-mode c++-mode objc-mode cuda-mode) .
          (lambda () (require 'ccls) (lsp)))
   :config
-  (setq ccls-executable "/usr/local/bin/ccls")
-  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck))
-;;  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
+  (setq ccls-executable "/usr/local/opt/ccls/build/Release/ccls")
+  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
   (setq ccls-args '("--log-file=/tmp/ccls.log")))

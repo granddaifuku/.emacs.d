@@ -19,9 +19,23 @@ $ git clone $(ccls git repository)
 
 3. build 
 ```
+$ mkdir build && cd build
 $ brew info llvm
-$ cmake -H. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/Cellar/llvm/<Your Version>/lib/cmake
+$ cmake -H.. -BRelease -DCMAKE_BUILD_TYPE=Release -DCMAKE_PREFIX_PATH=/usr/local/Cellar/llvm/<Your Version>/lib/cmake
 $ cmake --build Release
+```
+
+4. create compile_commands.json
+```
+$ cmake -H. -BDebug -DCMAKE_BUILD_TYPE=Debug -DCMAKE_EXPORT_COMPILE_COMMANDS=YES
+
+```
+
+4. In case you want to use "bits/stdc++.h"
+```
+$ cd /usr/local/Cellar/llvm/10.0.1/lib/clang/10.0.1/include
+$ mkdir bits && cd bits
+$ touch stdc++.h (copy the content of stdc++.h to it)
 ```
 
 ### rtags setting

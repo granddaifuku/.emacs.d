@@ -4,24 +4,24 @@
 (use-package flycheck
   :ensure t
   :defer t
-  :init
-  (add-hook 'c++-mode-hook
-			(lambda () (setq flycheck-gcc-include-path
-							 (list (expand-file-name "/usr/local/Cellar/gcc/10.2.0/include/c++")))))
+  ;; :init
+  ;; (add-hook 'c++-mode-hook
+  ;; 			(lambda () (setq flycheck-gcc-include-path
+  ;; 							 (list (expand-file-name "/usr/local/Cellar/gcc/10.2.0/include/c++")))))
   :config
   (global-flycheck-mode t)
   (setq flycheck-check-syntax-automatically '(mode-enabled save)))
 
-(use-package flycheck-pkg-config
-  :ensure t
-  :init
-  (add-hook 'c++-mode-hook
-			(lambda () (setq flycheck-gcc-include-path
-							 (list (expand-file-name "/usr/local/Cellar/gcc/10.2.0/include/c++/10.2.0/x86_64-apple-darwin18"))))
-			(lambda () (setq flycheck-clang-include-path
-							 (list (expand-file-name "/usr/local/Cellar/gcc/10.2.0/include/c++/10.2.0/x86_64-apple-darwin18"))))
-			(lambda () (setq flycheck-cppcheck-include-path
-							 (list (expand-file-name "/usr/local/Cellar/gcc/10.2.0/include/c++/10.2.0/x86_64-apple-darwin18"))))))
+;; (use-package flycheck-pkg-config
+;;   :ensure t
+;;   :init
+;;   (add-hook 'c++-mode-hook
+;; 			(lambda () (setq flycheck-gcc-include-path
+;; 							 (list (expand-file-name "/usr/local/Cellar/gcc/10.2.0/include/c++/10.2.0/x86_64-apple-darwin18"))))
+;; 			(lambda () (setq flycheck-clang-include-path
+;; 							 (list (expand-file-name "/usr/local/Cellar/gcc/10.2.0/include/c++/10.2.0/x86_64-apple-darwin18"))))
+;; 			(lambda () (setq flycheck-cppcheck-include-path
+;; 							 (list (expand-file-name "/usr/local/Cellar/gcc/10.2.0/include/c++/10.2.0/x86_64-apple-darwin18"))))))
 
 ;; (use-package rtags
 ;;   :ensure t
@@ -33,9 +33,6 @@
   :after (flycheck)
   :bind(:map flycheck-mode-map
 			 ("C-c ! h" . helm-flycheck)))
-
-
-
 
 
 ;; (require 'flycheck)
