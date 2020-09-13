@@ -12,22 +12,10 @@
   (lsp-response-timeout 5)
   (lsp-enable-completion-at-point nil)
   :hook
-  ((rustic-mode . lsp))
-  :config
-;;  (setq lsp-prefer-flymake 'flymake)
-;;  (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck))
-  (setq rustic-lsp-server 'rust-analyzer))
-;;  (setq lsp-rust-analyzer-server-command '("~/.cargo/bin/rust-analyzer")))
+  ((rustic-mode . lsp)))
+  ;; :config
+  ;; (setq lsp-rust-analyzer-server-command '("~/.cargo/bin/rust-analyzer")))
 
-;; (use-package company-lsp
-;;   :after (lsp-mode company)
-;;   :ensure t
-;;   :init
-;;   (push 'company-lsp company-backends)
-;;   :custom
-;;   (company-lsp-cache-candidates t)
-;;   (company-lst-asnyc t)
-;;   (company-lsp-enable-recompletion nil))
 
 (use-package lsp-ui
   :ensure t
