@@ -12,8 +12,10 @@
   (lsp-response-timeout 5)
   (lsp-enable-completion-at-point nil)
   :hook
-  ((rustic-mode . lsp)))
-  ;; :config
+  ((rustic-mode . lsp))
+  :config
+  (setq lsp-enable-on-type-formatting nil)
+  (setq lsp-rust-server 'rustic-analyzer))
   ;; (setq lsp-rust-analyzer-server-command '("~/.cargo/bin/rust-analyzer")))
 
 
