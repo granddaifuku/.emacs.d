@@ -13,13 +13,3 @@
   (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
   (setq neo-show-hidden-files t)
   (setq neo-persist-show t))
-
-
-;; (require 'all-the-icons)
-;; (require 'neotree)
-;; (global-set-key "\C-q" 'neotree-toggle)
-;; (setq neo-show-hidden-files t)
-;; (setq neo-smart-open t)
-;; (setq neo-persist-show t)
-;; (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-

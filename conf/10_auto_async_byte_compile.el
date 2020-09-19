@@ -1,4 +1,5 @@
 ;; auto-async-byte-compile
+
 (require 'use-package)
 (use-package auto-async-byte-compile
   :ensure t

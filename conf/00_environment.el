@@ -18,5 +18,3 @@
   :ensure t
   :config
   (global-disable-mouse-mode))
-
-;;(require 'disable-mouse)
