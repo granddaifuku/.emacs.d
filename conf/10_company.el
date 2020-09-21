@@ -17,6 +17,7 @@
   :init
   (global-company-mode)
   :config
+  (setq company-backends '(company-capf))
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2)
   (setq company-selection-wrap-around t)
@@ -28,7 +29,7 @@
   (set-face-attribute 'company-tooltip-common-selection nil
 					  :foreground "black" :background "steelblue")
   (set-face-attribute 'company-tooltip-selection nil
-					  :foreground "#white" :background "steelblue")
+					  :foreground "white" :background "steelblue")
   (set-face-attribute 'company-preview-common nil
 					  :background nil :foreground "lightgrey" :underline t)
   (set-face-attribute 'company-scrollbar-fg nil
