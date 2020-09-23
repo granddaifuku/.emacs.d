@@ -3,19 +3,20 @@
 
 (use-package lsp-mode
   :ensure t
-  :custom
-  (lsp-print-io t)
-  (lsp-trace t)
-  (lsp-print-performance nil)
-;;  (lsp-auto-guess-root t)
-  (lsp-document-sync-method 'incremental)
-  (lsp-response-timeout 5)
-  (lsp-enable-completion-at-point t)
+  :custom 
+  ((lsp-print-io t)
+   (lsp-trace t)
+   (lsp-print-performance nil)
+   ;;  (lsp-auto-guess-root t)
+   (lsp-document-sync-method 'incremental)
+   (lsp-response-timeout 5)
+   (lsp-enable-completion-at-point t)
+   (lsp-prefer-flymake nil))
   :hook
   ((rustic-mode c++-mode) . lsp)
   :config
-  ;;  (setq lsp-completion-provider :capf)
-  (lsp-managed-mode . (lambda () (setq-local company-backends '(company-capf))))
+  (setq gc-cons-threshold 100000000)
+  (setq lsp-completion-provider :capf)
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-idle-delay 0.200))
  
@@ -25,6 +26,7 @@
   :ensure t
   :after lsp-mode
   :custom
+  (lsp-ui-flycheck-enable t)
   ;; lsp-ui-doc
   (lsp-ui-doc-enable t)
   (lsp-ui-doc-header t)
@@ -72,9 +74,10 @@
 (use-package ccls
   :ensure t
   :after lsp-mode
-  :hook ((c-mode c++-mode objc-mode cuda-mode) .
+  :hook ((c-mode c++-mode objc-mode) .
          (lambda () (require 'ccls) (lsp)))
   :config
+  (setq ccls-initialization-options `(:clang (:extraArgs ["--gcc-toolchain=/usr"])))
   (setq ccls-executable "/usr/local/opt/ccls/build/Release/ccls")
   (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
   (setq ccls-args '("--log-file=/tmp/ccls.log")))
