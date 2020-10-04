@@ -1,0 +1,36 @@
+# -*- mode: snippet -*-
+# name: Lazy Segment Tree
+# key: lazy seg
+# --
+template <typename T>
+class LazySegmentTree {
+public:
+	int n;
+	T e;
+	vector<T> node, lazy;
+	function<T(T, T)> operation;
+	function<T(T, T)> process;
+
+	LazySegmentTree() {}
+	LazySegmentTree(int n_, T e_, funciton<T(T, T)> operation_,
+						function<T(T, T)> process_) : e(e_), operation(operation_),
+						pricess(process_) {
+						n = 1;
+						while (n < n_) n <<= 1;
+						node.assign(2 * n, e);
+						}
+    void build() {
+	  for (int i = n - 1; i > 0; --i) {
+	    node[i] = operation(node[i * 2 + 0], node[i * 2 + 1])l
+      }
+    }
+
+    void set(int idx, T v) {
+	  node[idx + n] = process(node[idx + n], v);
+    }
+
+    T operator[](int idx) {
+	  return node[idx + n];
+    }
+	  
+}
