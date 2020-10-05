@@ -18,14 +18,27 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
 (require 'use-package)
 
-;; ;; init-loader
-;; (use-package init-loader
-;;   :ensure t
-;;   :config
-;;   (setq init-loader-show-log-after-init t)
-;;   (init-loader-load "~/.emacs.d/conf/"))
+;;;;; auto-async-byte-compile ;;;;;
+
+(use-package auto-async-byte-compile
+  :ensure t
+  :init
+  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
+
+
+;;;;; Theme ;;;;;
+
+(use-package doom-themes
+  :ensure t
+  :config
+  (setq doom-themes-enable-bold t
+		doom-themes-enable-italic t)
+  (load-theme 'doom-one-light t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-neotree-config))
 
 
 ;;;;; Coding Style ;;;;;
@@ -63,7 +76,6 @@
 	   (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
 		 (cl-callf color-saturate-name (face-foreground face) 30)))))
   (add-hook 'emacs-startup-hook 'rainbow-delimiters-using-stronger-colors))
-
 
 
 ;;;;; Encoding ;;;;;
@@ -154,25 +166,14 @@
 (global-set-key (kbd "C-c C-n") 'rename-file-and-buffer)
 (global-set-key (kbd "M-k") 'copy-whole-line)
 
-
-;;;;; Theme ;;;;;
-
-(use-package color-theme-modern
-  :ensure t
-  :config
-  (add-to-list 'custom-theme-load-path
-			   (file-name-as-directory "~/.emacs.d/replace-colorthemes/clarity-theme.el"))
-  (load-theme 'clarity t t)
-  (enable-theme 'clarity)
-  (set-face-foreground 'minibuffer-prompt "brown"))
-
-
-;;;;; auto-async-byte-compile ;;;;;
-
-(use-package auto-async-byte-compile
-  :ensure t
-  :init
-  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
+;; (use-package color-theme-modern
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'custom-theme-load-path
+;; 			   (file-name-as-directory "~/.emacs.d/replace-colorthemes/clarity-theme.el"))
+;;   (load-theme 'clarity t t)
+;;   (enable-theme 'clarity)
+;;   (set-face-foreground 'minibuffer-prompt "brown"))
 
 
 ;;;;; company ;;;;;
@@ -260,12 +261,12 @@
   :config
   (when (executable-find "curl")
 	(setq helm-google-suggest-use-curl-p t))
-  (setq helm-M-x-fuzzy-match t)
-  (setq helm-buffers-fuzzy-matching t
+  (setq helm-M-x-fuzzy-match t
+		helm-buffers-fuzzy-matching t
 		helm-recentf-fuzzy-match    t)
   (use-package helm-config
 	:config
-	(setq helm-split-window-in-side-p           t
+	(setq helm-split-window-inside-p           t
 		  helm-move-to-line-cycle-in-source     t
 		  helm-ff-search-library-in-sexp        t
 		  helm-scroll-amount                    8
@@ -446,6 +447,7 @@
 
 
 ;;;;; Python ;;;;;
+
 (use-package elpy
   :ensure t
   :defer t
@@ -505,11 +507,11 @@
   :bind
   (("C-q" . neotree-toggle))
   :config
-  (setq neo-smart-open t)
-  (setq neo-create-file-auto-open t)
-  (setq neo-theme (if (display-graphic-p) 'icons 'arrow))
-  (setq neo-show-hidden-files t)
-  (setq neo-persist-show t))
+  (setq neo-smart-open t
+		neo-create-file-auto-open t
+		neo-theme (if (display-graphic-p) 'icons 'arrow)
+		neo-show-hidden-files t
+		neo-persist-show t))
 
 
 
@@ -533,7 +535,7 @@
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
  '(frame-background-mode 'dark)
  '(package-selected-packages
-   '(helm-lsp lsp-ui racer rustic flycheck-pkg-config helm-rtags company-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck tide typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete rainbow-delimiters auto-async-byte-compile hungry-delete helm-gtags use-package magit elpy init-loader cmake-ide rtags flycheck-irony color-theme-modern all-the-icons neotree yasnippet multi-term flycheck color-theme-sanityinc-tomorrow helm))
+   '(doom-themes helm-lsp lsp-ui racer rustic flycheck-pkg-config helm-rtags company-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck tide typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete rainbow-delimiters auto-async-byte-compile hungry-delete helm-gtags use-package magit elpy cmake-ide rtags flycheck-irony color-theme-modern all-the-icons neotree yasnippet multi-term flycheck color-theme-sanityinc-tomorrow helm))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    '((20 . "#d54e53")
