@@ -5,21 +5,23 @@
 
 ;; Package
 (require 'package)
-(setq package-check-signature nil)
-(setq package-archives
-      '(("gnu" . "http://elpa.gnu.org/packages/")
-		("melpa" . "http://melpa.org/packages/")
-		("melpa-stable" . "http://stable.melpa.org/packages/")
-		("org" . "http://orgmode.org/elpa/")
-		("ELPA" . "http://tromey.com/elpa/")))
+(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
+(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
 
 (package-initialize)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+(eval-when-compile
+  (add-to-list 'load-path "~/.emacs.d/elpa/use-package20200721.2156")
+  (require 'use-package))
+(require 'bind-key)
 
-(require 'use-package)
+;; (unless (package-installed-p 'use-package)
+;;   (package-refresh-contents)
+;;   (package-install 'use-package))
+
 
 ;;;;; auto-async-byte-compile ;;;;;
 
@@ -36,7 +38,7 @@
   :config
   (setq doom-themes-enable-bold t
 		doom-themes-enable-italic t)
-  (load-theme 'doom-one-light t)
+  (load-theme 'doom-snazzy t)
   (doom-themes-visual-bell-config)
   (doom-themes-neotree-config))
 
@@ -48,7 +50,7 @@
 (set-face-attribute 'linum nil
 					:foreground "#a9a9a9"
 					:height 0.9)
-(setq linum-format "%4d ")
+(defvar linum-format "%4d ")
 
 (column-number-mode t)
 (electric-pair-mode 1)
@@ -118,22 +120,6 @@
 (global-set-key (kbd "C-c <up>") 'windmove-up)
 (global-set-key (kbd "C-c <down>") 'windmove-down)
 
-
-(defun rename-file-and-buffer (new-name)
-  "Rename both current buffer and file."
-  (interactive "New Name:")
-  (let ((name (buffer-name))
-		(filename (buffer-filename)))
-	(if (not filename)
-		(message "Buffer '%s' is not visiting a file!" name)
-	  (if (get-buffer new-name)
-		  (message "Buffer named '%s' already exists!" new-name)
-		(progn
-		  (rename-file name new-name 1)
-		  (rename-buffer new-name)
-		  (set-visited-file-name new-name)
-		  (set-buffer-modified-p nil))))))  
-
 (defun copy-whole-line (&optional arg)
   "Copy current line."
   (interactive "p")
@@ -165,15 +151,6 @@
 
 (global-set-key (kbd "C-c C-n") 'rename-file-and-buffer)
 (global-set-key (kbd "M-k") 'copy-whole-line)
-
-;; (use-package color-theme-modern
-;;   :ensure t
-;;   :config
-;;   (add-to-list 'custom-theme-load-path
-;; 			   (file-name-as-directory "~/.emacs.d/replace-colorthemes/clarity-theme.el"))
-;;   (load-theme 'clarity t t)
-;;   (enable-theme 'clarity)
-;;   (set-face-foreground 'minibuffer-prompt "brown"))
 
 
 ;;;;; company ;;;;;
@@ -223,10 +200,6 @@
   (global-flycheck-mode t)
   (setq flycheck-check-syntax-automatically '(mode-enabled save)))
 
-;; (use-package rtags
-;;   :ensure t
-;;   :defer t)
-
 (use-package helm-flycheck
   :ensure t
   :after (flycheck)
@@ -260,18 +233,18 @@
 		(setq-local cursor-type nil))))
   :config
   (when (executable-find "curl")
-	(setq helm-google-suggest-use-curl-p t))
-  (setq helm-M-x-fuzzy-match t
-		helm-buffers-fuzzy-matching t
-		helm-recentf-fuzzy-match    t)
+	(defvar helm-google-suggest-use-curl-p t))
+  (defvar helm-M-x-fuzzy-match t)
+  (defvar helm-buffers-fuzzy-matching t)
+  (defvar helm-recentf-fuzzy-match    t)
   (use-package helm-config
 	:config
 	(setq helm-split-window-inside-p           t
 		  helm-move-to-line-cycle-in-source     t
-		  helm-ff-search-library-in-sexp        t
 		  helm-scroll-amount                    8
-		  helm-ff-file-name-history-use-recentf t
-		  helm-echo-input-in-header-line t))
+		  helm-echo-input-in-header-line t)
+	(defvar helm-ff-search-library-in-sexp t)
+	(defvar helm-ff-file-name-history-use-recentf t))
   (add-hook 'helm-minibuffer-set-up-hook
 			'spacemacs//helm-hide-minibuffer-maybe)
   (setq helm-autoresize-max-height 0)
@@ -305,7 +278,7 @@
   ((rustic-mode c++-mode) . lsp)
   :config
   (setq gc-cons-threshold 100000000)
-  (setq lsp-completion-provider :capf)
+  (defvar lsp-completion-provider :capf)
   (setq lsp-enable-on-type-formatting nil)
   (setq lsp-idle-delay 0.0))
  
@@ -510,9 +483,8 @@
   (setq neo-smart-open t
 		neo-create-file-auto-open t
 		neo-theme (if (display-graphic-p) 'icons 'arrow)
-		neo-show-hidden-files t
-		neo-persist-show t))
-
+		neo-show-hidden-files t)
+  (defvar neo-persist-show t))
 
 
 
@@ -528,14 +500,21 @@
  '(ansi-color-names-vector
    (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
  '(beacon-color "#d54e53")
- '(custom-enabled-themes '(clarity))
+;; '(custom-enabled-themes '(clarity))
  '(custom-safe-themes
    '("4c8372c68b3eab14516b6ab8233de2f9e0ecac01aaa859e547f902d27310c0c3" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default))
  '(fci-rule-color "#424242")
  '(flycheck-color-mode-line-face-to-color 'mode-line-buffer-id)
  '(frame-background-mode 'dark)
+ '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
+ '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
+ '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
+ '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(doom-themes helm-lsp lsp-ui racer rustic flycheck-pkg-config helm-rtags company-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck tide typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete rainbow-delimiters auto-async-byte-compile hungry-delete helm-gtags use-package magit elpy cmake-ide rtags flycheck-irony color-theme-modern all-the-icons neotree yasnippet multi-term flycheck color-theme-sanityinc-tomorrow helm))
+   '(lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui racer rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit elpy cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
+ '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
+ '(rustic-ansi-faces
+   ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    '((20 . "#d54e53")
