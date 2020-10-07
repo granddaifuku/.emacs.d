@@ -500,7 +500,6 @@
  '(ansi-color-names-vector
    (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
  '(beacon-color "#d54e53")
-;; '(custom-enabled-themes '(clarity))
  '(custom-safe-themes
    '("4c8372c68b3eab14516b6ab8233de2f9e0ecac01aaa859e547f902d27310c0c3" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default))
  '(fci-rule-color "#424242")
@@ -544,4 +543,6 @@
  ;; If there is more than one, they won't work right.
  '(helm-selection ((t (:extend t :background "dark cyan"))))
  '(helm-visible-mark ((t (:extend t :background "brightcyan" :foreground "black"))))
+ '(mode-line ((t (:background "brown4"))))
+ '(mode-line-inactive ((t (:background "gray30" :foreground "#e2e4e5"))))
  '(which-func ((t (:foreground "white")))))
