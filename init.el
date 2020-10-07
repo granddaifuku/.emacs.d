@@ -18,9 +18,36 @@
   (require 'use-package))
 (require 'bind-key)
 
-;; (unless (package-installed-p 'use-package)
-;;   (package-refresh-contents)
-;;   (package-install 'use-package))
+;;;;; Encoding ;;;;;
+(set-language-environment 'utf-8)
+(set-file-name-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+;;;;; Environment ;;;;;
+;; Auto Created FIles
+(setq auto-save-default nil)
+(setq create-lockfiles nil)
+(setq delete-auto-save-files t)
+(setq make-backup-files nil)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq-default cursor-type 'bar)
+(setq default-directory "~/")
+(setq command-line-default-directory "~/")
+(setq inhibit-startup-message t)
+(setq kill-whole-line t)
+(savehist-mode 1)
+
+(use-package hungry-delete
+  :ensure t
+  :config
+  (global-hungry-delete-mode 1))
+
+(use-package disable-mouse
+  :ensure t
+  :config
+  (global-disable-mouse-mode))
 
 
 ;;;;; auto-async-byte-compile ;;;;;
@@ -45,12 +72,7 @@
 
 ;;;;; Coding Style ;;;;;
 
-;; line number
-(global-linum-mode t)
-(set-face-attribute 'linum nil
-					:foreground "#a9a9a9"
-					:height 0.9)
-(defvar linum-format "%4d ")
+(global-display-line-numbers-mode)
 
 (column-number-mode t)
 (electric-pair-mode 1)
@@ -78,40 +100,6 @@
 	   (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
 		 (cl-callf color-saturate-name (face-foreground face) 30)))))
   (add-hook 'emacs-startup-hook 'rainbow-delimiters-using-stronger-colors))
-
-
-;;;;; Encoding ;;;;;
-(set-language-environment 'utf-8)
-(set-file-name-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-
-
-;;;;; Environment ;;;;;
-;; Auto Created FIles
-(setq auto-save-default nil)
-(setq create-lockfiles nil)
-(setq delete-auto-save-files t)
-(setq make-backup-files nil)
-
-(defalias 'yes-or-no-p 'y-or-n-p)
-(setq-default cursor-type 'bar)
-(setq default-directory "~/")
-(setq command-line-default-directory "~/")
-(setq inhibit-startup-message t)
-(setq kill-whole-line t)
-(savehist-mode 1)
-
-(use-package hungry-delete
-  :ensure t
-  :config
-  (global-hungry-delete-mode 1))
-
-(use-package disable-mouse
-  :ensure t
-  :config
-  (global-disable-mouse-mode))
-
 
 ;;;;; Key Bindings ;;;;;
 
@@ -299,7 +287,7 @@
   (lsp-ui-doc-use-childframe t)
   (lsp-ui-doc-use-webkit t)
   ;; lsp-ui-sideline
-  (lsp-ui-sideline-enable t)
+  (lsp-ui-sideline-enable nil)
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-symbol t)
   (lsp-ui-sideline-show-hover t)
@@ -500,7 +488,6 @@
  '(ansi-color-names-vector
    (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
  '(beacon-color "#d54e53")
-;; '(custom-enabled-themes '(clarity))
  '(custom-safe-themes
    '("4c8372c68b3eab14516b6ab8233de2f9e0ecac01aaa859e547f902d27310c0c3" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default))
  '(fci-rule-color "#424242")
@@ -544,4 +531,6 @@
  ;; If there is more than one, they won't work right.
  '(helm-selection ((t (:extend t :background "dark cyan"))))
  '(helm-visible-mark ((t (:extend t :background "brightcyan" :foreground "black"))))
+ '(mode-line ((t (:background "sienna4"))))
+ '(mode-line-inactive ((t (:background "gray23" :foreground "#e2e4e5"))))
  '(which-func ((t (:foreground "white")))))
