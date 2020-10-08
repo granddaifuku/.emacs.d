@@ -6,7 +6,6 @@ history
 recentf
 auto-save-list/
 /replace-colorthemes/*
-!/replace-colorthemes/clarity-theme.el
 irony/
 yasnippet/
 transient/

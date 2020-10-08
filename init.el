@@ -531,6 +531,9 @@
  ;; If there is more than one, they won't work right.
  '(helm-selection ((t (:extend t :background "dark cyan"))))
  '(helm-visible-mark ((t (:extend t :background "brightcyan" :foreground "black"))))
- '(mode-line ((t (:background "sienna4"))))
- '(mode-line-inactive ((t (:background "gray23" :foreground "#e2e4e5"))))
+<<<<<<< HEAD
+=======
+ '(mode-line ((t (:background "brown4"))))
+ '(mode-line-inactive ((t (:background "gray30" :foreground "#e2e4e5"))))
+>>>>>>> fcb7d5a2d600bcb8a04f51ccbf21edadfbc9c5bc
  '(which-func ((t (:foreground "white")))))
