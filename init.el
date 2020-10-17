@@ -18,9 +18,36 @@
   (require 'use-package))
 (require 'bind-key)
 
-;; (unless (package-installed-p 'use-package)
-;;   (package-refresh-contents)
-;;   (package-install 'use-package))
+;;;;; Encoding ;;;;;
+(set-language-environment 'utf-8)
+(set-file-name-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+
+;;;;; Environment ;;;;;
+;; Auto Created FIles
+(setq auto-save-default nil)
+(setq create-lockfiles nil)
+(setq delete-auto-save-files t)
+(setq make-backup-files nil)
+
+(defalias 'yes-or-no-p 'y-or-n-p)
+(setq-default cursor-type 'bar)
+(setq default-directory "~/")
+(setq command-line-default-directory "~/")
+(setq inhibit-startup-message t)
+(setq kill-whole-line t)
+(savehist-mode 1)
+
+(use-package hungry-delete
+  :ensure t
+  :config
+  (global-hungry-delete-mode 1))
+
+(use-package disable-mouse
+  :ensure t
+  :config
+  (global-disable-mouse-mode))
 
 
 ;;;;; auto-async-byte-compile ;;;;;
@@ -79,40 +106,6 @@
 	   (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
 		 (cl-callf color-saturate-name (face-foreground face) 30)))))
   (add-hook 'emacs-startup-hook 'rainbow-delimiters-using-stronger-colors))
-
-
-;;;;; Encoding ;;;;;
-(set-language-environment 'utf-8)
-(set-file-name-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-
-
-;;;;; Environment ;;;;;
-;; Auto Created FIles
-(setq auto-save-default nil)
-(setq create-lockfiles nil)
-(setq delete-auto-save-files t)
-(setq make-backup-files nil)
-
-(defalias 'yes-or-no-p 'y-or-n-p)
-(setq-default cursor-type 'bar)
-(setq default-directory "~/")
-(setq command-line-default-directory "~/")
-(setq inhibit-startup-message t)
-(setq kill-whole-line t)
-(savehist-mode 1)
-
-(use-package hungry-delete
-  :ensure t
-  :config
-  (global-hungry-delete-mode 1))
-
-(use-package disable-mouse
-  :ensure t
-  :config
-  (global-disable-mouse-mode))
-
 
 ;;;;; Key Bindings ;;;;;
 
