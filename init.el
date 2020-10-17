@@ -50,7 +50,8 @@
 (set-face-attribute 'linum nil
 					:foreground "#a9a9a9"
 					:height 0.9)
-(defvar linum-format "%4d ")
+(setq linum-format "%4d ")
+;;(global-display-line-numbers-mode)
 
 (column-number-mode t)
 (electric-pair-mode 1)
@@ -299,7 +300,7 @@
   (lsp-ui-doc-use-childframe t)
   (lsp-ui-doc-use-webkit t)
   ;; lsp-ui-sideline
-  (lsp-ui-sideline-enable t)
+  (lsp-ui-sideline-enable nil)
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-symbol t)
   (lsp-ui-sideline-show-hover t)
