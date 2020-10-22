@@ -148,6 +148,44 @@
 (global-set-key (kbd "M-k") 'copy-whole-line)
 
 
+;;;;; eglot ;;;;;
+
+
+(use-package eglot
+  :ensure t
+  :config
+  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
+  (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer")))
+  (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
+  (add-hook 'c++-mode-hook 'eglot-ensure)
+  (add-hook 'rust-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook 'eglot-ensure)
+  )
+
+
+;; ;;;;; irony ;;;;;
+;; (use-package irony
+;;   :ensure t
+;;   :init
+;;   (add-hook 'c++-mode-hook 'irony-mode)
+;;   (add-hook 'c-mode 'irony-mode)
+;;   :config
+;;   (add-hook 'c-mode-hook
+;;             '(lambda ()
+;;                (setq irony-additional-clang-options '("-Wall" "-Wextra"))))
+;;   (add-hook 'c++-mode-hook
+;;             '(lambda ()
+;;                (setq irony-additional-clang-options '("-Wall" "-Wextra"))))
+;;   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+;;   )
+
+;; (use-package company-irony
+;;   :ensure t
+;;   :after (company)
+;;   :config
+;;   (add-to-list 'company-backends '(company-irony)))
+
+
 ;;;;; company ;;;;;
 
 (use-package company
@@ -218,12 +256,14 @@
   (add-hook 'c++-mode-hook '(lambda () (flymake-mode t)))
   )
 
-;;;;; flycheck ;;;;;
+;; ;;;;; flycheck ;;;;;
 
 ;; (use-package flycheck
 ;;   :ensure t
+;;   :defer t
+;;   :init
+;;   (add-hook 'irony-mode-hook 'flycheck-mode)
 ;;   :config
-;;   (global-flycheck-mode t)
 ;;   (setq flycheck-check-syntax-automatically '(mode-enabled save)))
 
 ;; (use-package helm-flycheck
@@ -298,20 +338,6 @@
 ;;   (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
 ;;   (setq ccls-args '("--log-file=/tmp/ccls.log")))
 
-;;;;; eglot ;;;;;
-
-
-(use-package eglot
-  :ensure t
-  :config
-  (add-to-list 'eglot-server-programs '(c++-mode . ("ccls")))
-  (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer")))
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
-  (add-hook 'c++-mode-hook 'eglot-ensure)
-  (add-hook 'rust-mode-hook 'eglot-ensure)
-  (add-hook 'python-mode-hook 'eglot-ensure)
-  )
-
 ;;;;; lsp ;;;;;
 
 ;; (use-package lsp-mode
@@ -353,7 +379,7 @@
 ;;   (lsp-ui-sideline-enable nil)
 ;;   (lsp-ui-sideline-ignore-duplicate t)
 ;;   (lsp-ui-sideline-show-symbol t)
-;;   (lsp-ui-sideline-show-hover t)
+;;   (Lsp-ui-sideline-show-hover t)
 ;;   (lsp-ui-sideline-show-diagnostics t)
 ;;   (lsp-ui-sideline-show-code-actions t)
 ;;   ;; lsp-ui-imenu
@@ -538,7 +564,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui racer rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
+   '(company-irony helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui racer rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
