@@ -154,7 +154,7 @@
   :ensure t
   :config
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(rustic-mode . ("rls")))
+  (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'rustic-mode-hook 'eglot-ensure)
@@ -382,7 +382,10 @@
   :defer t
   :mode ("\\.rs$" . rustic-mode)
   :config
-  (setq rustic-lsp-client 'eglot))
+  (setq rustic-lsp-client 'eglot)
+  (setq-default rustic-format-trigger 'on-save)
+  (setq rustic-rustfmt-bin "~/.cargo/bin/rustfmt")
+  (add-to-list 'rustic-rustfmt-config-alist '("edition" . "2018")))
 
 
 ;;;;; typescript ;;;;;
@@ -445,7 +448,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(flymake-diagnostic-at-point company-irony helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui racer rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
+   '(flymake-diagnostic-at-point company-irony helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
