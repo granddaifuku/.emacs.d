@@ -4,7 +4,7 @@
 
 ### rustic
 #### Requirements
-* rust-analyzer (can be installed via homebrew)
+* rust-analyzer (can be installed via homebrew)  
 
 ### python
 #### Requirements

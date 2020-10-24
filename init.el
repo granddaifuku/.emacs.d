@@ -409,6 +409,16 @@
 			(company-mode-on))))
 
 
+;;;;; markdown ;;;;;
+(use-package markdown-preview-mode
+  :ensure t
+  :config
+  ;; ToDo
+  ;; Resolve the issue that dark style theme is not working.
+  (setq markdown-preview-stylesheets (list "http://github.com/yrgoldteeth/darkdowncss/raw/master/darkdown.css"))
+  (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
+
+
 ;;;;; neotree ;;;;;
 
 (use-package neotree
@@ -448,7 +458,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(flymake-diagnostic-at-point company-irony helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
+   '(markdown-preview-mode flymake-diagnostic-at-point company-irony helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
