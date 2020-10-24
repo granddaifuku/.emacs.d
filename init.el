@@ -150,40 +150,18 @@
 
 ;;;;; eglot ;;;;;
 
-
 (use-package eglot
   :ensure t
   :config
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer")))
+  (add-to-list 'eglot-server-programs '(rustic-mode . ("rls")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
   (add-hook 'c++-mode-hook 'eglot-ensure)
-  (add-hook 'rust-mode-hook 'eglot-ensure)
+  (add-hook 'rustic-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
+  (define-key eglot-mode-map (kbd "C-c e f") 'eglot-format)
+  (define-key eglot-mode-map (kbd "C-c e n") 'eglot-rename)
   )
-
-
-;; ;;;;; irony ;;;;;
-;; (use-package irony
-;;   :ensure t
-;;   :init
-;;   (add-hook 'c++-mode-hook 'irony-mode)
-;;   (add-hook 'c-mode 'irony-mode)
-;;   :config
-;;   (add-hook 'c-mode-hook
-;;             '(lambda ()
-;;                (setq irony-additional-clang-options '("-Wall" "-Wextra"))))
-;;   (add-hook 'c++-mode-hook
-;;             '(lambda ()
-;;                (setq irony-additional-clang-options '("-Wall" "-Wextra"))))
-;;   (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
-;;   )
-
-;; (use-package company-irony
-;;   :ensure t
-;;   :after (company)
-;;   :config
-;;   (add-to-list 'company-backends '(company-irony)))
 
 
 ;;;;; company ;;;;;
@@ -225,7 +203,6 @@
 					  :background "lightgrey"))
 
 
-
 ;;;;; flymake ;;;;;
 
 (use-package flymake
@@ -237,12 +214,6 @@
 						 temp-file
 						 (file-name-directory buffer-file-name))))
       (list "g++" (list "-Wall" "-Wextra" "-fsyntax-only" local-file))))
-  ;; (defun display-error-message ()
-  ;; 	(message (get-char-property (point) 'help-echo)))
-  ;; (defadvice flymake-goto-prev-error (after flymake-goto-prev-error-display-message)
-  ;; 	(display-error-message))
-  ;; (defadvice flymake-goto-next-error (after flymake-goto-next-error-display-message)
-  ;; 	(display-error-message))
   :bind (
 		 ("C-c ! p" . flymake-goto-next-error)
 		 ("C-c ! n" . flymake-goto-prev-error))
@@ -251,10 +222,13 @@
   (push '("\\.cpp$" flymake-cc-init) flymake-proc-allowed-file-name-masks)
   (push '("\\.h$" flymake-cc-init) flymake-proc-allowed-file-name-masks)
   (push '("\\.hpp$" flymake-cc-init) flymake-proc-allowed-file-name-masks)
-  ;; (ad-activate 'flymake-goto-prev-error 'flymake-goto-prev-error-display-message)
-  ;; (ad-activate 'flymake-goto-next-error 'flymake-goto-next-error-display-message)
   (add-hook 'c++-mode-hook '(lambda () (flymake-mode t)))
   )
+
+(use-package flymake-diagnostic-at-point
+  :after flymake
+  :config
+  (add-hook 'flymake-mode-hook #'flymake-diagnostic-at-point-mode))
 
 ;; ;;;;; flycheck ;;;;;
 
@@ -262,7 +236,8 @@
 ;;   :ensure t
 ;;   :defer t
 ;;   :init
-;;   (add-hook 'irony-mode-hook 'flycheck-mode)
+;;   (add-hook 'rustic-mode-hook 'flycheck-mode)
+;;   (add-hook 'c++-mode-hook 'flycheck-mode)
 ;;   :config
 ;;   (setq flycheck-check-syntax-automatically '(mode-enabled save)))
 
@@ -325,89 +300,6 @@
   :ensure t
   :bind
   ("M-g" . magit-status))
-
-
-;; (use-package ccls
-;;   :ensure t
-;;   ;; :after lsp-mode
-;;   ;; :hook ((c-mode c++-mode objc-mode) .
-;;   ;;        (lambda () (require 'ccls) (eglot)))
-;;   :config
-;;   (setq ccls-initialization-options `(:clang (:extraArgs ["--gcc-toolchain=/usr"])))
-;;   (setq ccls-executable "/usr/local/opt/ccls/build/Release/ccls")
-;;   (setq-default flycheck-disabled-checkers '(c/c++-clang c/c++-cppcheck c/c++-gcc))
-;;   (setq ccls-args '("--log-file=/tmp/ccls.log")))
-
-;;;;; lsp ;;;;;
-
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :custom 
-;;   ((lsp-print-io t)
-;;    (lsp-trace t)
-;;    (lsp-print-performance nil)
-;;    ;;  (lsp-auto-guess-root t)
-;;    (lsp-document-sync-method 'incremental)
-;;    (lsp-response-timeout 5)
-;;    (lsp-enable-completion-at-point t)
-;;    (lsp-prefer-flymake nil))
-;;   :hook
-;;   ((rustic-mode c++-mode) . lsp)
-;;   :config
-;;   (setq gc-cons-threshold 100000000)
-;;   (defvar lsp-completion-provider :capf)
-;;   (setq lsp-enable-on-type-formatting nil)
-;;   (setq lsp-idle-delay 0.0))
- 
-
-
-;; (use-package lsp-ui
-;;   :ensure t
-;;   :after lsp-mode
-;;   :custom
-;;   (lsp-ui-flycheck-enable t)
-;;   ;; lsp-ui-doc
-;;   (lsp-ui-doc-enable t)
-;;   (lsp-ui-doc-header t)
-;;   (lsp-ui-doc-include-signature t)
-;;   (lsp-ui-doc-position 'top)
-;;   (lsp-ui-doc-max-width 150)
-;;   (lsp-ui-doc-max-height 30)
-;;   (lsp-ui-doc-use-childframe t)
-;;   (lsp-ui-doc-use-webkit t)
-;;   ;; lsp-ui-sideline
-;;   (lsp-ui-sideline-enable nil)
-;;   (lsp-ui-sideline-ignore-duplicate t)
-;;   (lsp-ui-sideline-show-symbol t)
-;;   (Lsp-ui-sideline-show-hover t)
-;;   (lsp-ui-sideline-show-diagnostics t)
-;;   (lsp-ui-sideline-show-code-actions t)
-;;   ;; lsp-ui-imenu
-;;   (lsp-ui-imenu-enable nil)
-;;   (lsp-ui-imenu-kind-position 'top)
-;;   ;; lsp-ui-peek
-;;   (lsp-ui-peek-enable t)
-;;   (lsp-ui-peek-peek-height 20)
-;;   (lsp-ui-peek-list-width 50)
-;;   (lsp-ui-peek-fontify 'on-demand)
-;;   ;; :preface
-;;   ;; (defun ladicle/toggle-lsp-ui-doc ()
-;;   ;;   (interactive)
-;;   ;;   (if lsp-ui-doc-mode
-;;   ;;       (progn
-;;   ;;         (lsp-ui-doc-mode -1)
-;;   ;;         (lsp-ui-doc-hide-frame))
-;;   ;;     (lsp-ui-doc-mode 1)))
-;;   :bind
-;;   (:map lsp-mode-map
-;; 		("C-c C-r" . lsp-ui-peek-find-references)
-;; 		("C-c C-j" . lsp-ui-peek-find-definitions)
-;; 		("C-c i"   . lsp-ui-peek-find-implementation)
-;; 		("C-c C-m" . lsp-ui-imenu)
-;; 		("C-c s"   . lsp-ui-sideline-mode)
-;; 		("C-c d"   . ladicle/toggle-lsp-ui-doc))
-;;   :hook
-;;   (lsp-mode . lsp-ui-mode))
 
 
 ;;;;; multi-term ;;;;;
@@ -485,23 +377,12 @@
 
 ;;;;; rust ;;;;;
 
-;; (use-package rustic
-;;   :ensure t
-;;   :defer t
-;;   ;; :init
-;;   ;; (add-hook 'rustic-mode-hook 'racer-mode)
-;;   :mode ("\\.rs$" . rustic-mode)
-;;   :config
-;;   (setq rustic-lsp-client 'eglot)
-;;   )
-  ;; (setq lsp-rust-analyzer-server-command '("~/.cargo/bin/rust-analyzer")))
-  ;; (use-package flycheck-rust
-  ;; 	:ensure t)
-  ;; (use-package quickrun
-  ;; 	:ensure t)
-  ;; (use-package racer
-  ;; 	:ensure t))
-  ;; (setq rustic-format-trigger nil))
+(use-package rustic
+  :ensure t
+  :defer t
+  :mode ("\\.rs$" . rustic-mode)
+  :config
+  (setq rustic-lsp-client 'eglot))
 
 
 ;;;;; typescript ;;;;;
@@ -564,7 +445,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(company-irony helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui racer rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
+   '(flymake-diagnostic-at-point company-irony helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui racer rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
