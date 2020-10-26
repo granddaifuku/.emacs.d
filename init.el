@@ -50,6 +50,15 @@
   :config
   (global-disable-mouse-mode))
 
+(use-package hl-todo
+  :ensure t
+  :config
+  (setq hl-todo-keyword-faces
+		'(("TODO" . "#cc9393")
+		  ("FIXME" . "#cc9393")
+		  ("DEBUG" . "#A020F0")))
+  (global-hl-todo-mode 1))
+
 
 ;;;;; auto-async-byte-compile ;;;;;
 
@@ -419,6 +428,16 @@
   (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
 
 
+;; ;;;;; tex ;;;;;
+;; (use-package auctex
+;;   :ensure t
+;;   :init
+;;   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+;;   :config
+;;   (setq TeX-auto-save t
+;; 		TeX-parse-self t)
+;;   (setq-default TeX-master nil))
+
 ;;;;; neotree ;;;;;
 
 (use-package neotree
@@ -458,7 +477,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(markdown-preview-mode flymake-diagnostic-at-point company-irony helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui rustic flycheck-pkg-config helm-rtags ccls company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide flycheck-irony color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
+   '(hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot lsp-mode rainbow-delimiters tide neotree use-package doom-themes helm-lsp lsp-ui rustic flycheck-pkg-config helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-flycheck typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term flycheck color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
