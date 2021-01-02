@@ -21,3 +21,7 @@
 ### c/c++
 #### Requirements
 * clangd (automatically get installed when installs llvm via homebrew)
+
+### tex
+#### Requirements
+* [digestif](https://github.com/astoff/digestif)
