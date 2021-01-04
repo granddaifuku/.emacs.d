@@ -165,11 +165,11 @@
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
   (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
-  (add-to-list 'eglot-server-programs '(latex-mode . ("digestif")))
+  (add-to-list 'eglot-server-programs '(LaTeX-mode . ("digestif")))
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'rustic-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
-  (add-hook 'latex-mode-hook 'eglot-ensure)
+  (add-hook 'LaTeX-mode-hook 'eglot-ensure)
   (define-key eglot-mode-map (kbd "C-c e f") 'eglot-format)
   (define-key eglot-mode-map (kbd "C-c e n") 'eglot-rename)
   )
@@ -431,14 +431,26 @@
 
 
 ;; ;;;;; tex ;;;;;
-;; (use-package auctex
-;;   :ensure t
-;;   :init
-;;   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
-;;   :config
-;;   (setq TeX-auto-save t
-;; 		TeX-parse-self t)
-;;   (setq-default TeX-master nil))
+(use-package auctex
+  :defer t
+  :ensure t
+  :config
+  (setq TeX-default-mode 'japanese-latex-mode)
+  (setq TeX-auto-save t
+		TeX-parse-self t
+		TeX-PDF-from-DVI "Dvipdfmx"
+		preview-image-type 'dvipng)
+  (setq-default TeX-master nil)
+  (add-hook 'LaTeX-mode-hook
+			(lamgda ()
+					(add-to-list 'TeX-command-list
+								 '("pLaTeX" "%`%(PDF)platex %(file-line-error) %(extraopts) %S%(PDFout)%(mode)%' %T" TeX-run-TeX nil
+								   (latex-mode doctex-mode)
+								   :help "Run pLaTeX"))
+					(add-to-list 'TeX-command-list
+								 '("pBibTeX" "pbibtex %s" TeX-run-BibTeX nil
+								   (plain-tex-mode latex-mode doctex-mode ams-tex-mode texinfo-mode context-mode)
+								   :help "Run pBibTeX")))))
 
 ;;;;; neotree ;;;;;
 
