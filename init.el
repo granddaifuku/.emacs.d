@@ -435,8 +435,8 @@
   :defer t
   :ensure t
   :config
-  (setq TeX-default-mode 'japanese-latex-mode)
-  (setq TeX-auto-save t
+  (setq TeX-default-mode 'japanese-latex-mode
+		TeX-auto-save t
 		TeX-parse-self t
 		TeX-PDF-from-DVI "Dvipdfmx"
 		preview-image-type 'dvipng)

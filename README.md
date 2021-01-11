@@ -25,4 +25,5 @@
 ### tex
 #### Requirements
 * TeXLive (prefer install TeXlive instead of MacTeX)  
-* [digestif](https://github.com/astoff/digestif)
+* [digestif](https://github.com/astoff/digestif)  
+* ghostscript: run `brew install ghostscript`
