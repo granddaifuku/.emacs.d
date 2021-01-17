@@ -25,5 +25,6 @@
 ### tex
 #### Requirements
 * TeXLive (prefer install TeXlive instead of MacTeX)  
+* Install the algorithm package and follow the instruction to setup algorithm package  
 * [digestif](https://github.com/astoff/digestif)  
 * ghostscript: run `brew install ghostscript`
