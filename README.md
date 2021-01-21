@@ -2,6 +2,9 @@
 
 ## PC setting up
 
+### Environmental setting
+* aspell (spell checker) can be installed via homebrew  
+
 ### rustic
 #### Requirements
 * rust-analyzer (can be installed via homebrew)  

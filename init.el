@@ -26,7 +26,7 @@
 (prefer-coding-system 'utf-8)
 
 ;;;;; Environment ;;;;;
-;; Auto Created FIles
+;; Auto Created Files
 (setq auto-save-default nil)
 (setq create-lockfiles nil)
 (setq delete-auto-save-files t)
@@ -58,6 +58,27 @@
 		  ("FIXME" . "#cc9393")
 		  ("DEBUG" . "#A020F0")))
   (global-hl-todo-mode 1))
+
+
+;; Spell checking
+(setq-default ispell-program-name "aspell")
+(with-eval-after-load "ispell"
+  (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
+
+(use-package flyspell
+  :config
+  (add-hook 'c++-mode-hook
+			'(lambda ()
+			  (flyspell-prog-mode)))
+  (add-hook 'rustic-mode-hook
+			'(lambda ()
+			  (flyspell-prog-mode)))
+  (add-hook 'python-mode-hook
+			'(lambda ()
+			   (flyspell-prog-mode)))
+  (add-hook 'LaTeX-mode-hook
+			'(lambda ()
+			   (flyspell-mode))))
 
 
 ;;;;; auto-async-byte-compile ;;;;;
