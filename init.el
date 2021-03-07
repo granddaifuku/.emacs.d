@@ -60,7 +60,7 @@
   (global-hl-todo-mode 1))
 
 
-;; Spell checking
+;;;;; Spell checking ;;;;;
 (setq-default ispell-program-name "aspell")
 (with-eval-after-load "ispell"
   (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
@@ -82,7 +82,6 @@
 
 
 ;;;;; auto-async-byte-compile ;;;;;
-
 (use-package auto-async-byte-compile
   :ensure t
   :init
@@ -90,7 +89,6 @@
 
 
 ;;;;; Theme ;;;;;
-
 (use-package doom-themes
   :ensure t
   :config
@@ -139,7 +137,6 @@
 
 
 ;;;;; Key Bindings ;;;;;
-
 (global-set-key (kbd "C-c <left>") 'windmove-left)
 (global-set-key (kbd "C-c <right>") 'windmove-right)
 (global-set-key (kbd "C-c <up>") 'windmove-up)
@@ -179,7 +176,6 @@
 
 
 ;;;;; eglot ;;;;;
-
 (use-package eglot
   :ensure t
   :config
@@ -197,7 +193,6 @@
 
 
 ;;;;; company ;;;;;
-
 (use-package company
   :ensure t
   :bind
@@ -236,7 +231,6 @@
 
 
 ;;;;; flymake ;;;;;
-
 (use-package flymake
   :init
   (defun flymake-cc-init ()
@@ -281,7 +275,6 @@
 
 
 ;;;;; helm ;;;;;
-
 (use-package helm
   :ensure t
   :bind(
@@ -327,7 +320,6 @@
 
 
 ;;;;; magit ;;;;;
-
 (use-package magit
   :ensure t
   :bind
@@ -335,7 +327,6 @@
 
 
 ;;;;; multi-term ;;;;;
-
 (use-package multi-term
   :ensure t
   :defer t
@@ -387,7 +378,6 @@
 
 
 ;;;;; yasnippet ;;;;;
-
 (use-package yasnippet
   :ensure t
   :defer t
@@ -408,7 +398,6 @@
 
 
 ;;;;; rust ;;;;;
-
 (use-package rustic
   :ensure t
   :defer t
@@ -421,7 +410,6 @@
 
 
 ;;;;; typescript ;;;;;
-
 (use-package typescript-mode
   :ensure t
   :defer t
@@ -445,7 +433,7 @@
 (use-package markdown-preview-mode
   :ensure t
   :config
-  ;; ToDo
+  ;; TODO
   ;; Resolve the issue that dark style theme is not working.
   (setq markdown-preview-stylesheets (list "http://github.com/yrgoldteeth/darkdowncss/raw/master/darkdown.css"))
   (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
@@ -474,7 +462,6 @@
 								   :help "Run pBibTeX")))))
 
 ;;;;; neotree ;;;;;
-
 (use-package neotree
   :ensure t
   :init
@@ -491,7 +478,6 @@
 
 
 ;;;;; color ;;;;;
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
