@@ -95,8 +95,16 @@
   (setq doom-themes-enable-bold t
 		doom-themes-enable-italic t)
   (load-theme 'doom-snazzy t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-neotree-config))
+  (doom-themes-visual-bell-config))
+;;  (doom-themes-neotree-config))
+
+
+;;;;; Org mode ;;;;;
+(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 
 
 ;;;;; Coding Style ;;;;;
@@ -473,7 +481,8 @@
 		neo-create-file-auto-open t
 		neo-theme (if (display-graphic-p) 'icons 'arrow)
 		neo-show-hidden-files t)
-  (defvar neo-persist-show t))
+  (defvar neo-persist-show t)
+  (doom-themes-neotree-config))
 
 
 

@@ -4,6 +4,7 @@
 
 ### Environmental setting
 * aspell (spell checker) can be installed via homebrew  
+* In order to show the icons on the neotree, run `M-x all-the-icons-install-fonts`
 
 ### rustic
 #### Requirements
