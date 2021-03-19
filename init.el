@@ -59,6 +59,15 @@
 		  ("DEBUG" . "#A020F0")))
   (global-hl-todo-mode 1))
 
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1)
+  :config
+  (setq doom-modeline-height 20)
+  (setq doom-modeline-width 3)
+  (setq doom-modeline-lsp t)
+  )
+
 
 ;;;;; Spell checking ;;;;;
 (setq-default ispell-program-name "aspell")
@@ -94,9 +103,9 @@
   :config
   (setq doom-themes-enable-bold t
 		doom-themes-enable-italic t)
-  (load-theme 'doom-snazzy t)
-  (doom-themes-visual-bell-config))
-;;  (doom-themes-neotree-config))
+  (load-theme 'doom-acario-dark t)
+  (doom-themes-visual-bell-config)
+  (doom-themes-neotree-config))
 
 
 ;;;;; Org mode ;;;;;
@@ -507,7 +516,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
+   '(doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
@@ -540,6 +549,6 @@
  ;; If there is more than one, they won't work right.
  '(helm-selection ((t (:extend t :background "dark cyan"))))
  '(helm-visible-mark ((t (:extend t :background "brightcyan" :foreground "black"))))
- '(mode-line ((t (:background "brown4"))))
+ '(mode-line ((t (:background "purple4" :box nil))))
  '(mode-line-inactive ((t (:background "gray30" :foreground "#e2e4e5"))))
  '(which-func ((t (:foreground "white")))))
