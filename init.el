@@ -204,8 +204,11 @@
   (add-hook 'rustic-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'LaTeX-mode-hook 'eglot-ensure)
-  (define-key eglot-mode-map (kbd "C-c e f") 'eglot-format)
-  (define-key eglot-mode-map (kbd "C-c e n") 'eglot-rename)
+  ;; 保存時に自動整形
+  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+  (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+  (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
+  (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
   )
 
 
