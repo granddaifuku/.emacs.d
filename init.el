@@ -32,6 +32,9 @@
 (setq delete-auto-save-files t)
 (setq make-backup-files nil)
 
+;; window size
+(toggle-frame-maximized)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default cursor-type 'bar)
 (setq default-directory "~/")
