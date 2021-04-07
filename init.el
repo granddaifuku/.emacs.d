@@ -279,23 +279,6 @@
   :config
   (add-hook 'flymake-mode-hook #'flymake-diagnostic-at-point-mode))
 
-;; ;;;;; flycheck ;;;;;
-
-;; (use-package flycheck
-;;   :ensure t
-;;   :defer t
-;;   :init
-;;   (add-hook 'rustic-mode-hook 'flycheck-mode)
-;;   (add-hook 'c++-mode-hook 'flycheck-mode)
-;;   :config
-;;   (setq flycheck-check-syntax-automatically '(mode-enabled save)))
-
-;; (use-package helm-flycheck
-;;   :ensure t
-;;   :after (flycheck)
-;;   :bind(:map flycheck-mode-map
-;; 			 ("C-c ! h" . helm-flycheck)))
-
 
 ;;;;; helm ;;;;;
 (use-package helm
@@ -522,7 +505,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
+   '(undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
