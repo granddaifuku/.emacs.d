@@ -214,7 +214,7 @@
   (add-hook 'rustic-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'LaTeX-mode-hook 'eglot-ensure)
-  ;; 保存時に自動整形
+  ;; format on save
   (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
   (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
   (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
