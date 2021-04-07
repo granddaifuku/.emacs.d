@@ -111,6 +111,13 @@
   (doom-themes-neotree-config))
 
 
+;;;;; Undo Tree ;;;;;
+(use-package undo-tree
+  :ensure t
+  :config
+  (global-undo-tree-mode))
+
+
 ;;;;; Org mode ;;;;;
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
