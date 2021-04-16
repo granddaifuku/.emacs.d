@@ -124,6 +124,14 @@
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
+(use-package toc-org
+  :ensure t
+  :init
+  (add-hook 'org-mode-hook 'toc-org-mode)
+  ;; (add-hook 'markdown-mode-hook 'toc-org-mode)
+  ;; :config
+  ;; (define-key markdown-mode-map (kbd "C-c C-o") 'toc-org-markdown-follow-thing-at-point)
+  )
 
 
 ;;;;; Coding Style ;;;;;
@@ -134,6 +142,12 @@
 					:foreground "#a9a9a9"
 					:height 0.9)
 (setq linum-format "%4d ")
+
+;; indentation
+(use-package aggressive-indent
+  :ensure t
+  :config
+  (global-aggressive-indent-mode))
 
 (column-number-mode t)
 (electric-pair-mode 1)
@@ -434,15 +448,23 @@
   :defer t
   :config
   (add-hook 'typescript-mode-hook
-		  (lambda ()
-			(tide-setup)
-			(flycheck-mode t)
-			(setq flycheck-check-syntax-automatically '(save mode-enabled))
-			(eldoc-mode t)
-			(company-mode-on))))
+			(lambda ()
+			  (tide-setup)
+			  (flycheck-mode t)
+			  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+			  (eldoc-mode t)
+			  (company-mode-on))))
 
 
 ;;;;; markdown ;;;;;
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
 (use-package markdown-preview-mode
   :ensure t
   :config
@@ -512,7 +534,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse smart-hungry-delete auto-async-byte-compile hungry-delete helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
+   '(toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
