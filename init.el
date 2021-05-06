@@ -133,6 +133,10 @@
   ;; (define-key markdown-mode-map (kbd "C-c C-o") 'toc-org-markdown-follow-thing-at-point)
   )
 
+(use-package ox-hugo
+  :ensure t
+  :after ox)
+
 
 ;;;;; Coding Style ;;;;;
 
@@ -455,6 +459,14 @@
 			  (eldoc-mode t)
 			  (company-mode-on))))
 
+;;;;; yaml ;;;;;
+(use-package yaml-mode
+  :ensure t
+  :defer t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+
 
 ;;;;; markdown ;;;;;
 (use-package markdown-mode
@@ -534,7 +546,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
+   '(yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])

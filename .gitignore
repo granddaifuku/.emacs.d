@@ -1,4 +1,5 @@
 *.ttf
+*.elc
 elpa/
 elisp/
 elpy/
