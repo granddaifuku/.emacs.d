@@ -120,10 +120,10 @@
 
 ;;;;; Org mode ;;;;;
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c c") 'org-capture)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c b") 'org-iswitchb)
 (use-package toc-org
   :ensure t
   :init
@@ -143,29 +143,32 @@
     "Returns `org-capture' template string for new Hugo post.
 See `org-capture-templates' for more information."
     (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
-           (fname (org-hugo-slug title))
+		   (fname (read-from-minibuffer "Post URL: "))
+		   ;; (fname (org-hugo-slug title))
 		   (date (format-time-string "%Y-%m-%d" (org-current-time)))
 		   (section (format-time-string "%Y/%m" (org-current-time))))
-      (mapconcat #'identity
+	  (mapconcat #'identity
                  `(
-                   ,(concat "* TODO " title)
-                   ":PROPERTIES:"
-                   ,(concat ":EXPORT_FILE_NAME: " fname)
+				   ,(concat "* TODO " title)
+				   ":PROPERTIES:"
+				   ,(concat ":EXPORT_FILE_NAME: " fname)
 				   ,(concat ":EXPORT_DATE: " date)
 				   ,(concat ":EXPORT_HUGO_SECTION*: " section)
-                   ":END:"
-                   "%?\n")          ;Place the cursor here finally
-                 "\n")))
-
+				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail \"images/\"" )
+				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :description \"\"")
+				   ":END:"
+				   "%?\n")          ;Place the cursor here finally
+				 "\n")))
   (add-to-list 'org-capture-templates
-               '("h"                ;`org-capture' binding + h
+			   '("h"                ;`org-capture' binding + h
                  "Hugo post"
                  entry
                  ;; It is assumed that below file is present in `org-directory'
                  ;; and that it has a "Blog Ideas" heading. It can even be a
-                 ;; symlink pointing to the actual location of all-posts.org!
+                 ;; symlink pointing to the actual location of blog.org!
                  (file+olp "blog.org" "Blog Ideas")
                  (function org-hugo-new-subtree-post-capture-template))))
+
 
 
 ;;;;; Coding Style ;;;;;
@@ -495,7 +498,7 @@ See `org-capture-templates' for more information."
   :defer t
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
+  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
 
 
 ;;;;; markdown ;;;;;
