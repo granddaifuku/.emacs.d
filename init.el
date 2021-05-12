@@ -135,7 +135,9 @@
 
 (use-package ox-hugo
   :ensure t
-  :after ox)
+  :after ox
+  :config
+  (setq org-hugo-auto-set-lastmod t))
 
 ;; org capture
 (with-eval-after-load 'org-capture
@@ -153,6 +155,7 @@ See `org-capture-templates' for more information."
 				   ":PROPERTIES:"
 				   ,(concat ":EXPORT_FILE_NAME: " fname)
 				   ,(concat ":EXPORT_DATE: " date)
+				   ,(concat ":EXPORT_HUGO_LASTMOD: " date)
 				   ,(concat ":EXPORT_HUGO_SECTION*: " section)
 				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail \"images/\"" )
 				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :description \"\"")
@@ -160,13 +163,22 @@ See `org-capture-templates' for more information."
 				   "%?\n")          ;Place the cursor here finally
 				 "\n")))
   (add-to-list 'org-capture-templates
-			   '("h"                ;`org-capture' binding + h
-                 "Hugo post"
+			   '("j"                ;`org-capture' binding + j
+                 "Hugo Japangese post"
                  entry
                  ;; It is assumed that below file is present in `org-directory'
                  ;; and that it has a "Blog Ideas" heading. It can even be a
                  ;; symlink pointing to the actual location of blog.org!
-                 (file+olp "blog.org" "Blog Ideas")
+                 (file+olp "blog_ja.org" "Blog Ideas")
+                 (function org-hugo-new-subtree-post-capture-template)))
+  (add-to-list 'org-capture-templates
+			   '("e"                ;`org-capture' binding + e
+                 "Hugo English post"
+                 entry
+                 ;; It is assumed that below file is present in `org-directory'
+                 ;; and that it has a "Blog Ideas" heading. It can even be a
+                 ;; symlink pointing to the actual location of blog.org!
+                 (file+olp "blog_en.org" "Blog Ideas")
                  (function org-hugo-new-subtree-post-capture-template))))
 
 
@@ -614,4 +626,5 @@ See `org-capture-templates' for more information."
  '(helm-visible-mark ((t (:extend t :background "brightcyan" :foreground "black"))))
  '(mode-line ((t (:background "purple4" :box nil))))
  '(mode-line-inactive ((t (:background "gray30" :foreground "#e2e4e5"))))
+ '(region ((t (:extend t :background "gray35"))))
  '(which-func ((t (:foreground "white")))))
