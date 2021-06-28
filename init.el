@@ -46,7 +46,7 @@
 (use-package hungry-delete
   :ensure t
   :config
-  (global-hungry-delete-mode 1))
+  (global-hungry-delete-mode))
 
 (use-package disable-mouse
   :ensure t
