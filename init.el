@@ -245,6 +245,12 @@ See `org-capture-templates' for more information."
 		 (cl-callf color-saturate-name (face-foreground face) 30)))))
   (add-hook 'emacs-startup-hook 'rainbow-delimiters-using-stronger-colors))
 
+;; Cursor
+(use-package beacon
+  :ensure t
+  :config
+  (beacon-mode 1))
+
 
 ;;;;; Key Bindings ;;;;;
 (global-set-key (kbd "C-c <left>") 'windmove-left)
@@ -605,7 +611,7 @@ See `org-capture-templates' for more information."
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
- '(beacon-color "#d54e53")
+ '(beacon-color "Orange")
  '(custom-safe-themes
    '("4c8372c68b3eab14516b6ab8233de2f9e0ecac01aaa859e547f902d27310c0c3" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default))
  '(fci-rule-color "#424242")
@@ -616,7 +622,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
+   '(beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
