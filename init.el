@@ -382,6 +382,7 @@ See `org-capture-templates' for more information."
 		("C-x C-f" . helm-find-files)
 		("M-x" . helm-M-x)
 		("C-c h" . helm-command-prefix)
+		("M-y" . helm-show-kill-ring)
 		:map helm-map
 		("<tab>" . helm-execute-persistent-action)
 		("C-i" . helm-execute-persistent-action)
