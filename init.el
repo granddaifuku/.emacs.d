@@ -202,6 +202,17 @@ See `org-capture-templates' for more information."
                  (function org-hugo-new-subtree-post-capture-template))))
 
 
+;;;;; Project Root ;;;;;
+(use-package projectile
+  :ensure t)
+(defun my-projectile-project-find-function (dir)
+  (let ((root (projectile-project-root dir)))
+    (and root (cons 'transient root))))
+(projectile-mode t)
+(with-eval-after-load 'project
+  (add-to-list 'project-find-functions 'my-projectile-project-find-function))
+
+
 
 ;;;;; Coding Style ;;;;;
 
@@ -273,13 +284,13 @@ See `org-capture-templates' for more information."
 		 (save-excursion
 		   (copy-region-as-kill (point) (progn (forward-visible-line 0) (point)))
 		   (copy-region-as-kill (point) (progn (end-of-visible-line) (point)))))
-		 ((< arg 0)
-		  (save-excursion
-			(copy-region-as-kill (point) (progn (end-of-visible-line) (point)))
-			(copy-region-as-kill (point)
-								 (progn (forward-visible-line (1+ arg))
-										(unless (bobp) (backward-char))
-										(point)))))
+		((< arg 0)
+		 (save-excursion
+		   (copy-region-as-kill (point) (progn (end-of-visible-line) (point)))
+		   (copy-region-as-kill (point)
+								(progn (forward-visible-line (1+ arg))
+									   (unless (bobp) (backward-char))
+									   (point)))))
 		(t
 		 (save-excursion
 		   (copy-region-as-kill (point) (progn (forward-visible-line 0) (point)))
@@ -299,10 +310,12 @@ See `org-capture-templates' for more information."
   :ensure t
   :config
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
+  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
   (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
   (add-to-list 'eglot-server-programs '(LaTeX-mode . ("digestif")))
   (add-hook 'c++-mode-hook 'eglot-ensure)
+  (add-hook 'go-mode-hook 'eglot-ensure)
   (add-hook 'rustic-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'LaTeX-mode-hook 'eglot-ensure)
@@ -504,6 +517,16 @@ See `org-capture-templates' for more information."
   (push '("emacs.+/snippets/" . snippet-mode) auto-mode-alist))
 
 
+;;;;; golang ;;;;;
+(use-package go-mode
+  :ensure t
+  :defer t
+  :mode ("\\.go$" . go-mode)
+  :config
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save))
+
+
 ;;;;; rust ;;;;;
 (use-package rustic
   :ensure t
@@ -622,7 +645,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
+   '(projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
