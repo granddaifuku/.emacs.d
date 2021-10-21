@@ -1,0 +1,35 @@
+# -*- mode: snippet -*-
+# name: Dijkstra on Grid
+# key: gdijk
+# --
+using P = pair<int, int>;
+using PP = pair<int, P>;
+
+int dx[4] = {0, 0, 1, -1};
+int dy[4] = {1, -1, 0, 0};
+
+int n;
+vector<vector<int> > dist, g;
+
+void dijkstra(int sx = 0, int sy = 0) {
+    dist = vector<vector<int> >(n, vector<int>(n, Inf));
+    dist[sx][sy] = 0;
+    priority_queue<PP, vector<PP>, greater<PP> > pq;
+    pq.push(PP(0, P(sx, sy)));
+
+    while (!pq.empty()) {
+        PP p = pq.top();
+        pq.pop();
+        int c = p.first;
+        int vx = p.second.first, vy = p.second.second;
+
+        rep (i, 4) {
+            int nx, ny;
+            nx = vx + dx[i], ny = vy + dy[i];
+            if (nx < 0 || ny < 0 || nx >= n || ny >= n) continue;
+            if (dist[nx][ny] <= g[nx][ny] + c) continue;
+            dist[nx][ny] = g[nx][ny] + c;
+            pq.push(PP(dist[nx][ny], P(nx, ny)));
+        } 
+    }
+}

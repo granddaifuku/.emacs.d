@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: Mod Inverse
+# key: modinv
+# --
+$0// Call Mod Power
+
+template <typename T>
+T modinv(T a, T mod) {
+    return modpower(a, mod - 2, mod);
+}

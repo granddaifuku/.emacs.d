@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: Large size Combination
+# key: largeCOMB
+# --
+$0// Call modinv
+
+ll largeCOM(ll n, ll r, ll mod) {
+    ll u = 1, d = 1;
+    rep (i, r) {
+        u = (u * (n - i)) % mod;
+        d = (d * (r - i)) % mod;
+    }
+    return u * modinv(d, mod) % mod;
+}

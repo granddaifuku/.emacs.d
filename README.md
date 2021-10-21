@@ -1,0 +1,38 @@
+# My Emacs setting
+
+## PC setting up
+
+### Environmental setting
+* aspell (spell checker) can be installed via homebrew  
+* In order to show the icons on the neotree, run `M-x all-the-icons-install-fonts`
+
+### golang
+#### Requirements
+* gopls (can be install by homebrew)
+
+### rust
+#### Requirements
+* rust-analyzer (can be installed by homebrew)  
+
+### python
+#### Requirements
+* python-language-server  
+* Jedi  
+* Rope  
+* Pyflakes  
+* McCabe  
+* pycodestyle  
+* pydocstyle  
+* autopep8  
+* YAPF  
+
+### c/c++
+#### Requirements
+* clangd (automatically get installed when installs llvm via homebrew)
+
+### tex
+#### Requirements
+* TeXLive (prefer install TeXlive instead of MacTeX)  
+* Install the algorithm package and follow the instruction to setup algorithm package  
+* [digestif](https://github.com/astoff/digestif)  
+* ghostscript: run `brew install ghostscript`

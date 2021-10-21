@@ -1,0 +1,55 @@
+# -*- mode: snippet -*-
+# name: Disjoint Set
+# key: dj
+# --
+class DisjointSet {
+    public:
+        vector<int> rank, p, size;
+
+        DisjointSet() {}
+        DisjointSet(int s) {
+            rank.resize(s, 0);
+            p.resize(s, 0);
+            size.resize(s, 0);
+            rep (i, s) init(i);
+        }
+
+        void init(int x) {
+            p[x] = x;
+            rank[x] = 0;
+            size[x] = 1;
+        }
+
+        bool isSame(int x, int y) {
+            return root(x) == root(y);
+        }
+
+        void makeSet(int x, int y) {
+            if (isSame(x, y)) return;
+            link(root(x), root(y));
+        }
+
+        void link(int x, int y) {
+            if (rank[x] > rank[y]) {
+                p[y] = x;
+                size[x] += size[y];
+            } else {
+                p[x] = y;
+                size[y] += size[x];
+                if (rank[x] == rank[y]) {
+                    rank[y]++;
+                }
+            }
+        }
+
+        int root(int x) {
+            if (x != p[x]) {
+                p[x] = root(p[x]);
+            }
+            return p[x];
+        }
+
+        int getSize(int x) {
+            return size[root(x)];
+        }
+};

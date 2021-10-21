@@ -1,0 +1,35 @@
+# -*- mode: snippet -*-
+# name: Dijkstra
+# key: dijk
+# --
+using P = pair<int, int>;
+
+struct edge {
+    int to;
+    int cost;
+};
+
+vector<int> dist;
+vector<vector<edge> > g;
+
+void dijkstra(int s) {
+    dist = vector<int>(n, Inf);
+    dist[s] = 0;
+    priority_queue<P, vector<P>, greater<P> > pq;
+    pq.push(P(0, s));
+
+    while (!pq.empty()) {
+        P p = pq.top();
+        pq.pop();
+        int v = p.second;
+        if (dist[v] < p.first) continue;
+
+        rep (i, g[v].size()) {
+            edge e = g[v][i];
+            if (dist[e.to] > dist[v] + e.cost) {
+                dist[e.to] = dist[v] + e.cost;
+                pq.push(P(dist[e.to], e.to));
+            }
+        }
+    }
+}
