@@ -548,7 +548,7 @@ See `org-capture-templates' for more information."
   (add-to-list 'rustic-rustfmt-config-alist '("edition" . "2018")))
 
 
-;;;;; list ;;;;;
+;;;;; lisp ;;;;;
 (setq inferior-lisp-program "clisp")
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
 (use-package slime
