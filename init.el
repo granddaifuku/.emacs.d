@@ -31,6 +31,7 @@
 (setq create-lockfiles nil)
 (setq delete-auto-save-files t)
 (setq make-backup-files nil)
+(setq scroll-bar-mode nil)
 
 ;; window size
 (toggle-frame-maximized)
@@ -132,7 +133,8 @@
 (use-package undo-tree
   :ensure t
   :config
-  (global-undo-tree-mode))
+  (global-undo-tree-mode)
+  (setq undo-tree-auto-save-history nil))
 
 
 ;;;;; Docker ;;;;;
@@ -179,13 +181,23 @@ See `org-capture-templates' for more information."
                  `(
 				   ,(concat "* TODO " title)
 				   ":PROPERTIES:"
+				   "EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml"
 				   ,(concat ":EXPORT_FILE_NAME: " fname)
 				   ,(concat ":EXPORT_DATE: " date)
 				   ,(concat ":EXPORT_HUGO_LASTMOD: " date)
 				   ,(concat ":EXPORT_HUGO_SECTION*: " section)
 				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail \"images/\"" )
 				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :description \"\"")
+				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :math true")
 				   ":END:"
+				   "#+BEGIN_SRC yaml :front_matter_extra t"
+				   "menu:"
+				   "  sidebar:"
+				   "    name: "
+				   "    identifier: "
+				   ,(concat "    parent: " (downcase section))
+				   "    weight: 10"
+				   "#+END_SRC"
 				   "%?\n")          ;Place the cursor here finally
 				 "\n")))
   (add-to-list 'org-capture-templates
@@ -454,9 +466,8 @@ See `org-capture-templates' for more information."
   :bind
   ("M-g" . magit-status))
 
-
-;;;;; multi-term ;;;;;
-(use-package multi-term
+;;;; vterm ;;;;;
+(use-package vterm
   :ensure t
   :defer t
   :init
@@ -468,7 +479,7 @@ See `org-capture-templates' for more information."
 	  (if (or new (null (setq term (dolist (buf (buffer-list) res)
 									 (if (string-match "*terminal<[0-9]+>*" (buffer-name buf))
 										 (setq res buf))))))
-		  (multi-term)
+		  (vterm)
 		(switch-to-buffer term))))
   (defun open-shell-sub-right (new)
 	(split-window-right)
@@ -478,7 +489,7 @@ See `org-capture-templates' for more information."
 	  (if (or new (null (setq term (dolist (buf (buffer-list) res)
 									 (if (string-match "*terminal<[0-9]+>*" (buffer-name buf))
 										 (setq res buf))))))
-		  (multi-term)
+		  (vterm)
 		(switch-to-buffer term))))
   (defun open-shell ()
 	(interactive)
@@ -486,24 +497,11 @@ See `org-capture-templates' for more information."
   (defun open-shell-r ()
 	(interactive)
 	(open-shell-sub-right t))
-  (defun to-shell ()
-	(interactive)
-	(open-shell-sub nil))
   :bind
   ("C-c m" . open-shell)
   ("C-c n" . open-shell-r)
-  (:map term-mode-map
-		("C-c C-p" . multi-term-prev)
-		("C-c C-n" . multi-term-next))
   :config
-  (setq scroll-conservatively 1)
-  (setq next-screen-context-lines 5)
-  (setenv "SHELL" shell-file-name)
-  (setq multi-term-program shell-file-name)
-  (setq system-uses-terminfo t)
-  (defadvice term-interrupt-subjob
-	  (around ad-term-interrupt-subjob activate)
-	(term-send-raw-string "\C-c")))
+  (setq vterm-always-compile-module t))
 
 
 ;;;;; yasnippet ;;;;;
@@ -554,26 +552,6 @@ See `org-capture-templates' for more information."
 (use-package slime
   :ensure t
   (slime-setup '(slime-repl slime-fancy slime-banner)))
-
-
-;;;;; typescript ;;;;;
-(use-package typescript-mode
-  :ensure t
-  :defer t
-  :mode
-  (("\\.ts\\'" . typescript-mode)))
-
-(use-package tide
-  :ensure t
-  :defer t
-  :config
-  (add-hook 'typescript-mode-hook
-			(lambda ()
-			  (tide-setup)
-			  (flycheck-mode t)
-			  (setq flycheck-check-syntax-automatically '(save mode-enabled))
-			  (eldoc-mode t)
-			  (company-mode-on))))
 
 ;;;;; yaml ;;;;;
 (use-package yaml-mode
@@ -662,7 +640,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters tide neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds typescript-mode helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons multi-term color-theme-sanityinc-tomorrow helm))
+   '(hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
