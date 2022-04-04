@@ -172,7 +172,7 @@
   (defun org-hugo-new-subtree-post-capture-template ()
     "Returns `org-capture' template string for new Hugo post.
 See `org-capture-templates' for more information."
-    (let* ((title (read-from-minibuffer "Post Title: ")) ;Prompt to enter the post title
+    (let* ((title (read-from-minibuffer "Post Title: ")) ;; Prompt to enter the post title
 		   (fname (read-from-minibuffer "Post URL: "))
 		   ;; (fname (org-hugo-slug title))
 		   (date (format-time-string "%Y-%m-%d" (org-current-time)))
@@ -198,7 +198,7 @@ See `org-capture-templates' for more information."
 				   ,(concat "    parent: " (downcase section))
 				   "    weight: 10"
 				   "#+END_SRC"
-				   "%?\n")          ;Place the cursor here finally
+				   "%?\n")          ;; Place the cursor here finally
 				 "\n")))
   (add-to-list 'org-capture-templates
 			   '("j"                ;`org-capture' binding + j
