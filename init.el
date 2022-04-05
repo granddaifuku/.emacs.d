@@ -33,6 +33,14 @@
 (setq make-backup-files nil)
 (setq scroll-bar-mode nil)
 
+(use-package which-key
+  :ensure t
+  :diminish which-key-mode
+  :hook (after-init . which-key-mode)
+  :config
+  (setq which-key-popup-type 'minibuffer)
+  )
+
 ;; window size
 (toggle-frame-maximized)
 
@@ -653,7 +661,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
+   '(which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
@@ -684,6 +692,9 @@ See `org-capture-templates' for more information."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(git-gutter:added ((t (:background "#50fa7b"))))
+ '(git-gutter:deleted ((t (:background "#ff79c6"))))
+ '(git-gutter:modified ((t (:background "#f1fa8c"))))
  '(helm-selection ((t (:extend t :background "dark cyan"))))
  '(helm-visible-mark ((t (:extend t :background "brightcyan" :foreground "black"))))
  '(mode-line ((t (:background "purple4" :box nil))))
