@@ -235,11 +235,7 @@ See `org-capture-templates' for more information."
 ;;;;; Coding Style ;;;;;
 
 ;; line number
-(global-linum-mode t)
-(set-face-attribute 'linum nil
-					:foreground "#a9a9a9"
-					:height 0.9)
-(setq linum-format "%4d ")
+(global-display-line-numbers-mode)
 
 ;; indentation
 (use-package aggressive-indent
@@ -460,11 +456,28 @@ See `org-capture-templates' for more information."
   (helm-mode 1))
 
 
-;;;;; magit ;;;;;
+;;;;; git ;;;;;
+
+;; magit
 (use-package magit
   :ensure t
   :bind
   ("M-g" . magit-status))
+
+;; git-gutter
+(use-package git-gutter
+  :ensure t
+  :custom
+  (git-gutter:modified-sign "~")
+  (git-gutter:added-sign    "+")
+  (git-gutter:deleted-sign  "-")
+  :custom-face
+  (git-gutter:modified ((t (:background "#f1fa8c"))))
+  (git-gutter:added    ((t (:background "#50fa7b"))))
+  (git-gutter:deleted  ((t (:background "#ff79c6"))))
+  :config
+  (global-git-gutter-mode +1))
+
 
 ;;;; vterm ;;;;;
 (use-package vterm
@@ -640,7 +653,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
+   '(git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
