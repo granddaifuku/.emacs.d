@@ -98,6 +98,7 @@
   (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
 
 (use-package flyspell
+  :ensure t
   :config
   (add-hook 'c-mode-hook
 			'(lambda ()
@@ -572,6 +573,7 @@ See `org-capture-templates' for more information."
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
 (use-package slime
   :ensure t
+  :config
   (slime-setup '(slime-repl slime-fancy slime-banner)))
 
 ;;;;; yaml ;;;;;
@@ -601,7 +603,7 @@ See `org-capture-templates' for more information."
   (add-to-list 'markdown-preview-javascript "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"))
 
 
-;; ;;;;; tex ;;;;;
+;;;;; tex ;;;;;
 (use-package auctex
   :defer t
   :ensure t
@@ -638,6 +640,12 @@ See `org-capture-templates' for more information."
   (defvar neo-persist-show t)
   (doom-themes-neotree-config))
 
+
+;;;;; Custom Functions ;;;;;
+;; Format Json (requires jq)
+(defun jq-format (beg end)
+  (interactive "r")
+  (shell-command-on-region beg end "jq . " nil t))
 
 
 ;;;;; color ;;;;;
