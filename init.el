@@ -52,10 +52,19 @@
 (setq kill-whole-line t)
 (savehist-mode 1)
 
+(use-package autorevert
+  :ensure nil
+  :diminish
+  :hook (after-init . global-auto-revert-mode))
+
+(use-package delsel
+  :ensure nil
+  :hook (after-init . delete-selection-mode))
+
 (use-package hungry-delete
   :ensure t
-  :config
-  (global-hungry-delete-mode))
+  :diminish
+  :hook (after-init . global-hungry-delete-mode))
 
 (use-package disable-mouse
   :ensure t
