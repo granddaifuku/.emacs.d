@@ -357,7 +357,7 @@ See `org-capture-templates' for more information."
   (add-hook 'c-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
   (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
   (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
+  ;; (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
   (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
   )
 
@@ -562,7 +562,18 @@ See `org-capture-templates' for more information."
   :mode ("\\.go$" . go-mode)
   :config
   (setq gofmt-command "goimports")
-  (add-hook 'before-save-hook #'gofmt-before-save))
+  (add-hook 'before-save-hook #'gofmt-before-save)
+  (use-package gotest
+	:after go-mode
+	:ensure t
+	:bind (:map go-mode-map
+				("C-c x" . go-run)
+				("C-c t" . go-test-current-test)
+				("C-c f" . go-test-current-file)
+				("C-c a" . go-test-current-project))
+	:config
+	;;	(setq go-test-verbose t)
+	(setq go-test-args "-v -count=1")))
 
 
 ;;;;; rust ;;;;;
@@ -678,7 +689,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
+   '(gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
