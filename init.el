@@ -507,6 +507,10 @@ See `org-capture-templates' for more information."
   :config
   (global-git-gutter-mode +1))
 
+;; smerge
+(use-package smerge-mode
+  :diminish)
+
 
 ;;;; vterm ;;;;;
 (use-package vterm
