@@ -620,6 +620,7 @@ See `org-capture-templates' for more information."
   :config
   (slime-setup '(slime-repl slime-fancy slime-banner)))
 
+
 ;;;;; yaml ;;;;;
 (use-package yaml-mode
   :ensure t
@@ -627,6 +628,11 @@ See `org-capture-templates' for more information."
   :config
   (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
   (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+
+
+;;;;; shell ;;;;;
+(add-hook 'after-save-hook
+          'executable-make-buffer-file-executable-if-script-p)
 
 
 ;;;;; markdown ;;;;;
