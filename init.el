@@ -79,6 +79,7 @@
 
 (use-package disable-mouse
   :ensure t
+  :diminish
   :config
   (global-disable-mouse-mode))
 
@@ -755,6 +756,7 @@ See `org-capture-templates' for more information."
  '(git-gutter:modified ((t (:background "#f1fa8c"))))
  '(helm-selection ((t (:extend t :background "dark cyan"))))
  '(helm-visible-mark ((t (:extend t :background "brightcyan" :foreground "black"))))
+ '(internal-border ((t (:background "#0D0E16"))))
  '(mode-line ((t (:background "purple4" :box nil))))
  '(mode-line-inactive ((t (:background "gray30" :foreground "#e2e4e5"))))
  '(region ((t (:extend t :background "gray35"))))
