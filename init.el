@@ -643,8 +643,8 @@ See `org-capture-templates' for more information."
 
 
 ;;;;; shell ;;;;;
-(add-hook 'after-save-hook
-          'executable-make-buffer-file-executable-if-script-p)
+;; (add-hook 'after-save-hook
+;;           'executable-make-buffer-file-executable-if-script-p)
 
 
 ;;;;; markdown ;;;;;
