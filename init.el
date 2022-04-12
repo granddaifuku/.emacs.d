@@ -626,7 +626,7 @@ See `org-capture-templates' for more information."
 (use-package web-mode
   :ensure t
   :defer t
-  :mode ("\\.html?\\" . web-mode)
+  :mode ("\\.html?\\'" . web-mode)
   :config
   (setq web-mode-enable-current-element-highlight t
 		web-mode-enable-current-column-highlight t
