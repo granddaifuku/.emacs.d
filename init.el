@@ -113,6 +113,10 @@
   )
 
 
+;;;;; tab bar ;;;;;
+;;(tab-bar-mode 1)
+;;(global-tab-line-mode)
+
 ;;;;; Spell checking ;;;;;
 (setq-default ispell-program-name "aspell")
 (with-eval-after-load "ispell"
@@ -121,19 +125,7 @@
 (use-package flyspell
   :ensure t
   :config
-  (add-hook 'c-mode-hook
-			'(lambda ()
-			   (flyspell-prog-mode)))
-  (add-hook 'c++-mode-hook
-			'(lambda ()
-			   (flyspell-prog-mode)))
-  (add-hook 'go-mode-hook
-			'(lambda ()
-			   (flyspell-prog-mode)))
-  (add-hook 'rustic-mode-hook
-			'(lambda ()
-			   (flyspell-prog-mode)))
-  (add-hook 'python-mode-hook
+  (add-hook 'prog-mode-hook
 			'(lambda ()
 			   (flyspell-prog-mode)))
   (add-hook 'LaTeX-mode-hook
@@ -677,15 +669,15 @@ See `org-capture-templates' for more information."
 		preview-image-type 'dvipng)
   (setq-default TeX-master nil)
   (add-hook 'LaTeX-mode-hook
-			(lamgda ()
-					(add-to-list 'TeX-command-list
-								 '("pLaTeX" "%`%(PDF)platex %(file-line-error) %(extraopts) %S%(PDFout)%(mode)%' %T" TeX-run-TeX nil
-								   (latex-mode doctex-mode)
-								   :help "Run pLaTeX"))
-					(add-to-list 'TeX-command-list
-								 '("pBibTeX" "pbibtex %s" TeX-run-BibTeX nil
-								   (plain-tex-mode latex-mode doctex-mode ams-tex-mode texinfo-mode context-mode)
-								   :help "Run pBibTeX")))))
+			(lambda ()
+			  (add-to-list 'TeX-command-list
+						   '("pLaTeX" "%`%(PDF)platex %(file-line-error) %(extraopts) %S%(PDFout)%(mode)%' %T" TeX-run-TeX nil
+							 (latex-mode doctex-mode)
+							 :help "Run pLaTeX"))
+			  (add-to-list 'TeX-command-list
+						   '("pBibTeX" "pbibtex %s" TeX-run-BibTeX nil
+							 (plain-tex-mode latex-mode doctex-mode ams-tex-mode texinfo-mode context-mode)
+							 :help "Run pBibTeX")))))
 
 ;;;;; neotree ;;;;;
 (use-package neotree
