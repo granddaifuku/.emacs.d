@@ -165,8 +165,7 @@
 	  modus-themes-hl-line 'accented
 	  modus-themes-variable-pitch-ui t
 	  modus-themes-mode-line '(moody (padding . 6) (height . 1.5))
-	  modus-themes-prompts '(bold background)
-	  modus-themes-scale-1 1.5)
+	  modus-themes-prompts '(bold background))
 (load-theme 'modus-vivendi)
 
 ;; modeline
@@ -795,8 +794,4 @@ See `org-capture-templates' for more information."
  ;; If there is more than one, they won't work right.
  '(git-gutter:added ((t (:background "#50fa7b"))))
  '(git-gutter:deleted ((t (:background "#ff79c6"))))
- '(git-gutter:modified ((t (:background "#f1fa8c"))))
- '(helm-selection ((t (:extend t :background "dark cyan"))))
- '(helm-visible-mark ((t (:extend t :background "brightcyan" :foreground "black"))))
- '(region ((t (:extend t :background "gray35"))))
- '(which-func ((t (:foreground "white")))))
+ '(git-gutter:modified ((t (:background "#f1fa8c")))))
