@@ -31,7 +31,8 @@
 (setq create-lockfiles nil)
 (setq delete-auto-save-files t)
 (setq make-backup-files nil)
-(setq scroll-bar-mode nil)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
 
 (use-package which-key
   :ensure t
@@ -157,12 +158,16 @@
 	  modus-themes-bold-constructs t
 	  modus-themes-italic-constructs t
 	  modus-themes-mixed-fonts t
+	  modus-themes-fringes 'subtle
 	  modus-themes-region '(bg-only no-extend)
 	  modus-themes-subtle-line-numbers t
 	  modus-themes-syntax '(faint alt-syntax green-strings)
 	  modus-themes-paren-match 'intense
 	  modus-themes-hl-line 'accented
-	  modus-themes-variable-pitch-ui t)
+	  modus-themes-variable-pitch-ui t
+	  modus-themes-mode-line '(moody (padding . 6) (height . 1.5))
+	  modus-themes-prompts '(bold background)
+	  modus-themes-scale-1 1.5)
 (load-theme 'modus-vivendi)
 
 ;; modeline
@@ -174,12 +179,12 @@
   (moody-replace-vc-mode)
   (moody-replace-eldoc-minibuffer-message-function))
 
-(use-package minions
-  :ensure t
-  :diminish minions-mode
-  :config
-  (minions-mode 1)
-  (setq minions-mode-line-lighter "[+]"))
+  (use-package minions
+	:ensure t
+	:diminish minions-mode
+	:config
+	(minions-mode 1)
+	(setq minions-mode-line-lighter "[+]"))
 
 ;;;;; Undo Tree ;;;;;
 (use-package undo-tree
@@ -794,8 +799,5 @@ See `org-capture-templates' for more information."
  '(git-gutter:modified ((t (:background "#f1fa8c"))))
  '(helm-selection ((t (:extend t :background "dark cyan"))))
  '(helm-visible-mark ((t (:extend t :background "brightcyan" :foreground "black"))))
- '(internal-border ((t (:background "#0D0E16"))))
- '(mode-line ((t (:background "purple4" :box nil))))
- '(mode-line-inactive ((t (:background "gray30" :foreground "#e2e4e5"))))
  '(region ((t (:extend t :background "gray35"))))
  '(which-func ((t (:foreground "white")))))
