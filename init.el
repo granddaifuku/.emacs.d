@@ -79,7 +79,7 @@
 
 (use-package disable-mouse
   :ensure t
-  :diminish
+  :diminish disable-mouse-mode
   :config
   (global-disable-mouse-mode))
 
@@ -103,15 +103,6 @@
   (add-hook 'LaTeX-mode-hook 'highlight-symbol-mode)
   (add-hook 'LaTeX-mode-hook 'highlight-symbol-nav-mode))
 
-(use-package doom-modeline
-  :ensure t
-  :init (doom-modeline-mode 1)
-  :config
-  (setq doom-modeline-height 20)
-  (setq doom-modeline-width 3)
-  (setq doom-modeline-lsp t)
-  )
-
 
 ;;;;; tab bar ;;;;;
 ;;(tab-bar-mode 1)
@@ -124,6 +115,7 @@
 
 (use-package flyspell
   :ensure t
+  :diminish flyspell-mode
   :config
   (add-hook 'prog-mode-hook
 			'(lambda ()
@@ -141,19 +133,58 @@
 
 
 ;;;;; Theme ;;;;;
-(use-package doom-themes
+;; (use-package doom-themes
+;;   :ensure t
+;;   :config
+;;   (setq doom-themes-enable-bold t
+;; 		doom-themes-enable-italic t)
+;;   (load-theme 'doom-acario-dark t)
+;;   (doom-themes-visual-bell-config)
+;;   (doom-themes-neotree-config))
+
+;; (use-package doom-modeline
+;;   :ensure t
+;;   :init (doom-modeline-mode 1)
+;;   :config
+;;   (setq doom-modeline-height 20)
+;;   (setq doom-modeline-width 3)
+;;   (setq doom-modeline-lsp t)
+;;   )
+
+
+;; modus theme
+(setq modus-themes-deuteranopia t
+	  modus-themes-bold-constructs t
+	  modus-themes-italic-constructs t
+	  modus-themes-mixed-fonts t
+	  modus-themes-region '(bg-only no-extend)
+	  modus-themes-subtle-line-numbers t
+	  modus-themes-syntax '(faint alt-syntax green-strings)
+	  modus-themes-paren-match 'intense
+	  modus-themes-hl-line 'accented
+	  modus-themes-variable-pitch-ui t)
+(load-theme 'modus-vivendi)
+
+;; modeline
+(use-package moody
   :ensure t
   :config
-  (setq doom-themes-enable-bold t
-		doom-themes-enable-italic t)
-  (load-theme 'doom-acario-dark t)
-  (doom-themes-visual-bell-config)
-  (doom-themes-neotree-config))
+  (setq x-underline-at-descent-line t)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode)
+  (moody-replace-eldoc-minibuffer-message-function))
 
+(use-package minions
+  :ensure t
+  :diminish minions-mode
+  :config
+  (minions-mode 1)
+  (setq minions-mode-line-lighter "[+]"))
 
 ;;;;; Undo Tree ;;;;;
 (use-package undo-tree
   :ensure t
+  :diminish undo-tree-mode
   :config
   (global-undo-tree-mode)
   (setq undo-tree-auto-save-history nil))
@@ -244,7 +275,8 @@ See `org-capture-templates' for more information."
 
 ;;;;; Project Root ;;;;;
 (use-package projectile
-  :ensure t)
+  :ensure t
+  :diminish projectile-mode)
 (defun my-projectile-project-find-function (dir)
   (let ((root (projectile-project-root dir)))
     (and root (cons 'transient root))))
@@ -378,6 +410,7 @@ See `org-capture-templates' for more information."
 ;;;;; company ;;;;;
 (use-package company
   :ensure t
+  :diminish company-mode
   :bind
   (("C-M-i" . company-complete)
    :map company-active-map
@@ -444,6 +477,7 @@ See `org-capture-templates' for more information."
 ;;;;; helm ;;;;;
 (use-package helm
   :ensure t
+  :diminish helm-mode
   :bind(
 		("C-x b" . helm-mini)
 		("C-x C-f" . helm-find-files)
@@ -555,6 +589,7 @@ See `org-capture-templates' for more information."
 ;;;;; yasnippet ;;;;;
 (use-package yasnippet
   :ensure t
+  :diminish yas-minor-mode
   :defer t
   :bind
   (("C-c y n" . yas-new-snippet)
@@ -723,7 +758,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
+   '(minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
