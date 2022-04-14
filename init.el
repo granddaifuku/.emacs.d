@@ -154,8 +154,7 @@
 
 
 ;; modus theme
-(setq modus-themes-deuteranopia t
-	  modus-themes-bold-constructs t
+(setq modus-themes-bold-constructs t
 	  modus-themes-italic-constructs t
 	  modus-themes-mixed-fonts t
 	  modus-themes-fringes 'subtle
