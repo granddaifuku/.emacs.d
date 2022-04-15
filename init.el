@@ -432,21 +432,7 @@ See `org-capture-templates' for more information."
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2)
   (setq company-selection-wrap-around t)
-  (setq completion-ignore-case t)
-  (set-face-attribute 'company-tooltip nil
-					  :foreground "#f5f5dc" :background "#696969")
-  (set-face-attribute 'company-tooltip-common nil
-					  :foreground "#f5f5dc" :background "#696969")
-  (set-face-attribute 'company-tooltip-common-selection nil
-					  :foreground "black" :background "steelblue")
-  (set-face-attribute 'company-tooltip-selection nil
-					  :foreground "white" :background "steelblue")
-  (set-face-attribute 'company-preview-common nil
-					  :background nil :foreground "lightgrey" :underline t)
-  (set-face-attribute 'company-scrollbar-fg nil
-					  :background "orange")
-  (set-face-attribute 'company-scrollbar-bg nil
-					  :background "lightgrey"))
+  (setq completion-ignore-case t))
 
 
 ;;;;; flymake ;;;;;
@@ -751,8 +737,6 @@ See `org-capture-templates' for more information."
  '(ansi-color-names-vector
    (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
  '(beacon-color "Orange")
- '(custom-safe-themes
-   '("4c8372c68b3eab14516b6ab8233de2f9e0ecac01aaa859e547f902d27310c0c3" "1b8d67b43ff1723960eb5e0cba512a2c7a2ad544ddb2533a90101fd1852b426e" default))
  '(fci-rule-color "#424242")
  '(frame-background-mode 'dark)
  '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
