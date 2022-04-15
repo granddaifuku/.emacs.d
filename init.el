@@ -39,8 +39,7 @@
   :diminish which-key-mode
   :hook (after-init . which-key-mode)
   :config
-  (setq which-key-popup-type 'minibuffer)
-  )
+  (setq which-key-popup-type 'minibuffer))
 
 ;; window size
 (toggle-frame-maximized)
@@ -133,26 +132,6 @@
   (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
 
 
-;;;;; Theme ;;;;;
-;; (use-package doom-themes
-;;   :ensure t
-;;   :config
-;;   (setq doom-themes-enable-bold t
-;; 		doom-themes-enable-italic t)
-;;   (load-theme 'doom-acario-dark t)
-;;   (doom-themes-visual-bell-config)
-;;   (doom-themes-neotree-config))
-
-;; (use-package doom-modeline
-;;   :ensure t
-;;   :init (doom-modeline-mode 1)
-;;   :config
-;;   (setq doom-modeline-height 20)
-;;   (setq doom-modeline-width 3)
-;;   (setq doom-modeline-lsp t)
-;;   )
-
-
 ;; modus theme
 (setq modus-themes-bold-constructs t
 	  modus-themes-italic-constructs t
@@ -177,12 +156,12 @@
   (moody-replace-vc-mode)
   (moody-replace-eldoc-minibuffer-message-function))
 
-  (use-package minions
-	:ensure t
-	:diminish minions-mode
-	:config
-	(minions-mode 1)
-	(setq minions-mode-line-lighter "[+]"))
+(use-package minions
+  :ensure t
+  :diminish minions-mode
+  :config
+  (minions-mode 1)
+  (setq minions-mode-line-lighter "[+]"))
 
 ;;;;; Undo Tree ;;;;;
 (use-package undo-tree
@@ -430,7 +409,7 @@ See `org-capture-templates' for more information."
   :init
   (global-company-mode)
   :config
-  (setq company-backends '(company-capf))
+  (setq company-backends '(company-capf company-yasnippet))
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2)
   (setq company-selection-wrap-around t)
@@ -581,21 +560,13 @@ See `org-capture-templates' for more information."
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :defer t
   :bind
   (("C-c y n" . yas-new-snippet)
-   ("C-c y v" . yas-visit-snippet-file))
+   ("C-c y v" . yas-visit-snippet-file)
+   ("C-c y i" . yas-insert-snippet)
+   ([tab] . yas-expand))
   :config
   (yas-global-mode 1))
-
-(use-package helm-c-yasnippet
-  :ensure t
-  :defer t
-  :bind
-  (("C-c y i" . helm-yas-complete))
-  :config
-  (setq helm-yas-space-match-any-greedy t)
-  (push '("emacs.+/snippets/" . snippet-mode) auto-mode-alist))
 
 
 ;;;;; golang ;;;;;
@@ -745,7 +716,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree doom-modeline hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package doom-themes helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds helm-c-yasnippet disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
+   '(minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
