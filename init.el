@@ -157,7 +157,7 @@
 (setq modus-themes-bold-constructs t
 	  modus-themes-italic-constructs t
 	  modus-themes-mixed-fonts t
-	  modus-themes-fringes 'subtle
+	  modus-themes-fringes 'nil
 	  modus-themes-region '(bg-only no-extend)
 	  modus-themes-subtle-line-numbers t
 	  modus-themes-syntax '(faint alt-syntax green-strings)
@@ -339,6 +339,8 @@ See `org-capture-templates' for more information."
 ;; Cursor
 (use-package beacon
   :ensure t
+  :custom
+  (beacon-color "orange")
   :config
   (beacon-mode 1))
 
@@ -736,7 +738,6 @@ See `org-capture-templates' for more information."
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
    (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
- '(beacon-color "Orange")
  '(fci-rule-color "#424242")
  '(frame-background-mode 'dark)
  '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
