@@ -19,6 +19,12 @@
 (use-package bind-key
   :ensure t)
 
+;;;;; auto-async-byte-compile ;;;;;
+(use-package auto-async-byte-compile
+  :ensure t
+  :init
+  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
+
 ;;;;; Encoding ;;;;;
 (set-language-environment 'utf-8)
 (set-file-name-coding-system 'utf-8)
@@ -104,6 +110,29 @@
   (add-hook 'LaTeX-mode-hook 'highlight-symbol-nav-mode))
 
 
+;;;;; Undo Tree ;;;;;
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :config
+  (global-undo-tree-mode)
+  (setq undo-tree-auto-save-history nil))
+
+
+;;;;; neotree ;;;;;
+(use-package neotree
+  :ensure t
+  :init
+  (setq-default neo-keymap-style 'concise)
+  :bind
+  (("C-q" . neotree-toggle))
+  :config
+  (setq neo-smart-open t
+		neo-create-file-auto-open t
+		neo-theme (if (display-graphic-p) 'icons 'arrow)
+		neo-show-hidden-files t))
+
+
 ;;;;; tab bar ;;;;;
 ;;(tab-bar-mode 1)
 ;;(global-tab-line-mode)
@@ -123,13 +152,6 @@
   (add-hook 'LaTeX-mode-hook
 			'(lambda ()
 			   (flyspell-mode))))
-
-
-;;;;; auto-async-byte-compile ;;;;;
-(use-package auto-async-byte-compile
-  :ensure t
-  :init
-  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
 
 
 ;; modus theme
@@ -164,30 +186,10 @@
   (setq minions-mode-line-lighter "[+]"))
 
 
-;;;;; Undo Tree ;;;;;
-(use-package undo-tree
-  :ensure t
-  :diminish undo-tree-mode
-  :config
-  (global-undo-tree-mode)
-  (setq undo-tree-auto-save-history nil))
-
-
-;;;;; Docker ;;;;;
-(use-package dockerfile-mode
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
-(use-package docker-compose-mode
-  :ensure t)
-
-
 ;;;;; Org mode ;;;;;
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-(global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c a") 'org-agenda)
-(global-set-key (kbd "C-c b") 'org-iswitchb)
 (use-package toc-org
   :ensure t
   :init
@@ -396,7 +398,6 @@ See `org-capture-templates' for more information."
   :hook
   (after-init . global-company-mode)
   :config
-  (setq company-backends '((company-capf :with company-yasnippet)))
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2)
   (setq company-selection-wrap-around t)
@@ -431,51 +432,36 @@ See `org-capture-templates' for more information."
   (add-hook 'flymake-mode-hook #'flymake-diagnostic-at-point-mode))
 
 
-;;;;; helm ;;;;;
-(use-package helm
+;;;;; vertico ;;;;;
+(use-package vertico
   :ensure t
-  :diminish helm-mode
-  :bind(
-		("C-x b" . helm-mini)
-		("C-x C-f" . helm-find-files)
-		("M-x" . helm-M-x)
-		("C-c h" . helm-command-prefix)
-		("M-y" . helm-show-kill-ring)
-		:map helm-map
-		("<tab>" . helm-execute-persistent-action)
-		("C-i" . helm-execute-persistent-action)
-		("C-z" . helm-select-action)
-		("C-x c" . nil))
   :init
-  (defun spacemacs//helm-hide-minibuffer-maybe ()
-	"Hide minibuffer in Helm session if we use the header line as input field."
-	(when (with-helm-buffer helm-echo-input-in-header-line)
-	  (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-		(overlay-put ov 'window (selected-window))
-		(overlay-put ov 'face
-					 (let ((bg-color (face-background 'default nil)))
-					   `(:background ,bg-color :foreground ,bg-color)))
-		(setq-local cursor-type nil))))
+  (vertico-mode)
   :config
-  (when (executable-find "curl")
-	(defvar helm-google-suggest-use-curl-p t))
-  (defvar helm-M-x-fuzzy-match t)
-  (defvar helm-buffers-fuzzy-matching t)
-  (defvar helm-recentf-fuzzy-match    t)
-  (use-package helm-config
-	:config
-	(setq helm-split-window-inside-p           t
-		  helm-move-to-line-cycle-in-source     t
-		  helm-scroll-amount                    8
-		  helm-echo-input-in-header-line t)
-	(defvar helm-ff-search-library-in-sexp t)
-	(defvar helm-ff-file-name-history-use-recentf t))
-  (add-hook 'helm-minibuffer-set-up-hook
-			'spacemacs//helm-hide-minibuffer-maybe)
-  (setq helm-autoresize-max-height 0)
-  (setq helm-autoresize-min-height 20)
-  (helm-autoresize-mode 1)
-  (helm-mode 1))
+  (setq vertico-count 20
+		vertico-resize t
+		vertico-cycle t))
+
+(use-package consult
+  :ensure t
+  :bind
+  ("M-y" . consult-from-kill-ring)
+  ("C-s" . consult-line)
+  ("C-x b" . consult-buffer)
+  :config
+  (use-package affe
+	:ensure t))
+
+(use-package orderless
+  :ensure t
+  :custom
+  (completion-styles '(orderless basic))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
+
+(use-package marginalia
+  :ensure t
+  :init
+  (marginalia-mode))
 
 
 ;;;;; git ;;;;;
@@ -550,28 +536,19 @@ See `org-capture-templates' for more information."
   :bind
   (("C-c y n" . yas-new-snippet)
    ("C-c y v" . yas-visit-snippet-file)
-   ("C-c y i" . yas-insert-snippet)
-   ([tab] . yas-expand))
+   ("C-c y i" . yas-insert-snippet))
+  ;; ([tab] . yas-expand))
   :config
-  (yas-global-mode 1)
-  (defvar company-mode/enable-yas t
-    "Enable yasnippet for all backends.")
-  (defun company-mode/backend-with-yas (backend)
-    (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
-        backend
-      (append (if (consp backend) backend (list backend))
-              '(:with company-yasnippet))))
-  (defun set-yas-as-company-backend ()
-    (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
-    )
-  :hook
-  ((company-mode-hook . set-yas-as-company-backend))
-  )
+  (yas-global-mode 1))
 
 
 ;;;;; eglot ;;;;;
 (use-package eglot
   :ensure t
+  :hook
+  (eglot-mode-hook
+   . (lambda ()
+	   (setq-local company-backends '((company-yasnippet company-capf :separate)))))
   :config
   (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
@@ -699,20 +676,14 @@ See `org-capture-templates' for more information."
 							 (plain-tex-mode latex-mode doctex-mode ams-tex-mode texinfo-mode context-mode)
 							 :help "Run pBibTeX")))))
 
-;;;;; neotree ;;;;;
-(use-package neotree
+
+;;;;; Docker ;;;;;
+(use-package dockerfile-mode
   :ensure t
-  :init
-  (setq-default neo-keymap-style 'concise)
-  :bind
-  (("C-q" . neotree-toggle))
   :config
-  (setq neo-smart-open t
-		neo-create-file-auto-open t
-		neo-theme (if (display-graphic-p) 'icons 'arrow)
-		neo-show-hidden-files t)
-  (defvar neo-persist-show t)
-  (doom-themes-neotree-config))
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+(use-package docker-compose-mode
+  :ensure t)
 
 
 ;;;;; Custom Functions ;;;;;
@@ -739,7 +710,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
+   '(affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
@@ -764,6 +735,7 @@ See `org-capture-templates' for more information."
 	 (340 . "#e7c547")
 	 (360 . "#b9ca4a")))
  '(vc-annotate-very-old-color nil)
+ '(warning-suppress-log-types '((use-package)))
  '(window-divider-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
