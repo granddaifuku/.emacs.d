@@ -276,13 +276,15 @@ See `org-capture-templates' for more information."
 ;; minimap
 (use-package minimap
   :ensure t
+  :commands
+  (minimap-buffer-name minimap-create-window minimap-kill)
   :diminish
   :custom
   (minimap-major-modes '(prog-mode))
   (minimap-minimum-width 15)
   (minimap-window-location 'right)
-  :config
-  (add-hook 'prog-mode-hook 'minimap-mode))
+  :bind
+  ("C-c C-m" . minimap-mode))
 
 ;; Code folding
 (use-package origami
@@ -398,10 +400,11 @@ See `org-capture-templates' for more information."
   :hook
   (after-init . global-company-mode)
   :config
-  (setq company-idle-delay 0)
-  (setq company-minimum-prefix-length 2)
-  (setq company-selection-wrap-around t)
-  (setq completion-ignore-case t))
+  (setq company-idle-delay 0
+		company-minimum-prefix-length 2
+		company-selection-wrap-around t
+		completion-ignore-case t
+		company-show-quick-access t))
 
 
 ;;;;; flymake ;;;;;
@@ -567,6 +570,8 @@ See `org-capture-templates' for more information."
   (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
   (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
   (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename))
+
+
 
 
 ;;;;; golang ;;;;;
@@ -735,7 +740,6 @@ See `org-capture-templates' for more information."
 	 (340 . "#e7c547")
 	 (360 . "#b9ca4a")))
  '(vc-annotate-very-old-color nil)
- '(warning-suppress-log-types '((use-package)))
  '(window-divider-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
