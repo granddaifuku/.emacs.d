@@ -163,6 +163,7 @@
   (minions-mode 1)
   (setq minions-mode-line-lighter "[+]"))
 
+
 ;;;;; Undo Tree ;;;;;
 (use-package undo-tree
   :ensure t
@@ -270,6 +271,17 @@ See `org-capture-templates' for more information."
 
 ;;;;; Coding Style ;;;;;
 
+;; minimap
+(use-package minimap
+  :ensure t
+  :diminish
+  :custom
+  (minimap-major-modes '(prog-mode))
+  (minimap-minimum-width 15)
+  (minimap-window-location 'right)
+  :config
+  (add-hook 'prog-mode-hook 'minimap-mode))
+
 ;; Code folding
 (use-package origami
   :ensure t
@@ -366,31 +378,6 @@ See `org-capture-templates' for more information."
 (setq python-shell-interpreter "python3")
 
 
-;;;;; eglot ;;;;;
-(use-package eglot
-  :ensure t
-  :config
-  (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
-  (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer")))
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
-  (add-to-list 'eglot-server-programs '(LaTeX-mode . ("digestif")))
-  (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'c++-mode-hook 'eglot-ensure)
-  (add-hook 'go-mode-hook 'eglot-ensure)
-  (add-hook 'rustic-mode-hook 'eglot-ensure)
-  (add-hook 'python-mode-hook 'eglot-ensure)
-  (add-hook 'LaTeX-mode-hook 'eglot-ensure)
-  ;; format on save
-  (add-hook 'c-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  ;; (define-key eglot-mode-map (kbd "C-c f") 'eglot-format)
-  (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
-  )
-
-
 ;;;;; company ;;;;;
 (use-package company
   :ensure t
@@ -406,10 +393,10 @@ See `org-capture-templates' for more information."
    ("C-s" . company-filter-candidates)
    ("C-i" . company-complete-selection)
    ([tab] . company-complete-selection))
-  :init
-  (global-company-mode)
+  :hook
+  (after-init . global-company-mode)
   :config
-  (setq company-backends '(company-capf company-yasnippet))
+  (setq company-backends '((company-capf :with company-yasnippet)))
   (setq company-idle-delay 0)
   (setq company-minimum-prefix-length 2)
   (setq company-selection-wrap-around t)
@@ -566,7 +553,43 @@ See `org-capture-templates' for more information."
    ("C-c y i" . yas-insert-snippet)
    ([tab] . yas-expand))
   :config
-  (yas-global-mode 1))
+  (yas-global-mode 1)
+  (defvar company-mode/enable-yas t
+    "Enable yasnippet for all backends.")
+  (defun company-mode/backend-with-yas (backend)
+    (if (or (not company-mode/enable-yas) (and (listp backend) (member 'company-yasnippet backend)))
+        backend
+      (append (if (consp backend) backend (list backend))
+              '(:with company-yasnippet))))
+  (defun set-yas-as-company-backend ()
+    (setq company-backends (mapcar #'company-mode/backend-with-yas company-backends))
+    )
+  :hook
+  ((company-mode-hook . set-yas-as-company-backend))
+  )
+
+
+;;;;; eglot ;;;;;
+(use-package eglot
+  :ensure t
+  :config
+  (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
+  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
+  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
+  (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer")))
+  (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
+  (add-to-list 'eglot-server-programs '(LaTeX-mode . ("digestif")))
+  (add-hook 'c-mode-hook 'eglot-ensure)
+  (add-hook 'c++-mode-hook 'eglot-ensure)
+  (add-hook 'go-mode-hook 'eglot-ensure)
+  (add-hook 'rustic-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook 'eglot-ensure)
+  (add-hook 'LaTeX-mode-hook 'eglot-ensure)
+  ;; format on save
+  (add-hook 'c-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+  (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+  (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename))
 
 
 ;;;;; golang ;;;;;
@@ -716,7 +739,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
+   '(minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex markdown-preview-mode flymake-diagnostic-at-point helm-company company eglot rainbow-delimiters neotree use-package helm-lsp rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow helm))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
