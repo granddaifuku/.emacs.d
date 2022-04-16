@@ -400,6 +400,7 @@ See `org-capture-templates' for more information."
   :hook
   (after-init . global-company-mode)
   :config
+  (setq company-backends '((company-capf :with company-yasnippet)))
   (setq company-idle-delay 0
 		company-minimum-prefix-length 2
 		company-selection-wrap-around t
@@ -548,10 +549,6 @@ See `org-capture-templates' for more information."
 ;;;;; eglot ;;;;;
 (use-package eglot
   :ensure t
-  :hook
-  (eglot-mode-hook
-   . (lambda ()
-	   (setq-local company-backends '((company-yasnippet company-capf :separate)))))
   :config
   (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
@@ -572,8 +569,6 @@ See `org-capture-templates' for more information."
   (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename))
 
 
-
-
 ;;;;; golang ;;;;;
 (use-package go-mode
   :ensure t
@@ -591,7 +586,6 @@ See `org-capture-templates' for more information."
 				("C-c f" . go-test-current-file)
 				("C-c a" . go-test-current-project))
 	:config
-	;;	(setq go-test-verbose t)
 	(setq go-test-args "-v -count=1")))
 
 
