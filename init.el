@@ -346,37 +346,29 @@ See `org-capture-templates' for more information."
 (global-set-key (kbd "C-c <up>") 'windmove-up)
 (global-set-key (kbd "C-c <down>") 'windmove-down)
 
-(defun copy-whole-line (&optional arg)
-  "Copy current line."
+(defun copy-line (arg)
+  "Copy lines (as many as prefix argument) in the kill ring.
+      Ease of use features:
+      - Move to start of next line.
+      - Appends the copy on sequential calls.
+      - Use newline as last char even on the last line of the buffer.
+      - If region is active, copy its lines."
   (interactive "p")
-  (or arg (setq arg 1))
-  (if (and (> arg 0) (eobp) (save-excursion (forward-visible-line 0) (eobp)))
-	  (signal 'end-of-buffer nil))
-  (if (and (< arg 0) (bobp) (save-excursion (end-of-visible-line) (bobp)))
-	  (signal 'beginning-of-buffer nil))
-  (unless (eq last-command 'copy-region-as-kill)
-	(kill-new "")
-	(setq last-command 'copy-region-as-kill))
-  (cond ((zerop arg)
-		 (save-excursion
-		   (copy-region-as-kill (point) (progn (forward-visible-line 0) (point)))
-		   (copy-region-as-kill (point) (progn (end-of-visible-line) (point)))))
-		((< arg 0)
-		 (save-excursion
-		   (copy-region-as-kill (point) (progn (end-of-visible-line) (point)))
-		   (copy-region-as-kill (point)
-								(progn (forward-visible-line (1+ arg))
-									   (unless (bobp) (backward-char))
-									   (point)))))
-		(t
-		 (save-excursion
-		   (copy-region-as-kill (point) (progn (forward-visible-line 0) (point)))
-		   (copy-region-as-kill (point)
-								(progn (forward-visible-line arg) (point))))))
-  (message (substring (car kill-ring-yank-pointer) 0 -1)))
+  (let ((beg (line-beginning-position))
+        (end (line-end-position arg)))
+    (when mark-active
+      (if (> (point) (mark))
+          (setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
+        (setq end (save-excursion (goto-char (mark)) (line-end-position)))))
+    (if (eq last-command 'copy-line)
+        (kill-append (buffer-substring beg end) (< end beg))
+      (kill-ring-save beg end)))
+  (kill-append "\n" nil)
+  (beginning-of-line (or (and arg (1+ arg)) 2))
+  (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
 
 (global-set-key (kbd "C-c C-n") 'rename-file-and-buffer)
-(global-set-key (kbd "M-k") 'copy-whole-line)
+(global-set-key (kbd "M-k") 'copy-line)
 
 ;;;;; Watch Python3 ;;;;;
 (setq python-shell-interpreter "python3")
