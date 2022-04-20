@@ -441,7 +441,7 @@ See `org-capture-templates' for more information."
 (use-package consult
   :ensure t
   :bind
-  ("M-y" . consult-from-kill-ring)
+  ("M-y" . consult-yank-from-kill-ring)
   ("C-s" . consult-line)
   ("C-x b" . consult-buffer)
   :config
