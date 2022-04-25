@@ -97,11 +97,12 @@
 ;; highlight keyword
 (use-package hl-todo
   :ensure t
-  :config
+  :custom
   (setq hl-todo-keyword-faces
 		'(("TODO" . "#cc9393")
 		  ("FIXME" . "#cc9393")
 		  ("DEBUG" . "#A020F0")))
+  :config
   (global-hl-todo-mode 1))
 
 ;; hightlight symbol
@@ -139,7 +140,7 @@
 
 
 ;;;;; tab bar ;;;;;
-;;(tab-bar-mode 1)
+(tab-bar-mode 1)
 ;;(global-tab-line-mode)
 
 ;;;;; Spell checking ;;;;;
