@@ -450,6 +450,9 @@ See `org-capture-templates' for more information."
   ("M-y" . consult-yank-from-kill-ring)
   ("C-s" . consult-line)
   ("C-x b" . consult-buffer)
+  ("C-c b" . consult-buffer-other-window)
+  ("C-c l" . consult-goto-line)
+  ("C-c g" . consult-grep)
   :config
   (use-package affe
 	:ensure t))
