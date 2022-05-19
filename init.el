@@ -97,13 +97,12 @@
 ;; highlight keyword
 (use-package hl-todo
   :ensure t
-  :custom
+  :hook (prog-mode . hl-todo-mode)
+  :config
   (setq hl-todo-keyword-faces
 		'(("TODO" . "#cc9393")
 		  ("FIXME" . "#cc9393")
-		  ("DEBUG" . "#A020F0")))
-  :config
-  (global-hl-todo-mode 1))
+		  ("DEBUG" . "#A020F0"))))
 
 ;; hightlight symbol
 (use-package highlight-symbol
