@@ -526,11 +526,20 @@ See `org-capture-templates' for more information."
   (defun open-shell-r ()
 	(interactive)
 	(open-shell-sub-right t))
+  (defun vterm-consult-yank-from-kill-ring-action (orig-fun &rest args)
+	(if (equal major-mode 'vterm-mode)
+		(let ((inhibit-read-only t)
+			  (yank-undo-function (lambda (_start _end) (vterm-undo))))
+		  (cl-letf (((symbol-function 'insert-for-yank)
+					 (lambda (str) (vterm-send-string str t))))
+			(apply orig-fun args)))
+	  (apply orig-fun args)))
   :bind
   ("C-c m" . open-shell)
   ("C-c n" . open-shell-r)
   :config
-  (setq vterm-always-compile-module t))
+  (setq vterm-always-compile-module t)
+  (advice-add #'consult-yank-from-kill-ring :around #'vterm-consult-yank-from-kill-ring-action))
 
 
 ;;;;; yasnippet ;;;;;
