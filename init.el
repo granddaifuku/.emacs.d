@@ -72,6 +72,7 @@
 (setq command-line-default-directory "~/")
 (setq inhibit-startup-message t)
 (setq kill-whole-line t)
+(setq max-specpdl-size 10000)
 (savehist-mode 1)
 
 (use-package autorevert
@@ -565,6 +566,15 @@ See `org-capture-templates' for more information."
   :mode ("\\.go$" . go-mode)
   :config
   (setq gofmt-command "goimports")
+  ;; (defun granddaifuku/golangci-lint ()
+  ;; 	(interactive)
+  ;; 	(let ((num-window (count-windows)))
+  ;; 	  (if (> num-window 1)
+  ;; 		  (with-output-to-temp-buffer "golangci-lint"
+  ;; 			(print "20"))
+  ;; 		(progn
+  ;; 		  (split-window-right)
+  ;; 		  (switch-to-buffer (make-temp-name "golangci-lint"))))))
   (add-hook 'before-save-hook #'gofmt-before-save)
   (use-package gotest
 	:after go-mode
