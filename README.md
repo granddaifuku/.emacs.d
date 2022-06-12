@@ -1,5 +1,7 @@
 # My Emacs setting
 
+- Using [Emacs Plus](https://github.com/d12frosted/homebrew-emacs-plus)
+
 ## PC setting up
 
 ### Environmental setting
