@@ -192,6 +192,21 @@
   (setq minions-mode-line-lighter "[+]"))
 
 
+;;;;; yasnippet ;;;;;
+(use-package yasnippet
+  :ensure t
+  :hook
+  (prog-mode . yas-minor-mode)
+  :bind
+  (("C-c y n" . yas-new-snippet)
+   ("C-c y v" . yas-visit-snippet-file)
+   ("C-c y i" . yas-insert-snippet))
+  :config
+  (yas-reload-all)
+  (setq yas-snippet-dirs
+		'("~/.emacs.d/snippets")))
+
+
 ;;;;; Org mode ;;;;;
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -559,23 +574,9 @@ See `org-capture-templates' for more information."
   (advice-add #'consult-yank-from-kill-ring :around #'vterm-consult-yank-from-kill-ring-action))
 
 
-;;;;; yasnippet ;;;;;
-(use-package yasnippet
-  :ensure t
-  :hook
-  (prog-mode . yas-minor-mode)
-  :bind
-  (("C-c y n" . yas-new-snippet)
-   ("C-c y v" . yas-visit-snippet-file)
-   ("C-c y i" . yas-insert-snippet))
-  :config
-  (yas-reload-all))
-
-
 ;;;;; eglot ;;;;;
 (use-package eglot
   :ensure t
-  :after yasnippet
   :config
   (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
