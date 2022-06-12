@@ -381,29 +381,65 @@ See `org-capture-templates' for more information."
 
 
 ;;;;; company ;;;;;
-(use-package company
+;; (use-package company
+;;   :ensure t
+;;   :diminish company-mode
+;;   :bind
+;;   (("C-M-i" . company-complete)
+;;    :map company-active-map
+;;    ("M-n" . nil)
+;;    ("M-p" . nil)
+;;    ("C-h" . nil)
+;;    ("C-n" . company-select-next)
+;;    ("C-p" . company-select-previous)
+;;    ("C-s" . company-filter-candidates)
+;;    ("C-i" . company-complete-selection)
+;;    ([tab] . company-complete-selection))
+;;   :hook
+;;   (after-init . global-company-mode)
+;;   :config
+;;   (setq company-backends '((company-capf :with company-yasnippet)))
+;;   (setq company-idle-delay 0
+;; 		company-minimum-prefix-length 2
+;; 		company-selection-wrap-around t
+;; 		completion-ignore-case t
+;; 		company-show-quick-access t))
+
+
+;;;;; corfu ;;;;;
+(use-package corfu
   :ensure t
-  :diminish company-mode
+  :custom
+  (corfu-cycle t)
+  (corfu-auto t)
+  (corfu-quit-at-boundary nil)
+  (corfu-scroll-margin 5)
+  (corfu-echo-documentation t)
   :bind
-  (("C-M-i" . company-complete)
-   :map company-active-map
-   ("M-n" . nil)
-   ("M-p" . nil)
-   ("C-h" . nil)
-   ("C-n" . company-select-next)
-   ("C-p" . company-select-previous)
-   ("C-s" . company-filter-candidates)
-   ("C-i" . company-complete-selection)
-   ([tab] . company-complete-selection))
-  :hook
-  (after-init . global-company-mode)
-  :config
-  (setq company-backends '((company-capf :with company-yasnippet)))
-  (setq company-idle-delay 0
-		company-minimum-prefix-length 2
-		company-selection-wrap-around t
-		completion-ignore-case t
-		company-show-quick-access t))
+  (:map corfu-map
+		("TAB" . corfu-insert)
+		([tab] . corfu-insert)
+		("C-n" . corfu-next)
+		("C-p" . corfu-previous))
+  :init
+  (global-corfu-mode))
+
+
+;;;;; cape ;;;;;
+;; (use-package cape
+;;   :ensure t
+;;   :config
+;;   (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-yasnippet)))
+
+
+;;;;; kind-icon ;;;;;
+;; (use-package kind-icon
+;;   :ensure t
+;;   :after corfu
+;;   :custom
+;;   (kind-icon-default-face 'corfu-default)
+;;   :config
+;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
 ;;;;; flymake ;;;;;
@@ -526,19 +562,20 @@ See `org-capture-templates' for more information."
 ;;;;; yasnippet ;;;;;
 (use-package yasnippet
   :ensure t
-  :diminish yas-minor-mode
+  :hook
+  (prog-mode . yas-minor-mode)
   :bind
   (("C-c y n" . yas-new-snippet)
    ("C-c y v" . yas-visit-snippet-file)
    ("C-c y i" . yas-insert-snippet))
-  ;; ([tab] . yas-expand))
   :config
-  (yas-global-mode 1))
+  (yas-reload-all))
 
 
 ;;;;; eglot ;;;;;
 (use-package eglot
   :ensure t
+  :after yasnippet
   :config
   (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
@@ -700,7 +737,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters neotree use-package rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters neotree use-package rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(rustic-ansi-faces
    ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
