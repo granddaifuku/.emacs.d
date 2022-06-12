@@ -1,5 +1,6 @@
 *.ttf
 *.elc
+.cache/
 elpa/
 elisp/
 elpy/
@@ -9,7 +10,6 @@ recentf
 auto-save-list/
 /replace-colorthemes/*
 irony/
-yasnippet/
 transient/
 .lsp-session-v1
 projectile-bookmarks.eld

@@ -426,20 +426,20 @@ See `org-capture-templates' for more information."
 
 
 ;;;;; cape ;;;;;
-;; (use-package cape
-;;   :ensure t
-;;   :config
-;;   (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-yasnippet)))
+(use-package cape
+  :ensure t
+  :config
+  (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-yasnippet)))
 
 
 ;;;;; kind-icon ;;;;;
-;; (use-package kind-icon
-;;   :ensure t
-;;   :after corfu
-;;   :custom
-;;   (kind-icon-default-face 'corfu-default)
-;;   :config
-;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default)
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
 ;;;;; flymake ;;;;;
