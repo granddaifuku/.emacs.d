@@ -207,6 +207,29 @@
 		'("~/.emacs.d/snippets")))
 
 
+;;;;; eglot ;;;;;
+(use-package eglot
+  :ensure t
+  :config
+  (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
+  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
+  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
+  (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer")))
+  (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
+  (add-to-list 'eglot-server-programs '(LaTeX-mode . ("digestif")))
+  (add-hook 'c-mode-hook 'eglot-ensure)
+  (add-hook 'c++-mode-hook 'eglot-ensure)
+  (add-hook 'go-mode-hook 'eglot-ensure)
+  (add-hook 'rustic-mode-hook 'eglot-ensure)
+  (add-hook 'python-mode-hook 'eglot-ensure)
+  (add-hook 'LaTeX-mode-hook 'eglot-ensure)
+  ;; format on save
+  (add-hook 'c-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+  (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
+  (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename))
+
+
 ;;;;; Org mode ;;;;;
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
 (global-set-key (kbd "C-c c") 'org-capture)
@@ -395,32 +418,6 @@ See `org-capture-templates' for more information."
 (setq python-shell-interpreter "python3")
 
 
-;;;;; company ;;;;;
-;; (use-package company
-;;   :ensure t
-;;   :diminish company-mode
-;;   :bind
-;;   (("C-M-i" . company-complete)
-;;    :map company-active-map
-;;    ("M-n" . nil)
-;;    ("M-p" . nil)
-;;    ("C-h" . nil)
-;;    ("C-n" . company-select-next)
-;;    ("C-p" . company-select-previous)
-;;    ("C-s" . company-filter-candidates)
-;;    ("C-i" . company-complete-selection)
-;;    ([tab] . company-complete-selection))
-;;   :hook
-;;   (after-init . global-company-mode)
-;;   :config
-;;   (setq company-backends '((company-capf :with company-yasnippet)))
-;;   (setq company-idle-delay 0
-;; 		company-minimum-prefix-length 2
-;; 		company-selection-wrap-around t
-;; 		completion-ignore-case t
-;; 		company-show-quick-access t))
-
-
 ;;;;; corfu ;;;;;
 (use-package corfu
   :ensure t
@@ -439,12 +436,16 @@ See `org-capture-templates' for more information."
   :init
   (global-corfu-mode))
 
-
 ;;;;; cape ;;;;;
 (use-package cape
   :ensure t
   :config
-  (add-to-list 'completion-at-point-functions (cape-company-to-capf #'company-yasnippet)))
+  (defun granddaifuku/eglot-capf ()
+	(setq-local completion-at-point-functions
+				(list (cape-super-capf
+					   #'eglot-completion-at-point
+					   (cape-company-to-capf #'company-yasnippet)))))
+  (add-hook 'eglot-managed-mode-hook #'granddaifuku/eglot-capf))
 
 
 ;;;;; kind-icon ;;;;;
@@ -572,29 +573,6 @@ See `org-capture-templates' for more information."
   :config
   (setq vterm-always-compile-module t)
   (advice-add #'consult-yank-from-kill-ring :around #'vterm-consult-yank-from-kill-ring-action))
-
-
-;;;;; eglot ;;;;;
-(use-package eglot
-  :ensure t
-  :config
-  (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
-  (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer")))
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
-  (add-to-list 'eglot-server-programs '(LaTeX-mode . ("digestif")))
-  (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'c++-mode-hook 'eglot-ensure)
-  (add-hook 'go-mode-hook 'eglot-ensure)
-  (add-hook 'rustic-mode-hook 'eglot-ensure)
-  (add-hook 'python-mode-hook 'eglot-ensure)
-  (add-hook 'LaTeX-mode-hook 'eglot-ensure)
-  ;; format on save
-  (add-hook 'c-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename))
 
 
 ;;;;; golang ;;;;;
