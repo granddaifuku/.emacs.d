@@ -427,6 +427,7 @@ See `org-capture-templates' for more information."
   (corfu-quit-at-boundary nil)
   (corfu-scroll-margin 5)
   (corfu-echo-documentation t)
+  (corfu-quit-no-match t)
   :bind
   (:map corfu-map
 		("TAB" . corfu-insert)
@@ -481,6 +482,12 @@ See `org-capture-templates' for more information."
   (setq vertico-count 20
 		vertico-resize t
 		vertico-cycle t))
+
+(use-package vertico-directory
+  :after vertico
+  :ensure nil
+  :bind (:map vertico-map
+			  ("C-l" . vertico-directory-up)))
 
 (use-package consult
   :ensure t
