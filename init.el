@@ -42,8 +42,12 @@
 (setq create-lockfiles nil)
 (setq delete-auto-save-files t)
 (setq make-backup-files nil)
+
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
+
+;; suppress bell
+(setq ring-bell-function 'ignore)
 
 (use-package which-key
   :ensure t
