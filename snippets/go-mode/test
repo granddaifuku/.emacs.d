@@ -1,0 +1,26 @@
+# -*- mode: snippet -*-
+# name: Test
+# key: <test
+# --
+func Test$0(t *testing.T) {
+    type args struct {
+	
+    }
+	tests := []struct {
+		name      string
+		args      args
+		$1
+	}{
+		{
+			name:      "",
+			arg:       args:{},
+			want:      12,
+			wantPanic: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+		
+		})
+	}
+}

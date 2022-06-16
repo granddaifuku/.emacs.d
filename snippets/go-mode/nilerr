@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: nilerr
+# key: <nilerr
+# --
+if err != nil {
+	return nil, err
+}
