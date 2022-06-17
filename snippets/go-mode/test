@@ -2,20 +2,18 @@
 # name: Test
 # key: <test
 # --
-func Test$0(t *testing.T) {
+func Test$1(t *testing.T) {
     type args struct {
 	
     }
 	tests := []struct {
 		name      string
 		args      args
-		$1
+		$2
 	}{
 		{
 			name:      "",
-			arg:       args:{},
-			want:      12,
-			wantPanic: false,
+			args:       args{},
 		},
 	}
 	for _, tt := range tests {
