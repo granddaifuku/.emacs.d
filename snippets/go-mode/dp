@@ -3,4 +3,3 @@
 # key: <dp
 # --
 fmt.Printf("%+v\n", $1) // output for debug
-$0
