@@ -132,22 +132,40 @@
 (use-package dimmer
   :ensure t
   :custom
-  (dimmer-fraction 0.25)
+  (dimmer-fraction 0.3)
+  (dimmer-watch-frame-focus-events nil)
   (dimmer-exclusion-regexp-list
-   '(".*Minibuf.*"
-     ".*which-key.*"
-     ".*NeoTree.*"
-     ".*Messages.*"
-     ".*Async.*"
-     ".*Warnings.*"
-     ".*LV.*"
-     ".*Ilist.*"
-	 ".*Gofmt Errors.*"))
+   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$"
+	 "^*Messages*" "*LV*" "transient"))
+  :config
+  (dimmer-mode t)
   (dimmer-configure-magit)
   (dimmer-configure-which-key)
   (dimmer-configure-posframe)
-  :config
-  (dimmer-mode t))
+  ;; make it compatible to corfu
+  ;; https://github.com/gonewest818/dimmer.el/issues/62
+  (defun advise-dimmer-config-change-handler ()
+    "Advise to only force process if no predicate is truthy."
+    (let ((ignore (cl-some (lambda (f) (and (fboundp f) (funcall f)))
+                           dimmer-prevent-dimming-predicates)))
+      (unless ignore
+        (when (fboundp 'dimmer-process-all)
+          (dimmer-process-all t)))))
+  
+  (defun corfu-frame-p ()
+	"Check if the buffer is a corfu frame buffer."
+	(string-match-p "\\` \\*corfu" (buffer-name)))
+  
+  (defun dimmer-configure-corfu ()
+	(add-to-list
+     'dimmer-prevent-dimming-predicates
+     #'corfu-frame-p))
+
+  (advice-add
+   'dimmer-config-change-handler
+   :override 'advise-dimmer-config-change-handler)
+
+  (dimmer-configure-corfu))
 
 
 ;;;;; Undo Tree ;;;;;
