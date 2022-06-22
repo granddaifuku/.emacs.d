@@ -542,6 +542,8 @@ See `org-capture-templates' for more information."
   :bind (:map vertico-map
 			  ("C-l" . vertico-directory-up)))
 
+
+;;;;; consult ;;;;;
 (use-package consult
   :ensure t
   :bind
@@ -553,16 +555,21 @@ See `org-capture-templates' for more information."
   ("C-c l" . consult-goto-line)
   ("C-c g" . consult-grep)
   ("C-c f" . consult-find)
+  ("C-c !" . consult-flymake)
   :config
   (use-package affe
 	:ensure t))
 
+
+;;;;; orderless ;;;;;
 (use-package orderless
   :ensure t
   :custom
   (completion-styles '(orderless basic))
   (completion-category-overrides '((file (styles basic partial-completion)))))
 
+
+;;;;; marginalia ;;;;;
 (use-package marginalia
   :ensure t
   :init
