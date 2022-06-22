@@ -547,10 +547,12 @@ See `org-capture-templates' for more information."
   :bind
   ("M-y" . consult-yank-from-kill-ring)
   ("C-s" . consult-line)
+  ("C-c s" . consult-line-multi)
   ("C-x b" . consult-buffer)
   ("C-c b" . consult-buffer-other-window)
   ("C-c l" . consult-goto-line)
   ("C-c g" . consult-grep)
+  ("C-c f" . consult-find)
   :config
   (use-package affe
 	:ensure t))
@@ -677,9 +679,9 @@ See `org-capture-templates' for more information."
 	:ensure t
 	:bind (:map go-mode-map
 				("C-c x" . go-run)
-				("C-c t" . go-test-current-test)
-				("C-c f" . go-test-current-file)
-				("C-c a" . go-test-current-project))
+				("C-c t c" . go-test-current-test)
+				("C-c t f" . go-test-current-file)
+				("C-c t a" . go-test-current-project))
 	:config
 	(setq go-test-args "-v -count=1")))
 
@@ -700,6 +702,7 @@ See `org-capture-templates' for more information."
 (setq inferior-lisp-program "clisp")
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
 (use-package slime
+  :defer t
   :ensure t
   :config
   (slime-setup '(slime-repl slime-fancy slime-banner)))
@@ -733,6 +736,7 @@ See `org-capture-templates' for more information."
 ;;;;; markdown ;;;;;
 (use-package markdown-mode
   :ensure t
+  :defer t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -766,10 +770,12 @@ See `org-capture-templates' for more information."
 ;;;;; Docker ;;;;;
 (use-package dockerfile-mode
   :ensure t
+  :defer t
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 (use-package docker-compose-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 
 
 ;;;;; Custom Functions ;;;;;
