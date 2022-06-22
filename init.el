@@ -599,6 +599,7 @@ See `org-capture-templates' for more information."
   (blamer-author-formatter "✎ %s ")
   (blamer-datetime-formatter "[%s] ")
   (blamer-commit-formatter "● %s")
+  (blamer-type 'visual)
   :config
   (global-blamer-mode 1))
 
