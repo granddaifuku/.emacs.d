@@ -13,9 +13,12 @@
 
 (package-initialize)
 
-(eval-when-compile
-  (add-to-list 'load-path "~/.emacs.d/elpa/use-package20200721.2156")
-  (require 'use-package))
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile (require 'use-package))
+
 (use-package bind-key
   :ensure t)
 
