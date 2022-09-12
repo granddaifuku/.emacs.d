@@ -799,10 +799,6 @@ See `org-capture-templates' for more information."
 
 
 ;;;;; Custom Functions ;;;;;
-;; Format Json (requires jq)
-(defun jq-format (beg end)
-  (interactive "r")
-  (shell-command-on-region beg end "jq . " nil t))
 
 
 ;;;;; color ;;;;;
