@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: json
+# key: <jtag
+# --
+\`json:"$1"\`
