@@ -102,6 +102,7 @@
 (setq kill-whole-line t)
 (setq max-specpdl-size 10000)
 (savehist-mode 1)
+(save-place-mode 1)
 
 (use-package autorevert
   :ensure nil
@@ -582,7 +583,7 @@ See `org-capture-templates' for more information."
   ("C-x b" . consult-buffer)
   ("C-c b" . consult-buffer-other-window)
   ("C-c l" . consult-goto-line)
-  ("C-c g" . consult-grep)
+  ("C-c g" . consult-ripgrep)
   ("C-c f" . consult-find)
   ("C-c !" . consult-flymake)
   :config
