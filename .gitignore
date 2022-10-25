@@ -11,6 +11,7 @@ auto-save-list/
 /replace-colorthemes/*
 irony/
 transient/
+tramp
 .lsp-session-v1
 projectile-bookmarks.eld
 projects

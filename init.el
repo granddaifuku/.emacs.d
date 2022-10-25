@@ -817,14 +817,19 @@ See `org-capture-templates' for more information."
 (use-package docker
   :ensure t
   :bind ("C-c C-d" . docker))
+
 (use-package dockerfile-mode
   :ensure t
   :defer t
   :config
   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+
 (use-package docker-compose-mode
   :ensure t
   :defer t)
+
+(use-package docker-tramp
+  :ensure t)
 
 
 ;;;;; Custom Functions ;;;;;
