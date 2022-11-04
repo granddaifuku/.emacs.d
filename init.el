@@ -294,14 +294,14 @@
   (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
   (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
-  (add-to-list 'eglot-server-programs '(rustic-mode . ("rust-analyzer")))
+  (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
   (add-to-list 'eglot-server-programs '(LaTeX-mode . ("digestif")))
   (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'c++-mode-hook 'eglot-ensure)
   (add-hook 'go-mode-hook 'eglot-ensure)
-  (add-hook 'rustic-mode-hook 'eglot-ensure)
+  (add-hook 'rust-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'LaTeX-mode-hook 'eglot-ensure)
   (add-hook 'lua-mode-hook 'eglot-ensure)
@@ -724,15 +724,17 @@ See `org-capture-templates' for more information."
 
 
 ;;;;; rust ;;;;;
-(use-package rustic
+(use-package rust-mode
   :ensure t
   :defer t
-  :mode ("\\.rs$" . rustic-mode)
+  :mode ("\\.rs$" . rust-mode)
   :config
-  (setq rustic-lsp-client 'eglot)
-  (setq-default rustic-format-trigger 'on-save)
-  (setq rustic-rustfmt-bin "~/.cargo/bin/rustfmt")
-  (add-to-list 'rustic-rustfmt-config-alist '("edition" . "2018")))
+  (setq rust-format-on-save t))
+
+(use-package cargo
+  :ensure t
+  :defer t
+  :hook (rust-mode . cargo-minor-mode))
 
 
 ;;;;; lisp ;;;;;
@@ -854,10 +856,8 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters neotree use-package rustic helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters neotree use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
- '(rustic-ansi-faces
-   ["#fafafa" "#e45649" "#50a14f" "#986801" "#4078f2" "#a626a4" "#0184bc" "#383a42"])
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    '((20 . "#d54e53")
