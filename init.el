@@ -490,7 +490,6 @@ See `org-capture-templates' for more information."
     (if (eq last-command 'copy-line)
         (kill-append (buffer-substring beg end) (< end beg))
       (kill-ring-save beg end)))
-  (kill-append "\n" nil)
   (beginning-of-line (or (and arg (1+ arg)) 2))
   (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
 
