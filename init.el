@@ -350,6 +350,7 @@ See `org-capture-templates' for more information."
 				   ,(concat ":EXPORT_FILE_NAME: " fname)
 				   ,(concat ":EXPORT_DATE: " date)
 				   ,(concat ":EXPORT_HUGO_LASTMOD: " date)
+				   ,(concat ":EXPORT_HUGO_SECTION_FRAG: " section)
 				   ,(concat ":EXPORT_HUGO_SECTION*: " section)
 				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail \"images/\"" )
 				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :description \"\"")
