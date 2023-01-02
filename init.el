@@ -13,6 +13,9 @@
 
 (package-initialize)
 
+;; warning level
+(setq warning-minimum-level :emergency)
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -41,10 +44,10 @@
 
 ;;;;; Environment ;;;;;
 ;; Auto Created Files
-(setq auto-save-default nil)
-(setq create-lockfiles nil)
-(setq delete-auto-save-files t)
-(setq make-backup-files nil)
+(setq auto-save-default nil
+	  create-lockfiles nil
+	  delete-auto-save-files t
+	  make-backup-files nil)
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
