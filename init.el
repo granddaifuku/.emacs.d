@@ -69,6 +69,7 @@
 
 ;; window size
 (toggle-frame-maximized)
+(split-window-right)
 
 ;; presentation
 (use-package presentation
