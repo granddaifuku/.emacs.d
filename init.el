@@ -655,7 +655,7 @@ See `org-capture-templates' for more information."
   :ensure t
   :custom
   (blamer-idle-time 0.3)
-  (blamer-min-offset 70)
+  (blamer-min-offset 40)
   (blamer-pretty-time-p t)
   (blamer-author-formatter "✎ %s ")
   (blamer-datetime-formatter "[%s] ")
