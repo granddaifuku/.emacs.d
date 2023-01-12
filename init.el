@@ -69,7 +69,6 @@
 
 ;; window size
 (toggle-frame-maximized)
-(split-window-right)
 
 ;; window manager
 (use-package ace-window
