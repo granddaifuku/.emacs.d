@@ -620,12 +620,23 @@ See `org-capture-templates' for more information."
   ("C-x b" . consult-buffer)
   ("C-c b" . consult-buffer-other-window)
   ("C-c l" . consult-goto-line)
-  ("C-c g" . consult-ripgrep)
   ("C-c f" . consult-find)
   ("C-c !" . consult-flymake)
   :config
   (use-package affe
 	:ensure t))
+
+(defun consult-ripgrep-symbol-at-point ()
+  (interactive)
+  (consult-ripgrep nil (thing-at-point 'symbol)))
+
+(defun my-consult-ripgrep (use-symbol)
+  (interactive "p")
+  (cond ((eq use-symbol 1)
+		 (call-interactively 'consult-ripgrep))
+		((eq use-symbol 4)
+		 (call-interactively 'consult-ripgrep-symbol-at-point))))
+(global-set-key (kbd "C-c g") 'my-consult-ripgrep)
 
 
 ;;;;; orderless ;;;;;
