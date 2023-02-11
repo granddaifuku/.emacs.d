@@ -562,6 +562,13 @@ See `org-capture-templates' for more information."
   :config
   (setq corfu-popupinfo-delay 0.1))
 
+(use-package corfu-quick
+  :after corfu
+  :ensure nil
+  :bind
+  (:map corfu-map
+		("C-;" . corfu-quick-complete)))
+
 
 ;;;;; cape ;;;;;
 (use-package cape
@@ -609,8 +616,15 @@ See `org-capture-templates' for more information."
   :bind (:map vertico-map
 			  ("C-l" . vertico-directory-up)))
 
+(use-package vertico-quick
+  :after vertico
+  :ensure nil
+  :bind (:map vertico-map
+			  ("C-;" . vertico-quick-jump)
+			  ("C-'" . vertico-quick-exit)))
 
-;;;;; consult ;;;;;
+
+;;;;; Consult ;;;;;
 (use-package consult
   :ensure t
   :bind
