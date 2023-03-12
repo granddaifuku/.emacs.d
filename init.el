@@ -106,10 +106,10 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default cursor-type 'bar)
 (setq default-directory "~/")
-(setq command-line-default-directory "~/")
-(setq inhibit-startup-message t)
-(setq kill-whole-line t)
-(setq max-specpdl-size 10000)
+(setq command-line-default-directory "~/"
+	  inhibit-startup-message t
+	  kill-whole-line t
+	  max-specpdl-size 10000)
 (savehist-mode 1)
 (save-place-mode 1)
 
@@ -163,8 +163,8 @@
   :quelpa (dired+ :fetcher url :url "https://www.emacswiki.org/emacs/download/dired+.el")
   :defer 1
   :init
-  (setq diredp-hide-details-initially-flag nil)
-  (setq diredp-hide-details-propagate-flag nil)
+  (setq diredp-hide-details-initially-flag nil
+		diredp-hide-details-propagate-flag nil)
   :config
   (diredp-toggle-find-file-reuse-dir 1))
 
