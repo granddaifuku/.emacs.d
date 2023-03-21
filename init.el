@@ -2,6 +2,7 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
+(package-initialize)
 
 ;; Package
 (require 'package)
@@ -11,7 +12,6 @@
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
 
-(package-initialize)
 
 ;; warning level
 (setq warning-minimum-level :emergency)
@@ -320,21 +320,67 @@
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 
+;;;;; lsp-mode ;;;;;
+(use-package lsp-mode
+  :ensure t
+  :commands lsp
+  :custom
+  (lsp-headerline-breadcrumb-icons-enable t)
+  (lsp-enable-snippet t)
+  (lsp-auto-guess-root t)
+  (lsp-idle-delay 0.3)
+  (lsp-log-io t)
+  (lsp-modeline-code-actions-enable nil)
+  (lsp-completion-provider :none)
+  (lsp-eldoc-render-all t)
+  :bind
+  (:map lsp-mode-map
+		("C-c C-l" . lsp-execute-code-action)
+		("C-c r" . lsp-rename)))
+
+(use-package lsp-ui
+  :ensure t
+  :hook (lsp-mode-hook . lsp-ui-mode)
+  :custom
+  ;; doc
+  (lsp-ui-doc-enable nil)
+  ;; sideline
+  (lsp-ui-sideline-enable t)
+  (lsp-ui-sideline-ignore-duplicate t)
+  (lsp-ui-sideline-show-diagnostics nil)
+  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-sideline-show-code-actions t)
+  :init
+  (defun toggle-lsp-ui-imenu ()
+    (interactive)
+	(let ((imenu-buffer (get-buffer lsp-ui-imenu-buffer-name)))
+	  (if imenu-buffer
+		  (progn
+			(lsp-ui-imenu-buffer-mode -1)
+			(kill-buffer lsp-ui-imenu-buffer-name)
+			(message "lsp-ui-imenu disabled"))
+		(progn
+		  (lsp-ui-imenu)
+		  (message "lsp-ui-imenu enabled")))))
+  :bind
+  (:map lsp-mode-map
+		("C-c C-i" . lsp-ui-peek-find-implementation)
+		("M-." . lsp-ui-peek-find-definitions)
+		("M-?" . lsp-ui-peek-find-references)
+		("C-c i" . toggle-lsp-ui-imenu)))
+
+
 ;;;;; eglot ;;;;;
 (use-package eglot
   :ensure t
   :config
   (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
   (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(go-mode . ("gopls")))
-  (add-to-list 'eglot-server-programs '(rust-mode . ("rust-analyzer")))
   (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
   (add-to-list 'eglot-server-programs '(LaTeX-mode . ("digestif")))
   (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))
   (add-hook 'c-mode-hook 'eglot-ensure)
   (add-hook 'c++-mode-hook 'eglot-ensure)
-  (add-hook 'go-mode-hook 'eglot-ensure)
-  (add-hook 'rust-mode-hook 'eglot-ensure)
   (add-hook 'python-mode-hook 'eglot-ensure)
   (add-hook 'LaTeX-mode-hook 'eglot-ensure)
   (add-hook 'lua-mode-hook 'eglot-ensure)
@@ -574,12 +620,12 @@ See `org-capture-templates' for more information."
 (use-package cape
   :ensure t
   :config
-  (defun granddaifuku/eglot-capf ()
+  (defun granddaifuku/lsp-capf ()
 	(setq-local completion-at-point-functions
 				(list (cape-super-capf
-					   #'eglot-completion-at-point
+					   #'lsp-completion-at-point
 					   (cape-company-to-capf #'company-yasnippet)))))
-  (add-hook 'eglot-managed-mode-hook #'granddaifuku/eglot-capf))
+  (add-hook 'lsp-completion-mode-hook #'granddaifuku/lsp-capf))
 
 
 ;;;;; kind-icon ;;;;;
@@ -780,6 +826,7 @@ See `org-capture-templates' for more information."
   ;; 		  (split-window-right)
   ;; 		  (switch-to-buffer (make-temp-name "golangci-lint"))))))
   (add-hook 'before-save-hook #'gofmt-before-save)
+  (add-hook 'go-mode-hook #'lsp)
   (use-package gotest
 	:after go-mode
 	:ensure t
@@ -798,7 +845,8 @@ See `org-capture-templates' for more information."
   :defer t
   :mode ("\\.rs$" . rust-mode)
   :config
-  (setq rust-format-on-save t))
+  (setq rust-format-on-save t)
+  (add-hook 'rust-mode-hook #'lsp))
 
 (use-package cargo
   :ensure t
@@ -925,7 +973,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters neotree use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters neotree use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
