@@ -105,8 +105,8 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq-default cursor-type 'bar)
-(setq default-directory "~/")
-(setq command-line-default-directory "~/"
+(setq default-directory "~/"
+	  command-line-default-directory "~/"
 	  inhibit-startup-message t
 	  kill-whole-line t
 	  max-specpdl-size 10000)
@@ -173,7 +173,7 @@
   :config
   (bind-keys :map dired-mode-map
 			 ("i" . dired-subtree-insert)
-			 ("r" . dired-subtree-remove)
+			 (";" . dired-subtree-remove)
 			 ("C-, C-p" . dired-subtree-up)
 			 ("C-, C-n" . dired-subtree-down)))
 
