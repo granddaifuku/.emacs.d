@@ -348,9 +348,18 @@
   (lsp-ui-sideline-enable t)
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-diagnostics nil)
-  (lsp-ui-sideline-show-hover t)
+  (lsp-ui-sideline-show-hover nil)
   (lsp-ui-sideline-show-code-actions t)
   :init
+  (defun toggle-lsp-ui-sideline ()
+	(interactive)
+	(if lsp-ui-sideline-show-hover
+        (progn
+          (setq lsp-ui-sideline-show-hover nil)
+          (message "sideline-hover disabled"))
+      (progn
+        (setq lsp-ui-sideline-show-hover t)
+        (message "sideline-hover enabled"))))
   (defun toggle-lsp-ui-imenu ()
     (interactive)
 	(let ((imenu-buffer (get-buffer lsp-ui-imenu-buffer-name)))
@@ -367,7 +376,8 @@
 		("C-c C-i" . lsp-ui-peek-find-implementation)
 		("M-." . lsp-ui-peek-find-definitions)
 		("M-?" . lsp-ui-peek-find-references)
-		("C-c i" . toggle-lsp-ui-imenu)))
+		("C-c i" . toggle-lsp-ui-imenu)
+		("C-c C-s" . toggle-lsp-ui-sideline)))
 
 
 ;;;;; eglot ;;;;;
