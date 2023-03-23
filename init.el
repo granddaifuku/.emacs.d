@@ -347,18 +347,20 @@
   ;; sideline
   (lsp-ui-sideline-enable t)
   (lsp-ui-sideline-ignore-duplicate t)
-  (lsp-ui-sideline-show-diagnostics nil)
   (lsp-ui-sideline-show-hover nil)
-  (lsp-ui-sideline-show-code-actions t)
   :init
   (defun toggle-lsp-ui-sideline ()
 	(interactive)
 	(if lsp-ui-sideline-show-hover
         (progn
-          (setq lsp-ui-sideline-show-hover nil)
+          (setq lsp-ui-sideline-show-hover nil
+				lsp-ui-sideline-show-code-actions nil
+				lsp-ui-sideline-show-diagnostics nil)
           (message "sideline-hover disabled"))
       (progn
-        (setq lsp-ui-sideline-show-hover t)
+        (setq lsp-ui-sideline-show-hover t
+			  lsp-ui-sideline-show-code-actions t
+			  lsp-ui-sideline-show-diagnostics t)
         (message "sideline-hover enabled"))))
   (defun toggle-lsp-ui-imenu ()
     (interactive)
