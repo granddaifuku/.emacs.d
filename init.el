@@ -632,12 +632,12 @@ See `org-capture-templates' for more information."
 (use-package cape
   :ensure t
   :config
-  (defun granddaifuku/lsp-capf ()
+  (defun my/lsp-capf ()
 	(setq-local completion-at-point-functions
 				(list (cape-super-capf
 					   #'lsp-completion-at-point
 					   (cape-company-to-capf #'company-yasnippet)))))
-  (add-hook 'lsp-completion-mode-hook #'granddaifuku/lsp-capf))
+  (add-hook 'lsp-completion-mode-hook #'my/lsp-capf))
 
 
 ;;;;; kind-icon ;;;;;
@@ -830,17 +830,16 @@ See `org-capture-templates' for more information."
   :ensure t
   :defer t
   :mode ("\\.go$" . go-mode)
+  :init
+  (defun my/golangci-lint ()
+	(interactive)
+	(with-output-to-temp-buffer "*golangci-lint*"
+	  (call-process-shell-command
+	   (concat "cd " (vc-root-dir) "; golangci-lint run") nil
+	   "*golangci-lint*" t)
+	  (pop-to-buffer "*golangci-lint*")))
   :config
   (setq gofmt-command "goimports")
-  ;; (defun granddaifuku/golangci-lint ()
-  ;; 	(interactive)
-  ;; 	(let ((num-window (count-windows)))
-  ;; 	  (if (> num-window 1)
-  ;; 		  (with-output-to-temp-buffer "golangci-lint"
-  ;; 			(print "20"))
-  ;; 		(progn
-  ;; 		  (split-window-right)
-  ;; 		  (switch-to-buffer (make-temp-name "golangci-lint"))))))
   (add-hook 'before-save-hook #'gofmt-before-save)
   (add-hook 'go-mode-hook #'lsp)
   (use-package gotest
