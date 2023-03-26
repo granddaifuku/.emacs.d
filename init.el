@@ -835,9 +835,10 @@ See `org-capture-templates' for more information."
 	(interactive)
 	(with-output-to-temp-buffer "*golangci-lint*"
 	  (call-process-shell-command
-	   (concat "cd " (vc-root-dir) "; golangci-lint run") nil
+	   (concat "cd " (vc-root-dir) "; golangci-lint run --color always") nil
 	   "*golangci-lint*" t)
-	  (pop-to-buffer "*golangci-lint*")))
+	  (pop-to-buffer "*golangci-lint*")
+	  (ansi-color-apply-on-region 1 (buffer-size))))
   :config
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook #'gofmt-before-save)
