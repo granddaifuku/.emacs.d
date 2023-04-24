@@ -333,10 +333,19 @@
   (lsp-modeline-code-actions-enable nil)
   (lsp-completion-provider :none)
   (lsp-eldoc-render-all t)
+  ;; rust config
+  (lsp-rust-analyzer-server-display-inlay-hints t)
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-chaining-hints t)
   :bind
   (:map lsp-mode-map
 		("C-c C-l" . lsp-execute-code-action)
-		("C-c r" . lsp-rename)))
+		("C-c r" . lsp-rename))
+  (:map rust-mode-map
+		("C-c t c" . lsp-rust-analyzer-related-tests))
+  :config
+  (lsp-inlay-hints-mode))
 
 (use-package lsp-ui
   :ensure t
