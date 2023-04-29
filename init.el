@@ -25,7 +25,8 @@
 (use-package bind-key
   :ensure t)
 
-;;;;; auto-async-byte-compile ;;;;;
+;; Native compile
+(setq package-native-compile t)
 (use-package auto-async-byte-compile
   :ensure t
   :init
