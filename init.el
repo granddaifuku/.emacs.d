@@ -275,8 +275,8 @@
 	  modus-themes-paren-match 'intense
 	  modus-themes-hl-line 'accented
 	  modus-themes-variable-pitch-ui t
-	  modus-themes-mode-line '(moody (padding . 6) (height . 1.5))
-	  modus-themes-prompts '(bold background))
+	  modus-themes-prompts '(bold background)
+	  modus-themes-mode-line '(moody))
 (load-theme 'modus-vivendi)
 
 ;; modeline
@@ -321,10 +321,15 @@
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 
+;; FIXME: inlay-hints does not work.
+;; TODO: transferred from eglot
 ;;;;; lsp-mode ;;;;;
 (use-package lsp-mode
   :ensure t
   :commands lsp
+  :hook
+  ((rust-mode . lsp)
+   (go-mode . lsp))
   :custom
   (lsp-headerline-breadcrumb-icons-enable t)
   (lsp-enable-snippet t)
@@ -334,19 +339,10 @@
   (lsp-modeline-code-actions-enable nil)
   (lsp-completion-provider :none)
   (lsp-eldoc-render-all t)
-  ;; rust config
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  (lsp-rust-analyzer-display-chaining-hints t)
-  (lsp-rust-analyzer-display-closure-return-type-hints t)
-  (lsp-rust-analyzer-display-chaining-hints t)
   :bind
   (:map lsp-mode-map
 		("C-c C-l" . lsp-execute-code-action)
-		("C-c r" . lsp-rename))
-  (:map rust-mode-map
-		("C-c t c" . lsp-rust-analyzer-related-tests))
-  :config
-  (lsp-inlay-hints-mode))
+		("C-c r" . lsp-rename)))
 
 (use-package lsp-ui
   :ensure t
@@ -852,7 +848,9 @@ See `org-capture-templates' for more information."
   :config
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook #'gofmt-before-save)
-  (add-hook 'go-mode-hook #'lsp)
+  ;; (add-hook 'go-mode-hook #'lsp)
+  ;; (lsp-register-custom-settings
+  ;;  '(("gopls.hints.compositeLiteralTypes t t")))
   (use-package gotest
 	:after go-mode
 	:ensure t
@@ -870,9 +868,19 @@ See `org-capture-templates' for more information."
   :ensure t
   :defer t
   :mode ("\\.rs$" . rust-mode)
+  :bind
+  (:map rust-mode-map
+		("C-c t c" . lsp-rust-analyzer-related-tests))
   :config
   (setq rust-format-on-save t)
-  (add-hook 'rust-mode-hook #'lsp))
+  ;; lsp-mode
+  ;; (add-hook 'rust-mode-hook #'lsp)
+  (lsp-rust-analyzer-server-display-inlay-hints t)
+  (lsp-inlay-hints-mode)
+  (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-display-closure-return-type-hints t)
+  (lsp-rust-analyzer-display-chaining-hints t)
+  )
 
 (use-package cargo
   :ensure t
