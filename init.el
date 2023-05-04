@@ -329,8 +329,12 @@
   :commands lsp
   :hook
   ((rust-mode . lsp)
-   (go-mode . lsp))
+   (go-mode . lsp)
+   (java-mode . lsp))
   :custom
+  ;; cc-mode does not work well when following two settings are enabled.
+  (lsp-enable-on-type-formatting nil)
+  (lsp-enable-indentation nil)
   (lsp-headerline-breadcrumb-icons-enable t)
   (lsp-enable-snippet t)
   (lsp-auto-guess-root t)
@@ -386,6 +390,11 @@
 		("M-?" . lsp-ui-peek-find-references)
 		("C-c i" . toggle-lsp-ui-imenu)
 		("C-c C-s" . toggle-lsp-ui-sideline)))
+
+
+;;;;; dap ;;;;;
+(use-package dap-mode
+  :ensure t)
 
 
 ;;;;; eglot ;;;;;
@@ -888,6 +897,25 @@ See `org-capture-templates' for more information."
   :hook (rust-mode . cargo-minor-mode))
 
 
+;;;;; java ;;;;;
+(use-package lsp-java
+  :defer t
+  :ensure t
+  ;; :hook (java-mode . lsp-mode)
+  :custom
+  (lsp-java-maven-download-sources t)
+  :config
+  (add-hook 'before-save-hook #'lsp-format-buffer))
+
+(use-package lsp-java-boot
+  :config
+  (add-hook 'lsp-mode-hook #'lsp-lens-mode)
+  (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode))
+
+(use-package dap-java
+  :ensure nil)
+
+
 ;;;;; lisp ;;;;;
 (setq inferior-lisp-program "clisp")
 (add-to-list 'load-path (expand-file-name "~/.emacs.d/slime"))
@@ -1007,7 +1035,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters neotree use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(java-mode lsp-java multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters neotree use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
