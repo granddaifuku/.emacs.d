@@ -228,18 +228,24 @@
   (setq undo-tree-auto-save-history nil))
 
 
-;;;;; neotree ;;;;;
-(use-package neotree
+;;;;; treemacs ;;;;;
+(use-package treemacs
   :ensure t
-  :init
-  (setq-default neo-keymap-style 'concise)
   :bind
-  (("C-q" . neotree-toggle))
-  :config
-  (setq neo-smart-open t
-		neo-create-file-auto-open t
-		neo-theme (if (display-graphic-p) 'icons 'arrow)
-		neo-show-hidden-files t))
+  (:map global-map
+		("C-q" . treemacs))
+  :custom
+  (treemacs-follow-after-init t)
+  (treemacs-expand-after-init t)
+  (treemacs-display-in-side-window t)
+  (treemacs-position 'left)
+  (treemacs-show-hidden-files t)
+  (treemacs-hide-dot-git-directory t)
+  (treemacs-filewatch-mode t)
+  (treemacs-follow-mode t)
+  (treemacs-project-follow-mode t)
+  (treemacs-indentation 2)
+  (treemacs-event-guide-mode t))
 
 
 ;;;;; tab bar ;;;;;
@@ -390,6 +396,11 @@
 		("M-?" . lsp-ui-peek-find-references)
 		("C-c i" . toggle-lsp-ui-imenu)
 		("C-c C-s" . toggle-lsp-ui-sideline)))
+
+
+(use-package lsp-treemacs
+  :ensure t
+  :after lsp-mode)
 
 
 ;;;;; dap ;;;;;
@@ -1035,7 +1046,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(java-mode lsp-java multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters neotree use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(kotlin-mode java-mode lsp-java multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
