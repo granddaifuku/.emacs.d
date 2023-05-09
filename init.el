@@ -336,7 +336,8 @@
   :hook
   ((rust-mode . lsp)
    (go-mode . lsp)
-   (java-mode . lsp))
+   (java-mode . lsp)
+   (kotlin-mode . lsp))
   :custom
   ;; cc-mode does not work well when following two settings are enabled.
   (lsp-enable-on-type-formatting nil)
@@ -924,6 +925,16 @@ See `org-capture-templates' for more information."
   (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode))
 
 (use-package dap-java
+  :ensure nil)
+
+
+;;;;; kotlin ;;;;;
+(use-package kotlin-mode
+  :ensure t
+  :defer t
+  :mode ("\\.kt$" . kotlin-mode))
+
+(use-package dap-kotlin
   :ensure nil)
 
 
