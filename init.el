@@ -185,14 +185,14 @@
   :custom
   (dimmer-fraction 0.3)
   (dimmer-watch-frame-focus-events nil)
-  (dimmer-exclusion-regexp-list
+  (dimmer-buffer-exclusion-regexps
    '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$"
-	 "^*Messages*" "*LV*" "transient"))
+	 "^*Messages*" "*LV*" "transient" "*flycheck-posframe-buffer*"))
   :config
-  (dimmer-mode t)
   (dimmer-configure-magit)
-  (dimmer-configure-which-key)
   (dimmer-configure-posframe)
+  (dimmer-configure-which-key)
+  (dimmer-mode t)
   ;; make it compatible to corfu
   ;; https://github.com/gonewest818/dimmer.el/issues/62
   (defun advise-dimmer-config-change-handler ()
@@ -342,6 +342,7 @@
   ;; cc-mode does not work well when following two settings are enabled.
   (lsp-enable-on-type-formatting nil)
   (lsp-enable-indentation nil)
+  (lsp-diagnostics-provider :flycheck)
   (lsp-headerline-breadcrumb-icons-enable t)
   (lsp-enable-snippet t)
   (lsp-auto-guess-root t)
@@ -363,6 +364,7 @@
   (lsp-ui-doc-enable nil)
   ;; sideline
   (lsp-ui-sideline-enable t)
+  (lsp-ui-sideline-show-diagnostics nil)
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-hover nil)
   :init
@@ -677,12 +679,18 @@ See `org-capture-templates' for more information."
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 
-;;;;; flymake ;;;;;
-(use-package flymake-diagnostic-at-point
+;;;;; flycheck ;;;;;
+(use-package flycheck
   :ensure t
-  :after flymake
-  :config
-  (add-hook 'flymake-mode-hook #'flymake-diagnostic-at-point-mode))
+  :init (global-flycheck-mode)
+  :custom
+  (flycheck-display-errors-delay 0.1)
+  (flycheck-idle-change-delay 0.1))
+
+(use-package flycheck-posframe
+  :ensure t
+  :after flycheck
+  :config (add-hook 'flycheck-mode-hook #'flycheck-posframe-mode))
 
 
 ;;;;; vertico ;;;;;
@@ -720,10 +728,13 @@ See `org-capture-templates' for more information."
   ("C-c b" . consult-buffer-other-window)
   ("C-c l" . consult-goto-line)
   ("C-c f" . consult-find)
-  ("C-c !" . consult-flymake)
   :config
   (use-package affe
-	:ensure t))
+	:ensure t)
+  (use-package consult-flycheck
+	:ensure t
+	:bind
+	("C-c !" . consult-flycheck)))
 
 (defun consult-ripgrep-symbol-at-point ()
   (interactive)
@@ -1049,7 +1060,7 @@ See `org-capture-templates' for more information."
  '(ansi-color-names-vector
    (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
  '(dimmer-buffer-exclusion-regexps
-   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*" "transient") nil nil "Customized with use-package dimmer")
+   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*" "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
  '(fci-rule-color "#424242")
  '(frame-background-mode 'dark)
  '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
@@ -1057,7 +1068,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(kotlin-mode java-mode lsp-java multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex flymake-diagnostic-at-point company eglot rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(flycheck-posframe consult-flycheck flycheck kotlin-mode java-mode lsp-java multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex company eglot rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
