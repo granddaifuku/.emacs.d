@@ -69,7 +69,7 @@
   (setq which-key-popup-type 'minibuffer))
 
 ;; window size
-(toggle-frame-maximized)
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; window manager
 (use-package ace-window
