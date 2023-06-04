@@ -149,7 +149,7 @@
   :ensure t
   :config
   (setq highlight-symbol-idle-delay 0.5)
-  (add-hook 'prog-mode-hook 'highlight-symbol-mode) 
+  (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode)
   (add-hook 'LaTeX-mode-hook 'highlight-symbol-mode)
   (add-hook 'LaTeX-mode-hook 'highlight-symbol-nav-mode))
@@ -551,6 +551,16 @@ See `org-capture-templates' for more information."
   :ensure t
   :config
   (global-aggressive-indent-mode))
+
+(use-package highlight-indent-guides
+  :ensure t
+  :hook
+  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+  :custom
+  (highlight-indent-guides-method 'character)
+  :config
+  (set-face-foreground 'highlight-indent-guides-character-face "orange")
+  )
 
 (column-number-mode t)
 (electric-pair-mode 1)
@@ -1063,12 +1073,13 @@ See `org-capture-templates' for more information."
    '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*" "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
  '(fci-rule-color "#424242")
  '(frame-background-mode 'dark)
+ '(highlight-indent-guides-auto-character-face-perc 20)
  '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(flycheck-posframe consult-flycheck flycheck kotlin-mode java-mode lsp-java multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex company eglot rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(highlight-indent-guides flycheck-posframe consult-flycheck flycheck kotlin-mode java-mode lsp-java multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex company eglot rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
