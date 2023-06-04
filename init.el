@@ -557,10 +557,7 @@ See `org-capture-templates' for more information."
   :hook
   ((prog-mode yaml-mode) . highlight-indent-guides-mode)
   :custom
-  (highlight-indent-guides-method 'character)
-  :config
-  (set-face-foreground 'highlight-indent-guides-character-face "orange")
-  )
+  (highlight-indent-guides-method 'character))
 
 (column-number-mode t)
 (electric-pair-mode 1)
