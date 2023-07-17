@@ -131,6 +131,8 @@
 (use-package disable-mouse
   :ensure t
   :diminish disable-mouse-mode
+  :custom
+  (disable-mouse-wheel-events nil)
   :config
   (global-disable-mouse-mode))
 
@@ -435,7 +437,6 @@
 
 ;;;;; Org mode ;;;;;
 (add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-(global-set-key (kbd "C-c c") 'org-capture)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (use-package toc-org
   :ensure t
@@ -445,65 +446,6 @@
   ;; :config
   ;; (define-key markdown-mode-map (kbd "C-c C-o") 'toc-org-markdown-follow-thing-at-point)
   )
-
-(use-package ox-hugo
-  :ensure t
-  :after ox
-  :config
-  (setq org-hugo-auto-set-lastmod t))
-
-;; org capture
-(with-eval-after-load 'org-capture
-  (defun org-hugo-new-subtree-post-capture-template ()
-    "Returns `org-capture' template string for new Hugo post.
-See `org-capture-templates' for more information."
-    (let* ((title (read-from-minibuffer "Post Title: ")) ;; Prompt to enter the post title
-		   (fname (read-from-minibuffer "Post URL: "))
-		   ;; (fname (org-hugo-slug title))
-		   (date (format-time-string "%Y-%m-%d" (org-current-time)))
-		   (section (format-time-string "%Y/%m" (org-current-time))))
-	  (mapconcat #'identity
-                 `(
-				   ,(concat "* TODO " title)
-				   ":PROPERTIES:"
-				   "EXPORT_HUGO_FRONT_MATTER_FORMAT: yaml"
-				   ,(concat ":EXPORT_FILE_NAME: " fname)
-				   ,(concat ":EXPORT_DATE: " date)
-				   ,(concat ":EXPORT_HUGO_LASTMOD: " date)
-				   ,(concat ":EXPORT_HUGO_SECTION_FRAG: " section)
-				   ,(concat ":EXPORT_HUGO_SECTION*: " section)
-				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER: :thumbnail \"images/\"" )
-				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :description \"\"")
-				   ,(concat ":EXPORT_HUGO_CUSTOM_FRONT_MATTER+: :math true")
-				   ":END:"
-				   "#+BEGIN_SRC yaml :front_matter_extra t"
-				   "menu:"
-				   "  sidebar:"
-				   "    name: "
-				   "    identifier: "
-				   ,(concat "    parent: " (downcase section))
-				   "    weight: 10"
-				   "#+END_SRC"
-				   "%?\n")          ;; Place the cursor here finally
-				 "\n")))
-  (add-to-list 'org-capture-templates
-			   '("j"                ;`org-capture' binding + j
-                 "Hugo Japangese post"
-                 entry
-                 ;; It is assumed that below file is present in `org-directory'
-                 ;; and that it has a "Blog Ideas" heading. It can even be a
-                 ;; symlink pointing to the actual location of blog.org!
-                 (file+olp "blog_ja.org" "Blog Ideas")
-                 (function org-hugo-new-subtree-post-capture-template)))
-  (add-to-list 'org-capture-templates
-			   '("e"                ;`org-capture' binding + e
-                 "Hugo English post"
-                 entry
-                 ;; It is assumed that below file is present in `org-directory'
-                 ;; and that it has a "Blog Ideas" heading. It can even be a
-                 ;; symlink pointing to the actual location of blog.org!
-                 (file+olp "blog_en.org" "Blog Ideas")
-                 (function org-hugo-new-subtree-post-capture-template))))
 
 
 ;;;;; Project Root ;;;;;
@@ -993,29 +935,6 @@ See `org-capture-templates' for more information."
   :init (setq markdown-command "multimarkdown"))
 
 
-;;;;; tex ;;;;;
-(use-package auctex
-  :defer t
-  :ensure t
-  :config
-  (setq TeX-default-mode 'japanese-latex-mode
-		TeX-auto-save t
-		TeX-parse-self t
-		TeX-PDF-from-DVI "Dvipdfmx"
-		preview-image-type 'dvipng)
-  (setq-default TeX-master nil)
-  (add-hook 'LaTeX-mode-hook
-			(lambda ()
-			  (add-to-list 'TeX-command-list
-						   '("pLaTeX" "%`%(PDF)platex %(file-line-error) %(extraopts) %S%(PDFout)%(mode)%' %T" TeX-run-TeX nil
-							 (latex-mode doctex-mode)
-							 :help "Run pLaTeX"))
-			  (add-to-list 'TeX-command-list
-						   '("pBibTeX" "pbibtex %s" TeX-run-BibTeX nil
-							 (plain-tex-mode latex-mode doctex-mode ams-tex-mode texinfo-mode context-mode)
-							 :help "Run pBibTeX")))))
-
-
 ;;;;; Docker ;;;;;
 (use-package docker
   :ensure t
@@ -1058,7 +977,7 @@ See `org-capture-templates' for more information."
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(flymake-diagnostic-at-point typescript-mode highlight-indent-guides kotlin-mode java-mode multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon ox-hugo highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo auctex company eglot rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(dap-mode lsp-treemacs treemacs flymake-diagnostic-at-point typescript-mode highlight-indent-guides kotlin-mode java-mode multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo company eglot rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map

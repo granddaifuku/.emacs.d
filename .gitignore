@@ -1,6 +1,7 @@
 *.elc
 *.ttf
 .cache/
+.dap-breakpoints
 .lsp-session-v1
 .mc-lists.el
 .org-id-locations
