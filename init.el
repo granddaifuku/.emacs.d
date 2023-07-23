@@ -329,14 +329,13 @@
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 
-;; FIXME: inlay-hints does not work.
-;; TODO: transferred from eglot
+;; TODO: transfer from eglot
 ;;;;; lsp-mode ;;;;;
 (use-package lsp-mode
   :ensure t
   :commands lsp
   :hook
-  ((rust-mode . lsp)
+  ((rust-mode . (lsp lsp-inlay-hints-mode))
    (go-mode . lsp)
    (kotlin-mode . lsp)
    (typescript-mode . lsp))
@@ -843,16 +842,13 @@
   :bind
   (:map rust-mode-map
 		("C-c t c" . lsp-rust-analyzer-related-tests))
-  :config
-  (setq rust-format-on-save t)
-  ;; lsp-mode
-  ;; (add-hook 'rust-mode-hook #'lsp)
-  (lsp-rust-analyzer-server-display-inlay-hints t)
-  (lsp-inlay-hints-mode)
+  :custom
+  (lsp-inlay-hint-enable t)
   (lsp-rust-analyzer-display-chaining-hints t)
   (lsp-rust-analyzer-display-closure-return-type-hints t)
   (lsp-rust-analyzer-display-chaining-hints t)
-  )
+  :config
+  (setq rust-format-on-save t))
 
 (use-package cargo
   :ensure t
