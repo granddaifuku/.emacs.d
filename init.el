@@ -336,7 +336,7 @@
   :commands lsp
   :hook
   ((rust-mode . (lsp lsp-inlay-hints-mode))
-   (go-mode . lsp)
+   (go-mode . (lsp lsp-inlay-hints-mode))
    (kotlin-mode . lsp)
    (typescript-mode . lsp))
   :custom
@@ -818,10 +818,16 @@
 	  (ansi-color-apply-on-region 1 (buffer-size))))
   :config
   (setq gofmt-command "goimports")
+  (lsp-register-custom-settings
+   '(("gopls.hints"
+	  ((assignVariableTypes . t)
+	   (compositeLiteralFields . t)
+	   (compositeLiteralTypes . t)
+	   (constantValues . t)
+	   (functionTypeParameters . t)
+	   (parameterNames . t)
+	   (rangeVariableTypes . t)))))
   (add-hook 'before-save-hook #'gofmt-before-save)
-  ;; (add-hook 'go-mode-hook #'lsp)
-  ;; (lsp-register-custom-settings
-  ;;  '(("gopls.hints.compositeLiteralTypes t t")))
   (use-package gotest
 	:after go-mode
 	:ensure t
