@@ -338,7 +338,8 @@
   ((rust-mode . (lsp lsp-inlay-hints-mode))
    (go-mode . (lsp lsp-inlay-hints-mode))
    (kotlin-mode . lsp)
-   (typescript-mode . lsp))
+   (c++-mode . lsp)
+   (lua-mode . lsp))
   :custom
   ;; cc-mode does not work well when following two settings are enabled.
   (lsp-enable-on-type-formatting nil)
@@ -355,7 +356,9 @@
   :bind
   (:map lsp-mode-map
 		("C-c C-l" . lsp-execute-code-action)
-		("C-c r" . lsp-rename)))
+		("C-c r" . lsp-rename))
+  :config
+  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'lsp-format-buffer t t))))
 
 (use-package lsp-ui
   :ensure t
@@ -410,28 +413,6 @@
 ;;;;; dap ;;;;;
 (use-package dap-mode
   :ensure t)
-
-
-;;;;; eglot ;;;;;
-(use-package eglot
-  :ensure t
-  :config
-  (add-to-list 'eglot-server-programs '(c-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(c++-mode . ("clangd")))
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyls")))
-  (add-to-list 'eglot-server-programs '(LaTeX-mode . ("digestif")))
-  (add-to-list 'eglot-server-programs '(lua-mode . ("lua-language-server")))
-  (add-hook 'c-mode-hook 'eglot-ensure)
-  (add-hook 'c++-mode-hook 'eglot-ensure)
-  (add-hook 'python-mode-hook 'eglot-ensure)
-  (add-hook 'LaTeX-mode-hook 'eglot-ensure)
-  (add-hook 'lua-mode-hook 'eglot-ensure)
-  ;; format on save
-  (add-hook 'c-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  (add-hook 'python-mode-hook '(lambda() (add-hook 'before-save-hook 'eglot-format-buffer nil t)))
-  (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
-  (define-key eglot-mode-map (kbd "C-c C-i") 'eglot-find-implementation))
 
 
 ;;;;; Org mode ;;;;;
@@ -891,15 +872,6 @@
   (add-to-list 'interpreter-mode-alist '("lua" . lua-mode)))
 
 
-;;;;; typescript ;;;;;
-(use-package typescript-mode
-  :defer t
-  :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.ts\\$" . typescript-mode))
-  (add-to-list 'auto-mode-alist '("\\.tsx\\$" . typescript-mode)))
-
-
 ;;;;; web ;;;;;
 (use-package web-mode
   :ensure t
@@ -979,7 +951,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(dap-mode lsp-treemacs treemacs flymake-diagnostic-at-point typescript-mode highlight-indent-guides kotlin-mode java-mode multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo company eglot rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(dap-mode lsp-treemacs treemacs flymake-diagnostic-at-point highlight-indent-guides kotlin-mode java-mode multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo company rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
