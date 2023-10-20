@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: derive
+# key: <drv
+# --
+#[derive($0)]

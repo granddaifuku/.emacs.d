@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: fnr
+# key: <fnr
+# --
+fn $1() -> $2 {
+    $0
+}

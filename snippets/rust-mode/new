@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: new
+# key: <new
+# --
+fn new() -> Self {
+    $0
+    Self {}
+}

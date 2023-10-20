@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: methm
+# key: <methm
+# --
+fn $1(&mut self) $2 {
+    $0
+}
