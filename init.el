@@ -834,6 +834,9 @@
   (lsp-rust-analyzer-display-chaining-hints t)
   (lsp-rust-analyzer-display-closure-return-type-hints t)
   (lsp-rust-analyzer-display-chaining-hints t)
+  (lsp-rust-analyzer-rustc-source "discover")
+  (lsp-rust-analyzer-linked-projects
+   ["./Cargo.toml", "clippy_dev/Cargo.toml", "lintcheck/Cargo.toml"])
   :config
   (setq rust-format-on-save t))
 
