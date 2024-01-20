@@ -592,7 +592,7 @@
   :config
   (defun my/lsp-capf ()
 	(setq-local completion-at-point-functions
-				(list (cape-super-capf
+				(list (cape-capf-super
 					   #'lsp-completion-at-point
 					   (cape-company-to-capf #'company-yasnippet)))))
   (add-hook 'lsp-completion-mode-hook #'my/lsp-capf))
