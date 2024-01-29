@@ -479,7 +479,11 @@
   :hook
   ((prog-mode yaml-mode) . highlight-indent-guides-mode)
   :custom
-  (highlight-indent-guides-method 'character))
+  (highlight-indent-guides-method 'character)
+  (highlight-indent-guides-auto-enabled nil)
+  :custom-face
+  (highlight-indent-guides-character-face ((t (:foreground "dimgray"))))
+  )
 
 (column-number-mode t)
 (electric-pair-mode 1)
@@ -779,8 +783,8 @@
   (advice-add #'consult-yank-from-kill-ring :around #'vterm-consult-yank-from-kill-ring-action))
 
 
-(use-package multi-vterm
-  :ensure t)
+;; (use-package multi-vterm
+;;   :ensure t)
 
 
 ;;;;; golang ;;;;;
@@ -948,7 +952,6 @@
    '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*" "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
  '(fci-rule-color "#424242")
  '(frame-background-mode 'dark)
- '(highlight-indent-guides-auto-character-face-perc 20)
  '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
  '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
