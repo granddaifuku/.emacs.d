@@ -59,7 +59,7 @@
 ;; expand region
 (use-package expand-region
   :ensure t
-  :bind ("C-=" . er/expand-region))
+  :bind (("C-=" . er/expand-region)))
 
 (use-package which-key
   :ensure t
@@ -85,8 +85,8 @@
 (use-package mwim
   :ensure t
   :bind
-  ("C-a" . mwim-beginning-of-code-or-line)
-  ("C-e" . mwim-end-of-code-or-line))
+  (("C-a" . mwim-beginning-of-code-or-line)
+   ("C-e" . mwim-end-of-code-or-line)))
 
 
 ;; comment-dwim
@@ -454,7 +454,7 @@
   (minimap-minimum-width 15)
   (minimap-window-location 'right)
   :bind
-  ("C-c C-m" . minimap-mode))
+  (("C-c C-m" . minimap-mode)))
 
 ;; Code folding
 (use-package origami
@@ -462,8 +462,8 @@
   :diminish
   :hook (after-init . global-origami-mode)
   :bind
-  ("C-c o o" . origami-open-node)
-  ("C-c o c" . origami-close-node))
+  (("C-c o o" . origami-open-node)
+   ("C-c o c" . origami-close-node)))
 
 ;; line number
 (global-display-line-numbers-mode)
@@ -640,14 +640,14 @@
 (use-package consult
   :ensure t
   :bind
-  ("M-y" . consult-yank-from-kill-ring)
-  ("C-s" . consult-line)
-  ("C-c s" . consult-line-multi)
-  ("C-x b" . consult-buffer)
-  ("C-c b" . consult-buffer-other-window)
-  ("C-c l" . consult-goto-line)
-  ("C-c f" . consult-find)
-  ("C-c !" . consult-flymake)
+  (("M-y" . consult-yank-from-kill-ring)
+   ("C-s" . consult-line)
+   ("C-c s" . consult-line-multi)
+   ("C-x b" . consult-buffer)
+   ("C-c b" . consult-buffer-other-window)
+   ("C-c l" . consult-goto-line)
+   ("C-c f" . consult-find)
+   ("C-c !" . consult-flymake))
   :config
   (use-package affe
 	:ensure t))
@@ -693,7 +693,7 @@
 (use-package magit
   :ensure t
   :bind
-  ("M-g" . magit-status))
+  (("M-g" . magit-status)))
 
 ;; git-gutter
 (use-package git-gutter
@@ -776,8 +776,8 @@
 			(apply orig-fun args)))
 	  (apply orig-fun args)))
   :bind
-  ("C-c m" . open-shell)
-  ("C-c n" . open-shell-r)
+  (("C-c m" . open-shell)
+   ("C-c n" . open-shell-r))
   :config
   (setq vterm-always-compile-module t)
   (advice-add #'consult-yank-from-kill-ring :around #'vterm-consult-yank-from-kill-ring-action))
@@ -919,7 +919,7 @@
 ;;;;; Docker ;;;;;
 (use-package docker
   :ensure t
-  :bind ("C-c C-d" . docker))
+  :bind (("C-c C-d" . docker)))
 
 (use-package dockerfile-mode
   :ensure t
