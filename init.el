@@ -329,7 +329,6 @@
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 
-;; TODO: transfer from eglot
 ;;;;; lsp-mode ;;;;;
 (use-package lsp-mode
   :ensure t
