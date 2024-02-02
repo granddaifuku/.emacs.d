@@ -48,13 +48,12 @@
 (setq auto-save-default nil
 	  create-lockfiles nil
 	  delete-auto-save-files t
-	  make-backup-files nil)
+	  make-backup-files nil
+	  ;; suppress bell
+	  ring-bell-function 'ignore)
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
-
-;; suppress bell
-(setq ring-bell-function 'ignore)
 
 ;; expand region
 (use-package expand-region
@@ -104,7 +103,7 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
-(defalias 'yes-or-no-p 'y-or-n-p)
+(setopt use-short-answers t)
 (setq-default cursor-type 'bar)
 (setq default-directory "~/"
 	  command-line-default-directory "~/"
@@ -152,9 +151,7 @@
   :config
   (setq highlight-symbol-idle-delay 0.5)
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
-  (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode)
-  (add-hook 'LaTeX-mode-hook 'highlight-symbol-mode)
-  (add-hook 'LaTeX-mode-hook 'highlight-symbol-nav-mode))
+  (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode))
 
 ;; quelpa use-package
 (use-package quelpa-use-package
@@ -266,10 +263,7 @@
   (define-key flyspell-mode-map (kbd "C-;") nil)
   (add-hook 'prog-mode-hook
 			'(lambda ()
-			   (flyspell-prog-mode)))
-  (add-hook 'LaTeX-mode-hook
-			'(lambda ()
-			   (flyspell-mode))))
+			   (flyspell-prog-mode))))
 
 
 ;; modus theme
@@ -908,11 +902,11 @@
 (use-package markdown-mode
   :ensure t
   :defer t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :mode ("\\.md\\'" . gfm-mode)
+  :custom
+  (markdown-fontify-code-blocks-natively t)
+  (markdown-header-scaling t)
+  (markdown-indent-on-enter 'indent-and-new-item))
 
 
 ;;;;; Docker ;;;;;
@@ -929,9 +923,6 @@
 (use-package docker-compose-mode
   :ensure t
   :defer t)
-
-(use-package docker-tramp
-  :ensure t)
 
 
 ;;;;; Custom Functions ;;;;;
@@ -956,7 +947,7 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(dap-mode lsp-treemacs treemacs flymake-diagnostic-at-point highlight-indent-guides kotlin-mode java-mode multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode docker-tramp rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo company rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(dap-mode lsp-treemacs treemacs flymake-diagnostic-at-point highlight-indent-guides kotlin-mode java-mode multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo company rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
@@ -988,3 +979,4 @@
  '(git-gutter:added ((t (:background "#50fa7b"))))
  '(git-gutter:deleted ((t (:background "#ff79c6"))))
  '(git-gutter:modified ((t (:background "#f1fa8c")))))
+
