@@ -44,13 +44,14 @@
 (prefer-coding-system 'utf-8)
 
 ;;;;; Environment ;;;;;
-;; Auto Created Files
 (setq auto-save-default nil
 	  create-lockfiles nil
 	  delete-auto-save-files t
 	  make-backup-files nil
 	  ;; suppress bell
-	  ring-bell-function 'ignore)
+	  ring-bell-function 'ignore
+	  ;; always insert a newline at the end
+	  require-final-newline t)
 
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
