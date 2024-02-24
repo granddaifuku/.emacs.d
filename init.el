@@ -131,8 +131,8 @@
 (use-package disable-mouse
   :ensure t
   :diminish disable-mouse-mode
-  :custom
-  (disable-mouse-wheel-events nil)
+  :init
+  (setq disable-mouse-wheel-events nil)
   :config
   (global-disable-mouse-mode))
 
