@@ -48,10 +48,29 @@
 	  create-lockfiles nil
 	  delete-auto-save-files t
 	  make-backup-files nil
+	  
 	  ;; suppress bell
 	  ring-bell-function 'ignore
+	  
+	  ;; default directory
+	  default-directory "~/"
+	  command-line-default-directory "~/"
+	  
+	  inhibit-startup-message t
+	  
 	  ;; always insert a newline at the end
-	  require-final-newline t)
+	  require-final-newline t
+	  
+	  kill-whole-line t
+	  
+	  max-specpdl-size 10000
+
+	  ;; Increase the amount of data which Emacs reads from the process: 1mb
+	  read-process-output-max (* 1024 1024))
+(setopt use-short-answers t)
+(setq-default cursor-type 'bar)
+(savehist-mode 1)
+(save-place-mode 1)
 
 
 ;; expand region
@@ -98,16 +117,6 @@
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
-
-(setopt use-short-answers t)
-(setq-default cursor-type 'bar)
-(setq default-directory "~/"
-	  command-line-default-directory "~/"
-	  inhibit-startup-message t
-	  kill-whole-line t
-	  max-specpdl-size 10000)
-(savehist-mode 1)
-(save-place-mode 1)
 
 (use-package autorevert
   :ensure nil
@@ -359,7 +368,7 @@
   (lsp-enable-snippet t)
   (lsp-auto-guess-root t)
   (lsp-idle-delay 0.3)
-  (lsp-log-io t)
+  (lsp-log-io nil)
   (lsp-modeline-code-actions-enable nil)
   (lsp-completion-provider :none)
   (lsp-eldoc-render-all t)
