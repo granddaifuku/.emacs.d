@@ -153,6 +153,8 @@
 ;; hightlight symbol
 (use-package highlight-symbol
   :ensure t
+  :defer t
+  :hook (prog-mode . highlight-symbol-mode)
   :config
   (setq highlight-symbol-idle-delay 0.5)
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
@@ -167,6 +169,7 @@
 ;; Nerd font is required
 (use-package nerd-icons
   :ensure t
+  :defer t
   :custom
   (nerd-icons-font-family "MesloLGL Nerd Font Mono"))
 
@@ -256,6 +259,7 @@
 ;;;;; treemacs ;;;;;
 (use-package treemacs
   :ensure t
+  :defer t
   :bind
   (:map global-map
 		("C-q" . treemacs))
@@ -284,6 +288,9 @@
 
 (use-package flyspell
   :ensure t
+  :defer t
+  :hook
+  (prog-mode . flyspell-mode)
   :diminish flyspell-mode
   :config
   (define-key flyspell-mode-map (kbd "C-;") nil)
@@ -327,6 +334,7 @@
 ;;;;; yasnippet ;;;;;
 (use-package yasnippet
   :ensure t
+  :defer t
   :hook
   (prog-mode . yas-minor-mode)
   :bind
@@ -342,6 +350,9 @@
 ;;;;; tree-sitter ;;;;;
 (use-package tree-sitter
   :ensure t
+  :defer t
+  :hook
+  (prog-mode . tree-sitter-mode)
   :config
   (use-package tree-sitter-langs
 	:ensure t)
@@ -352,6 +363,7 @@
 ;;;;; lsp-mode ;;;;;
 (use-package lsp-mode
   :ensure t
+  :defer t
   :commands lsp
   :hook
   ((rust-mode . (lsp lsp-inlay-hints-mode))
@@ -431,7 +443,8 @@
 
 ;;;;; dap ;;;;;
 (use-package dap-mode
-  :ensure t)
+  :ensure t
+  :after lsp-mode)
 
 
 ;;;;; Org mode ;;;;;
@@ -728,6 +741,9 @@
 ;; blamer
 (use-package blamer
   :ensure t
+  :defer t
+  :hook
+  (prog-mode . blamer-mode)
   :custom
   (blamer-idle-time 0.3)
   (blamer-min-offset 40)
