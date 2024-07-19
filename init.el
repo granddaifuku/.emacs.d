@@ -53,8 +53,6 @@
 	  ;; always insert a newline at the end
 	  require-final-newline t)
 
-(scroll-bar-mode -1)
-(tool-bar-mode -1)
 
 ;; expand region
 (use-package expand-region
@@ -67,9 +65,6 @@
   :hook (after-init . which-key-mode)
   :config
   (setq which-key-popup-type 'minibuffer))
-
-;; window size
-(add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 ;; window manager
 (use-package ace-window
