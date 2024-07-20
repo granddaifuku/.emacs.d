@@ -247,9 +247,10 @@
 ;;;;; Undo Tree ;;;;;
 (use-package undo-tree
   :ensure t
+  :defer t
+  :hook (prog-mode . global-undo-tree-mode)
   :diminish undo-tree-mode
   :config
-  (global-undo-tree-mode)
   (setq undo-tree-auto-save-history nil))
 
 
@@ -974,9 +975,11 @@
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
-   (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
+   (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8"
+		   "#70c0b1" "#eaeaea"))
  '(dimmer-buffer-exclusion-regexps
-   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*" "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
+   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*"
+	 "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
  '(fci-rule-color "#424242")
  '(frame-background-mode 'dark)
  '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
