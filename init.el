@@ -160,10 +160,6 @@
   (add-hook 'prog-mode-hook 'highlight-symbol-mode)
   (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode))
 
-;; quelpa use-package
-(use-package quelpa-use-package
-  :ensure t)
-
 
 ;;;;; nerd-icon ;;;;;
 ;; Nerd font is required
@@ -189,8 +185,9 @@
 
 ;;;;; Dired related packages;;;;;
 (use-package dired+
-  :quelpa (dired+ :fetcher url :url "https://www.emacswiki.org/emacs/download/dired+.el")
-  :defer 1
+  :ensure t
+  :vc (:url "https://github.com/emacsmirror/dired-plus.git" :rev :newest)
+  :after dired
   :init
   (setq diredp-hide-details-initially-flag nil
 		diredp-hide-details-propagate-flag nil)
@@ -987,28 +984,29 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(terraform-mode nerd-icons dashboard dap-mode lsp-treemacs treemacs flymake-diagnostic-at-point highlight-indent-guides java-mode multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo company rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(affe aggressive-indent auto-async-byte-compile beacon blamer cape
+		  cargo comment-dwim-2 company corfu dap-mode dashboard dimmer
+		  dired+ dired-subtree disable-mouse docker
+		  docker-compose-mode dockerfile-mode exec-path-from-shell
+		  expand-region flymake-diagnostic-at-point git-gutter go-mode
+		  gotest highlight-indent-guides highlight-symbol hl-todo
+		  hungry-delete kind-icon lsp-ui lua-mode magit marginalia
+		  minimap minions moody multi-vterm multiple-cursors mwim
+		  nerd-icons orderless origami presentation projectile
+		  rainbow-delimiters rust-mode slime terraform-mode toc-org
+		  tree-sitter-langs undo-tree vertico web-mode which-key
+		  yasnippet))
+ '(package-vc-selected-packages
+   '((dired+ :url "https://github.com/emacsmirror/dired-plus.git")))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
-   '((20 . "#d54e53")
-	 (40 . "#e78c45")
-	 (60 . "#e7c547")
-	 (80 . "#b9ca4a")
-	 (100 . "#70c0b1")
-	 (120 . "#7aa6da")
-	 (140 . "#c397d8")
-	 (160 . "#d54e53")
-	 (180 . "#e78c45")
-	 (200 . "#e7c547")
-	 (220 . "#b9ca4a")
-	 (240 . "#70c0b1")
-	 (260 . "#7aa6da")
-	 (280 . "#c397d8")
-	 (300 . "#d54e53")
-	 (320 . "#e78c45")
-	 (340 . "#e7c547")
-	 (360 . "#b9ca4a")))
+   '((20 . "#d54e53") (40 . "#e78c45") (60 . "#e7c547") (80 . "#b9ca4a")
+	 (100 . "#70c0b1") (120 . "#7aa6da") (140 . "#c397d8")
+	 (160 . "#d54e53") (180 . "#e78c45") (200 . "#e7c547")
+	 (220 . "#b9ca4a") (240 . "#70c0b1") (260 . "#7aa6da")
+	 (280 . "#c397d8") (300 . "#d54e53") (320 . "#e78c45")
+	 (340 . "#e7c547") (360 . "#b9ca4a")))
  '(vc-annotate-very-old-color nil)
  '(window-divider-mode nil))
 (custom-set-faces
