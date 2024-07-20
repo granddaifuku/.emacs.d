@@ -1,3 +1,7 @@
+;; Disable magic file name
+(defconst my-saved-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
+
 ;; Added By Package.el.  This must come before configurations of
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
@@ -1020,3 +1024,5 @@
  '(git-gutter:deleted ((t (:background "#ff79c6"))))
  '(git-gutter:modified ((t (:background "#f1fa8c")))))
 
+;; Enable magic file name
+(setq file-name-handler-alist my-saved-file-name-handler-alist)
