@@ -93,7 +93,8 @@
 
 ;; presentation
 (use-package presentation
-  :ensure t)
+  :ensure t
+  :defer t)
 
 ;; smart move
 (use-package mwim
@@ -137,8 +138,7 @@
   :diminish disable-mouse-mode
   :init
   (setq disable-mouse-wheel-events nil)
-  :config
-  (global-disable-mouse-mode))
+  :hook (emacs-startup . global-disable-mouse-mode))
 
 ;; highlight keyword
 (use-package hl-todo
@@ -177,8 +177,8 @@
 ;;;;; Dashboard ;;;;;
 (use-package dashboard
   :ensure t
-  :config
-  (dashboard-setup-startup-hook)
+  :hook
+  (after-init . dashboard-setup-startup-hook)
   :custom
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
@@ -272,9 +272,10 @@
   (treemacs-hide-dot-git-directory t)
   (treemacs-filewatch-mode t)
   (treemacs-follow-mode t)
-  (treemacs-project-follow-mode t)
   (treemacs-indentation 2)
-  (treemacs-event-guide-mode t))
+  (treemacs-event-guide-mode t)
+  :hook
+  (treemacs-mode . treemacs-project-follow-mode))
 
 
 ;;;;; tab bar ;;;;;
@@ -354,10 +355,11 @@
   :hook
   (prog-mode . tree-sitter-mode)
   :config
-  (use-package tree-sitter-langs
-	:ensure t)
-  (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter)
 
 
 ;;;;; lsp-mode ;;;;;
@@ -488,8 +490,9 @@
 ;; Code folding
 (use-package origami
   :ensure t
+  :defer t
   :diminish
-  :hook (after-init . global-origami-mode)
+  :hook (prog-mode . global-origami-mode)
   :bind
   (("C-c o o" . origami-open-node)
    ("C-c o c" . origami-close-node)))
@@ -500,19 +503,19 @@
 ;; indentation
 (use-package aggressive-indent
   :ensure t
-  :config
-  (global-aggressive-indent-mode))
+  :defer t
+  :hook (prog-mode . global-aggressive-indent-mode))
 
 (use-package highlight-indent-guides
   :ensure t
+  :defer t
   :hook
   ((prog-mode yaml-mode) . highlight-indent-guides-mode)
   :custom
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-auto-enabled nil)
   :custom-face
-  (highlight-indent-guides-character-face ((t (:foreground "dimgray"))))
-  )
+  (highlight-indent-guides-character-face ((t (:foreground "dimgray")))))
 
 (column-number-mode t)
 (electric-pair-mode 1)
@@ -751,9 +754,7 @@
   (blamer-author-formatter "✎ %s ")
   (blamer-datetime-formatter "[%s] ")
   (blamer-commit-formatter "● %s")
-  (blamer-type 'visual)
-  :config
-  (global-blamer-mode 1))
+  (blamer-type 'visual))
 
 ;; smerge
 (use-package smerge-mode
