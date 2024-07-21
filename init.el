@@ -154,11 +154,11 @@
 (use-package highlight-symbol
   :ensure t
   :defer t
-  :hook (prog-mode . highlight-symbol-mode)
+  :hook
+  ((prog-mode . highlight-symbol-mode)
+   (prog-mode . highlight-symbol-nav-mode))
   :config
-  (setq highlight-symbol-idle-delay 0.5)
-  (add-hook 'prog-mode-hook 'highlight-symbol-mode)
-  (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode))
+  (setq highlight-symbol-idle-delay 0.5))
 
 
 ;;;;; nerd-icon ;;;;;
