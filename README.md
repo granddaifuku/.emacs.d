@@ -1,25 +1,25 @@
 # My Emacs settings
 
-- Use [Emacs Plus](https://github.com/d12frosted/homebrew-emacs-plus)
+- Use [Emacs Plus](https://github.com/d12frosted/homebrew-emacs-plus) for Mac
 
 ## Computer settings
 
 ### Environmental settings
-* aspell (spell checker) can be installed by homebrew  
+* aspell (spell checker)
 * Nerd icons
 
 ### c/c++
 #### Requirements
-* clangd (automatically installed when you install llvm by homebrew)  
+* clangd (automatically installed when you install llvm) 
 
 ### golang
 #### Requirements
-* gopls (can be installed by homebrew)  
+* gopls
 
 ### rust
 #### Requirements
-* rust-analyzer (can be installed by homebrew)  
+* rust-analyzer
 
 ### Lua
 #### Requirements
-* lua-language-server (can be installed by homebrew)  
+* lua-language-server
