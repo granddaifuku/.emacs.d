@@ -219,7 +219,7 @@
   (dimmer-configure-posframe)
   (dimmer-configure-which-key)
   (dimmer-mode t)
-  ;; make it compatible to corfu
+  ;; make it compatible with corfu
   ;; https://github.com/gonewest818/dimmer.el/issues/62
   (defun advise-dimmer-config-change-handler ()
     "Advise to only force process if no predicate is truthy."
@@ -321,6 +321,7 @@
   (setq x-underline-at-descent-line t)
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode)
+  (moody-replace-mode-line-front-space)
   (moody-replace-eldoc-minibuffer-message-function))
 
 (use-package minions
