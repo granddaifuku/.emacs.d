@@ -196,6 +196,7 @@
 
 (use-package dired-subtree
   :ensure t
+  :after dired
   :config
   (bind-keys :map dired-mode-map
 			 ("i" . dired-subtree-insert)
@@ -728,6 +729,8 @@
 ;; git-gutter
 (use-package git-gutter
   :ensure t
+  :defer t
+  :hook (prog-mode . global-git-gutter-mode)
   :custom
   (git-gutter:modified-sign "~")
   (git-gutter:added-sign    "+")
@@ -735,9 +738,7 @@
   :custom-face
   (git-gutter:modified ((t (:background "#f1fa8c"))))
   (git-gutter:added    ((t (:background "#50fa7b"))))
-  (git-gutter:deleted  ((t (:background "#ff79c6"))))
-  :config
-  (global-git-gutter-mode +1))
+  (git-gutter:deleted  ((t (:background "#ff79c6")))))
 
 ;; blamer
 (use-package blamer
@@ -950,6 +951,7 @@
 ;;;;; Docker ;;;;;
 (use-package docker
   :ensure t
+  :defer t
   :bind (("C-c C-d" . docker)))
 
 (use-package dockerfile-mode
