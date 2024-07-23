@@ -6,11 +6,11 @@
       '(("gnu" . "http://elpa.gnu.org/packages/")
 	("melpa" . "http://melpa.org/packages/")
 	("melpa-stable" . "http://stable.melpa.org/packages/")
-	("org" . "http://orgmode.org/elpa/")
-	("ELPA" . "http://tromey.com/elpa/")))
+	("org" . "http://orgmode.org/elpa/")))
 
 (package-initialize)
 
+(setq use-package-always-ensure t)
 
 ;; warning level
 (setq warning-minimum-level :emergency)
