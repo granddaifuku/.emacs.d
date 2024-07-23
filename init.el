@@ -2,25 +2,19 @@
 (defconst my-saved-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 
-;; Added By Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
+(setq package-archives
+      '(("gnu" . "http://elpa.gnu.org/packages/")
+	("melpa" . "http://melpa.org/packages/")
+	("melpa-stable" . "http://stable.melpa.org/packages/")
+	("org" . "http://orgmode.org/elpa/")
+	("ELPA" . "http://tromey.com/elpa/")))
 
-;; Package
-(require 'package)
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
+(package-initialize)
 
 
 ;; warning level
 (setq warning-minimum-level :emergency)
 
-(eval-when-compile (require 'use-package))
 
 (use-package bind-key
   :ensure t)
