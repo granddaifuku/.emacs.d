@@ -2,10 +2,16 @@
 (defconst my-saved-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
 
+;; Added By Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (setq package-archives
       '(("melpa" . "http://melpa.org/packages/")
-	("melpa-stable" . "http://stable.melpa.org/packages/")
-	("gnu" . "http://elpa.gnu.org/packages/")))
+		("melpa-stable" . "http://stable.melpa.org/packages/")
+		("gnu" . "http://elpa.gnu.org/packages/")))
 
 (package-initialize)
 
@@ -166,6 +172,7 @@
 ;;;;; Dashboard ;;;;;
 (use-package dashboard
   :ensure t
+  :defer t
   :hook
   (after-init . dashboard-setup-startup-hook)
   :custom
