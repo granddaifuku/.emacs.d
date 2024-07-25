@@ -11,7 +11,6 @@
 
 (package-initialize)
 
-(setq use-package-always-ensure t)
 
 ;; warning level
 (setq warning-minimum-level :emergency)
