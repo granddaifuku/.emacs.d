@@ -827,8 +827,10 @@
 	   "*golangci-lint*" t)
 	  (pop-to-buffer "*golangci-lint*")
 	  (ansi-color-apply-on-region 1 (buffer-size))))
+  (defun lsp-go-install-save-hooks ()
+	(add-hook 'before-save-hook #'lsp-format-buffer t t)
+	(add-hook 'before-save-hook #'lsp-organize-imports t t))
   :config
-  (setq gofmt-command "goimports")
   (lsp-register-custom-settings
    '(("gopls.hints"
 	  ((assignVariableTypes . t)
@@ -837,18 +839,21 @@
 	   (constantValues . t)
 	   (functionTypeParameters . t)
 	   (parameterNames . t)
-	   (rangeVariableTypes . t)))))
-  (add-hook 'before-save-hook #'gofmt-before-save)
-  (use-package gotest
-	:after go-mode
-	:ensure t
-	:bind (:map go-mode-map
-				("C-c x" . go-run)
-				("C-c t c" . go-test-current-test)
-				("C-c t f" . go-test-current-file)
-				("C-c t a" . go-test-current-project))
-	:config
-	(setq go-test-args "-v -count=1")))
+	   (rangeVariableTypes . t)))
+	 ("gopls.completeUnimported" t t)
+	 ("gopls.staticcheck" t t))
+   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)))
+
+(use-package gotest
+  :after go-mode
+  :ensure t
+  :bind (:map go-mode-map
+			  ("C-c x" . go-run)
+			  ("C-c t c" . go-test-current-test)
+			  ("C-c t f" . go-test-current-file)
+			  ("C-c t a" . go-test-current-project))
+  :config
+  (setq go-test-args "-v -count=1"))
 
 
 ;;;;; rust ;;;;;
