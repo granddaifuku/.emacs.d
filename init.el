@@ -470,6 +470,7 @@
 ;; minimap
 (use-package minimap
   :ensure t
+  :defer t
   :commands
   (minimap-buffer-name minimap-create-window minimap-kill)
   :diminish
