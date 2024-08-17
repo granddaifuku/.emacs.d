@@ -131,6 +131,7 @@
 
 (use-package disable-mouse
   :ensure t
+  :defer t
   :diminish disable-mouse-mode
   :init
   (setq disable-mouse-wheel-events nil)
@@ -390,6 +391,7 @@
 
 (use-package lsp-ui
   :ensure t
+  :defer t
   :hook (lsp-mode-hook . lsp-ui-mode)
   :custom
   ;; doc
