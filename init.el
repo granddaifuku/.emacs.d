@@ -1,29 +1,20 @@
-;; Added By Package.el.  This must come before configurations of
-;; installed packages.  Don't delete this line.  If you don't want it,
-;; just comment it out by adding a semicolon to the start of the line.
-;; You may delete these explanatory comments.
-(package-initialize)
+;; Disable magic file name
+(defconst my-saved-file-name-handler-alist file-name-handler-alist)
+(setq file-name-handler-alist nil)
 
-;; Package
 (require 'package)
-(add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
-(add-to-list 'package-archives '("ELPA" . "http://tromey.com/elpa/"))
+
+(setq package-archives
+      '(("melpa" . "http://melpa.org/packages/")
+		("melpa-stable" . "http://stable.melpa.org/packages/")
+		("gnu" . "http://elpa.gnu.org/packages/")))
+
+(package-initialize)
 
 
 ;; warning level
 (setq warning-minimum-level :emergency)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile (require 'use-package))
-
-(use-package bind-key
-  :ensure t)
 
 ;; Native compile
 (setq package-native-compile t)
@@ -48,19 +39,39 @@
 	  create-lockfiles nil
 	  delete-auto-save-files t
 	  make-backup-files nil
+	  
 	  ;; suppress bell
 	  ring-bell-function 'ignore
+	  
+	  ;; default directory
+	  default-directory "~/"
+	  command-line-default-directory "~/"
+	  
+	  inhibit-startup-message t
+	  
 	  ;; always insert a newline at the end
-	  require-final-newline t)
+	  require-final-newline t
+	  
+	  kill-whole-line t
+	  
+	  max-specpdl-size 10000
+
+	  ;; Increase the amount of data which Emacs reads from the process: 1mb
+	  read-process-output-max (* 1024 1024))
+(setopt use-short-answers t)
+(setq-default cursor-type 'bar)
+(savehist-mode 1)
+(save-place-mode 1)
 
 
 ;; expand region
 (use-package expand-region
   :ensure t
+  :defer t
   :bind (("C-=" . er/expand-region)))
 
 (use-package which-key
-  :ensure t
+  :ensure nil
   :diminish which-key-mode
   :hook (after-init . which-key-mode)
   :config
@@ -74,7 +85,8 @@
 
 ;; presentation
 (use-package presentation
-  :ensure t)
+  :ensure t
+  :defer t)
 
 ;; smart move
 (use-package mwim
@@ -99,16 +111,6 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
-(setopt use-short-answers t)
-(setq-default cursor-type 'bar)
-(setq default-directory "~/"
-	  command-line-default-directory "~/"
-	  inhibit-startup-message t
-	  kill-whole-line t
-	  max-specpdl-size 10000)
-(savehist-mode 1)
-(save-place-mode 1)
-
 (use-package autorevert
   :ensure nil
   :diminish
@@ -120,20 +122,22 @@
 
 (use-package hungry-delete
   :ensure t
+  :defer t
   :diminish
-  :hook (after-init . global-hungry-delete-mode))
+  :hook (prog-mode . global-hungry-delete-mode))
 
 (use-package disable-mouse
   :ensure t
+  :defer t
   :diminish disable-mouse-mode
   :init
   (setq disable-mouse-wheel-events nil)
-  :config
-  (global-disable-mouse-mode))
+  :hook (emacs-startup . global-disable-mouse-mode))
 
 ;; highlight keyword
 (use-package hl-todo
   :ensure t
+  :defer t
   :hook (prog-mode . hl-todo-mode)
   :config
   (setq hl-todo-keyword-faces
@@ -144,20 +148,19 @@
 ;; hightlight symbol
 (use-package highlight-symbol
   :ensure t
+  :defer t
+  :hook
+  ((prog-mode . highlight-symbol-mode)
+   (prog-mode . highlight-symbol-nav-mode))
   :config
-  (setq highlight-symbol-idle-delay 0.5)
-  (add-hook 'prog-mode-hook 'highlight-symbol-mode)
-  (add-hook 'prog-mode-hook 'highlight-symbol-nav-mode))
-
-;; quelpa use-package
-(use-package quelpa-use-package
-  :ensure t)
+  (setq highlight-symbol-idle-delay 0.5))
 
 
 ;;;;; nerd-icon ;;;;;
 ;; Nerd font is required
 (use-package nerd-icons
   :ensure t
+  :defer t
   :custom
   (nerd-icons-font-family "MesloLGL Nerd Font Mono"))
 
@@ -165,8 +168,9 @@
 ;;;;; Dashboard ;;;;;
 (use-package dashboard
   :ensure t
-  :config
-  (dashboard-setup-startup-hook)
+  :defer t
+  :hook
+  (after-init . dashboard-setup-startup-hook)
   :custom
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
@@ -177,8 +181,9 @@
 
 ;;;;; Dired related packages;;;;;
 (use-package dired+
-  :quelpa (dired+ :fetcher url :url "https://www.emacswiki.org/emacs/download/dired+.el")
-  :defer 1
+  :ensure t
+  :vc (:url "https://github.com/emacsmirror/dired-plus.git" :rev :newest)
+  :after dired
   :init
   (setq diredp-hide-details-initially-flag nil
 		diredp-hide-details-propagate-flag nil)
@@ -187,6 +192,7 @@
 
 (use-package dired-subtree
   :ensure t
+  :after dired
   :config
   (bind-keys :map dired-mode-map
 			 ("i" . dired-subtree-insert)
@@ -209,7 +215,7 @@
   (dimmer-configure-posframe)
   (dimmer-configure-which-key)
   (dimmer-mode t)
-  ;; make it compatible to corfu
+  ;; make it compatible with corfu
   ;; https://github.com/gonewest818/dimmer.el/issues/62
   (defun advise-dimmer-config-change-handler ()
     "Advise to only force process if no predicate is truthy."
@@ -238,15 +244,17 @@
 ;;;;; Undo Tree ;;;;;
 (use-package undo-tree
   :ensure t
+  :defer t
+  :hook (prog-mode . global-undo-tree-mode)
   :diminish undo-tree-mode
   :config
-  (global-undo-tree-mode)
   (setq undo-tree-auto-save-history nil))
 
 
 ;;;;; treemacs ;;;;;
 (use-package treemacs
   :ensure t
+  :defer t
   :bind
   (:map global-map
 		("C-q" . treemacs))
@@ -259,9 +267,10 @@
   (treemacs-hide-dot-git-directory t)
   (treemacs-filewatch-mode t)
   (treemacs-follow-mode t)
-  (treemacs-project-follow-mode t)
   (treemacs-indentation 2)
-  (treemacs-event-guide-mode t))
+  (treemacs-event-guide-mode t)
+  :hook
+  (treemacs-mode . treemacs-project-follow-mode))
 
 
 ;;;;; tab bar ;;;;;
@@ -275,6 +284,9 @@
 
 (use-package flyspell
   :ensure t
+  :defer t
+  :hook
+  (prog-mode . flyspell-mode)
   :diminish flyspell-mode
   :config
   (define-key flyspell-mode-map (kbd "C-;") nil)
@@ -305,6 +317,7 @@
   (setq x-underline-at-descent-line t)
   (moody-replace-mode-line-buffer-identification)
   (moody-replace-vc-mode)
+  (moody-replace-mode-line-front-space)
   (moody-replace-eldoc-minibuffer-message-function))
 
 (use-package minions
@@ -318,6 +331,7 @@
 ;;;;; yasnippet ;;;;;
 (use-package yasnippet
   :ensure t
+  :defer t
   :hook
   (prog-mode . yas-minor-mode)
   :bind
@@ -333,21 +347,23 @@
 ;;;;; tree-sitter ;;;;;
 (use-package tree-sitter
   :ensure t
+  :defer t
+  :hook
+  (prog-mode . tree-sitter-mode)
   :config
   (use-package tree-sitter-langs
 	:ensure t)
-  (global-tree-sitter-mode)
   (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 
 
 ;;;;; lsp-mode ;;;;;
 (use-package lsp-mode
   :ensure t
+  :defer t
   :commands lsp
   :hook
   ((rust-mode . (lsp lsp-inlay-hints-mode))
    (go-mode . (lsp lsp-inlay-hints-mode))
-   (kotlin-mode . lsp)
    (c++-mode . lsp)
    (lua-mode . lsp))
   :custom
@@ -359,7 +375,7 @@
   (lsp-enable-snippet t)
   (lsp-auto-guess-root t)
   (lsp-idle-delay 0.3)
-  (lsp-log-io t)
+  (lsp-log-io nil)
   (lsp-modeline-code-actions-enable nil)
   (lsp-completion-provider :none)
   (lsp-eldoc-render-all t)
@@ -372,6 +388,7 @@
 
 (use-package lsp-ui
   :ensure t
+  :defer t
   :hook (lsp-mode-hook . lsp-ui-mode)
   :custom
   ;; doc
@@ -422,7 +439,8 @@
 
 ;;;;; dap ;;;;;
 (use-package dap-mode
-  :ensure t)
+  :ensure t
+  :after lsp-mode)
 
 
 ;;;;; Org mode ;;;;;
@@ -453,6 +471,7 @@
 ;; minimap
 (use-package minimap
   :ensure t
+  :defer t
   :commands
   (minimap-buffer-name minimap-create-window minimap-kill)
   :diminish
@@ -466,8 +485,9 @@
 ;; Code folding
 (use-package origami
   :ensure t
+  :defer t
   :diminish
-  :hook (after-init . global-origami-mode)
+  :hook (prog-mode . global-origami-mode)
   :bind
   (("C-c o o" . origami-open-node)
    ("C-c o c" . origami-close-node)))
@@ -478,19 +498,19 @@
 ;; indentation
 (use-package aggressive-indent
   :ensure t
-  :config
-  (global-aggressive-indent-mode))
+  :defer t
+  :hook (prog-mode . global-aggressive-indent-mode))
 
 (use-package highlight-indent-guides
   :ensure t
+  :defer t
   :hook
   ((prog-mode yaml-mode) . highlight-indent-guides-mode)
   :custom
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-auto-enabled nil)
   :custom-face
-  (highlight-indent-guides-character-face ((t (:foreground "dimgray"))))
-  )
+  (highlight-indent-guides-character-face ((t (:foreground "dimgray")))))
 
 (column-number-mode t)
 (electric-pair-mode 1)
@@ -598,6 +618,9 @@
 
 
 ;;;;; cape ;;;;;
+(use-package company
+  :ensure t)
+
 (use-package cape
   :ensure t
   :config
@@ -705,6 +728,8 @@
 ;; git-gutter
 (use-package git-gutter
   :ensure t
+  :defer t
+  :hook (prog-mode . global-git-gutter-mode)
   :custom
   (git-gutter:modified-sign "~")
   (git-gutter:added-sign    "+")
@@ -712,13 +737,12 @@
   :custom-face
   (git-gutter:modified ((t (:background "#f1fa8c"))))
   (git-gutter:added    ((t (:background "#50fa7b"))))
-  (git-gutter:deleted  ((t (:background "#ff79c6"))))
-  :config
-  (global-git-gutter-mode +1))
+  (git-gutter:deleted  ((t (:background "#ff79c6")))))
 
 ;; blamer
 (use-package blamer
   :ensure t
+  :defer t
   :custom
   (blamer-idle-time 0.3)
   (blamer-min-offset 40)
@@ -726,9 +750,7 @@
   (blamer-author-formatter "✎ %s ")
   (blamer-datetime-formatter "[%s] ")
   (blamer-commit-formatter "● %s")
-  (blamer-type 'visual)
-  :config
-  (global-blamer-mode 1))
+  (blamer-type 'visual))
 
 ;; smerge
 (use-package smerge-mode
@@ -808,8 +830,10 @@
 	   "*golangci-lint*" t)
 	  (pop-to-buffer "*golangci-lint*")
 	  (ansi-color-apply-on-region 1 (buffer-size))))
+  (defun lsp-go-install-save-hooks ()
+	(add-hook 'before-save-hook #'lsp-format-buffer t t)
+	(add-hook 'before-save-hook #'lsp-organize-imports t t))
   :config
-  (setq gofmt-command "goimports")
   (lsp-register-custom-settings
    '(("gopls.hints"
 	  ((assignVariableTypes . t)
@@ -818,18 +842,21 @@
 	   (constantValues . t)
 	   (functionTypeParameters . t)
 	   (parameterNames . t)
-	   (rangeVariableTypes . t)))))
-  (add-hook 'before-save-hook #'gofmt-before-save)
-  (use-package gotest
-	:after go-mode
-	:ensure t
-	:bind (:map go-mode-map
-				("C-c x" . go-run)
-				("C-c t c" . go-test-current-test)
-				("C-c t f" . go-test-current-file)
-				("C-c t a" . go-test-current-project))
-	:config
-	(setq go-test-args "-v -count=1")))
+	   (rangeVariableTypes . t)))
+	 ("gopls.completeUnimported" t t)
+	 ("gopls.staticcheck" t t))
+   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)))
+
+(use-package gotest
+  :after go-mode
+  :ensure t
+  :bind (:map go-mode-map
+			  ("C-c x" . go-run)
+			  ("C-c t c" . go-test-current-test)
+			  ("C-c t f" . go-test-current-file)
+			  ("C-c t a" . go-test-current-project))
+  :config
+  (setq go-test-args "-v -count=1"))
 
 
 ;;;;; rust ;;;;;
@@ -855,16 +882,6 @@
   :ensure t
   :defer t
   :hook (rust-mode . cargo-minor-mode))
-
-
-;;;;; kotlin ;;;;;
-(use-package kotlin-mode
-  :ensure t
-  :defer t
-  :mode ("\\.kt$" . kotlin-mode))
-
-(use-package dap-kotlin
-  :ensure nil)
 
 
 ;;;;; lisp ;;;;;
@@ -936,6 +953,7 @@
 ;;;;; Docker ;;;;;
 (use-package docker
   :ensure t
+  :defer t
   :bind (("C-c C-d" . docker)))
 
 (use-package dockerfile-mode
@@ -961,9 +979,11 @@
  '(ansi-color-faces-vector
    [default bold shadow italic underline bold bold-italic bold])
  '(ansi-color-names-vector
-   (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8" "#70c0b1" "#eaeaea"))
+   (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8"
+		   "#70c0b1" "#eaeaea"))
  '(dimmer-buffer-exclusion-regexps
-   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*" "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
+   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*"
+	 "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
  '(fci-rule-color "#424242")
  '(frame-background-mode 'dark)
  '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
@@ -971,28 +991,29 @@
  '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
-   '(terraform-mode nerd-icons dashboard dap-mode lsp-treemacs treemacs flymake-diagnostic-at-point highlight-indent-guides kotlin-mode java-mode multi-vterm c++-mode lsp-ui lsp-mode quelpa-use-package dired-subtree ace-window avy rust-mode rust cargo lua-mode multiple-cursors expand-region docker tree-sitter-langs tree-sitter dimmer blamer comment-dwim-2 corfu-doc kind-icon cape corfu eg exec-path-from-shell affe marginalia embark orderless consult vertico minimap yasnippet minions moody web-mode origami mwim presentation gotest which-key git-gutter hungry-delete vterm slime projectile go-mode beacon highlight-symbol dockerfile-mode docker-compose-mode yaml-mode toc-org aggressive-indent undo-tree hl-todo company rainbow-delimiters use-package helm-rtags company-lsp helm-config package-utils tide--cleanup-kinds disable-mouse auto-async-byte-compile helm-gtags magit cmake-ide color-theme-modern all-the-icons color-theme-sanityinc-tomorrow))
+   '(affe aggressive-indent auto-async-byte-compile beacon blamer cape
+		  cargo comment-dwim-2 company corfu dap-mode dashboard dimmer
+		  dired+ dired-subtree disable-mouse docker
+		  docker-compose-mode dockerfile-mode exec-path-from-shell
+		  expand-region flymake-diagnostic-at-point git-gutter go-mode
+		  gotest highlight-indent-guides highlight-symbol hl-todo
+		  hungry-delete kind-icon lsp-ui lua-mode magit marginalia
+		  minimap minions moody multi-vterm multiple-cursors mwim
+		  nerd-icons orderless origami presentation projectile
+		  rainbow-delimiters rust-mode slime terraform-mode toc-org
+		  tree-sitter-langs undo-tree vertico web-mode which-key
+		  yasnippet))
+ '(package-vc-selected-packages
+   '((dired+ :url "https://github.com/emacsmirror/dired-plus.git")))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
-   '((20 . "#d54e53")
-	 (40 . "#e78c45")
-	 (60 . "#e7c547")
-	 (80 . "#b9ca4a")
-	 (100 . "#70c0b1")
-	 (120 . "#7aa6da")
-	 (140 . "#c397d8")
-	 (160 . "#d54e53")
-	 (180 . "#e78c45")
-	 (200 . "#e7c547")
-	 (220 . "#b9ca4a")
-	 (240 . "#70c0b1")
-	 (260 . "#7aa6da")
-	 (280 . "#c397d8")
-	 (300 . "#d54e53")
-	 (320 . "#e78c45")
-	 (340 . "#e7c547")
-	 (360 . "#b9ca4a")))
+   '((20 . "#d54e53") (40 . "#e78c45") (60 . "#e7c547") (80 . "#b9ca4a")
+	 (100 . "#70c0b1") (120 . "#7aa6da") (140 . "#c397d8")
+	 (160 . "#d54e53") (180 . "#e78c45") (200 . "#e7c547")
+	 (220 . "#b9ca4a") (240 . "#70c0b1") (260 . "#7aa6da")
+	 (280 . "#c397d8") (300 . "#d54e53") (320 . "#e78c45")
+	 (340 . "#e7c547") (360 . "#b9ca4a")))
  '(vc-annotate-very-old-color nil)
  '(window-divider-mode nil))
 (custom-set-faces
@@ -1004,3 +1025,5 @@
  '(git-gutter:deleted ((t (:background "#ff79c6"))))
  '(git-gutter:modified ((t (:background "#f1fa8c")))))
 
+;; Enable magic file name
+(setq file-name-handler-alist my-saved-file-name-handler-alist)
