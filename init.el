@@ -16,9 +16,6 @@
 (setq warning-minimum-level :emergency)
 
 
-(use-package bind-key
-  :ensure t)
-
 ;; Native compile
 (setq package-native-compile t)
 (use-package auto-async-byte-compile
@@ -621,6 +618,9 @@
 
 
 ;;;;; cape ;;;;;
+(use-package company
+  :ensure t)
+
 (use-package cape
   :ensure t
   :config
