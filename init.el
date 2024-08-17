@@ -70,6 +70,7 @@
 ;; expand region
 (use-package expand-region
   :ensure t
+  :defer t
   :bind (("C-=" . er/expand-region)))
 
 (use-package which-key
@@ -124,8 +125,9 @@
 
 (use-package hungry-delete
   :ensure t
+  :defer t
   :diminish
-  :hook (after-init . global-hungry-delete-mode))
+  :hook (prog-mode . global-hungry-delete-mode))
 
 (use-package disable-mouse
   :ensure t
@@ -137,6 +139,7 @@
 ;; highlight keyword
 (use-package hl-todo
   :ensure t
+  :defer t
   :hook (prog-mode . hl-todo-mode)
   :config
   (setq hl-todo-keyword-faces
@@ -363,7 +366,6 @@
   :hook
   ((rust-mode . (lsp lsp-inlay-hints-mode))
    (go-mode . (lsp lsp-inlay-hints-mode))
-   (kotlin-mode . lsp)
    (c++-mode . lsp)
    (lua-mode . lsp))
   :custom
@@ -739,8 +741,6 @@
 (use-package blamer
   :ensure t
   :defer t
-  :hook
-  (prog-mode . blamer-mode)
   :custom
   (blamer-idle-time 0.3)
   (blamer-min-offset 40)
