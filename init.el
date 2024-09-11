@@ -364,8 +364,7 @@
   :hook
   ((rust-mode . (lsp lsp-inlay-hints-mode))
    (go-mode . (lsp lsp-inlay-hints-mode))
-   (c++-mode . lsp)
-   (lua-mode . lsp))
+   (c++-mode . lsp))
   :custom
   ;; cc-mode does not work well when following two settings are enabled.
   (lsp-enable-on-type-formatting nil)
