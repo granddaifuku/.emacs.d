@@ -959,7 +959,10 @@
   :ensure t
   :defer t
   :config
-  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+  ;; https://github.com/spotify/dockerfile-mode/issues/47
+  ;; https://github.com/spotify/dockerfile-mode/commit/9f4381178aa03212cd3400c60c0f48ff306a0994#r30968900
+  :hook (dockerfile-mode . (lambda () (setq-local indent-line-function nil))))
 
 (use-package docker-compose-mode
   :ensure t
