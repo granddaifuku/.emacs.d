@@ -111,6 +111,22 @@
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
   (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
 
+
+(use-package goggles
+  :ensure t
+  :diminish
+  :defer t
+  :hook ((prog-mode text-mode) . goggles-mode)
+  :custom
+  (goggles-pulse-delay 0.03)
+  (goggles-pulse-iteration 3)
+  :config
+  (setq-default goggles-pulse t)
+  :custom-face
+  (goggles-added    ((t (:background "#50fa7b"))))
+  (goggles-changed ((t (:background "#f1fa8c"))))
+  (goggles-removed  ((t (:background "#ff79c6")))))
+
 (use-package autorevert
   :ensure nil
   :diminish
@@ -998,13 +1014,13 @@
 		  dired+ dired-subtree disable-mouse docker
 		  docker-compose-mode dockerfile-mode exec-path-from-shell
 		  expand-region flymake-diagnostic-at-point git-gutter go-mode
-		  gotest highlight-indent-guides highlight-symbol hl-todo
-		  hungry-delete kind-icon lsp-ui lua-mode magit marginalia
-		  minimap minions moody multi-vterm multiple-cursors mwim
-		  nerd-icons orderless origami presentation projectile
-		  rainbow-delimiters rust-mode slime terraform-mode toc-org
-		  tree-sitter-langs undo-tree vertico web-mode which-key
-		  yasnippet))
+		  goggles gotest highlight-indent-guides highlight-symbol
+		  hl-todo hungry-delete kind-icon lsp-ui lua-mode magit
+		  marginalia minimap minions moody multi-vterm
+		  multiple-cursors mwim nerd-icons orderless origami
+		  presentation projectile rainbow-delimiters rust-mode slime
+		  terraform-mode toc-org tree-sitter-langs undo-tree vertico
+		  web-mode which-key yasnippet))
  '(package-vc-selected-packages
    '((dired+ :url "https://github.com/emacsmirror/dired-plus.git")))
  '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
