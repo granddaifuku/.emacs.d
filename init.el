@@ -11,6 +11,18 @@
 
 (package-initialize)
 
+(use-package emacs
+  :config
+  (require-theme 'modus-themes)
+  (setq modus-themes-bold-constructs t
+		modus-themes-italic-constructs t
+		modus-themes-mixed-fonts t
+		modus-themes-completions '((matches . (extrabold underline))
+								   (selection . (semibold italic)))
+		modus-themes-variable-pitch-ui t
+		modus-themes-prompts '(bold background))
+  (load-theme 'modus-vivendi))
+
 
 ;; warning level
 (setq warning-minimum-level :emergency)
@@ -226,6 +238,8 @@
   (dimmer-buffer-exclusion-regexps
    '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$"
 	 "^*Messages*" "*LV*" "transient"))
+  (dimmer-use-colorspace :rgb)
+  (dimmer-adjustment-mode :foreground)
   :config
   (dimmer-configure-magit)
   (dimmer-configure-posframe)
@@ -309,22 +323,6 @@
   (add-hook 'prog-mode-hook
 			'(lambda ()
 			   (flyspell-prog-mode))))
-
-
-;; modus theme
-(setq modus-themes-bold-constructs t
-	  modus-themes-italic-constructs t
-	  modus-themes-mixed-fonts t
-	  modus-themes-fringes 'nil
-	  modus-themes-region '(bg-only no-extend)
-	  modus-themes-subtle-line-numbers t
-	  modus-themes-syntax '(faint alt-syntax green-strings)
-	  modus-themes-paren-match 'intense
-	  modus-themes-hl-line 'accented
-	  modus-themes-variable-pitch-ui t
-	  modus-themes-prompts '(bold background)
-	  modus-themes-mode-line '(moody))
-(load-theme 'modus-vivendi)
 
 ;; modeline
 (use-package moody
