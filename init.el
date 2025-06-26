@@ -969,64 +969,10 @@
   :ensure t
   :defer t)
 
-
-;;;;; Custom Functions ;;;;;
-
-
-;;;;; color ;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8"
-		   "#70c0b1" "#eaeaea"))
- '(dimmer-buffer-exclusion-regexps
-   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*"
-	 "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
- '(fci-rule-color "#424242")
- '(frame-background-mode 'dark)
- '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
- '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
- '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
- '(objed-cursor-color "#e45649")
- '(package-selected-packages
-   '(affe aggressive-indent auto-async-byte-compile beacon blamer cape
-		  cargo comment-dwim-2 company corfu dap-mode dashboard dimmer
-		  dired+ dired-subtree disable-mouse docker
-		  docker-compose-mode dockerfile-mode exec-path-from-shell
-		  expand-region flymake-diagnostic-at-point git-gutter go-mode
-		  goggles gotest highlight-indent-guides highlight-symbol
-		  hl-todo hungry-delete kind-icon lsp-ui lua-mode magit
-		  marginalia minimap minions moody multi-vterm
-		  multiple-cursors mwim nerd-icons orderless origami
-		  presentation projectile rainbow-delimiters rust-mode slime
-		  terraform-mode toc-org tree-sitter-langs undo-tree vertico
-		  web-mode which-key yasnippet))
- '(package-vc-selected-packages
-   '((dired+ :url "https://github.com/emacsmirror/dired-plus.git")))
- '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   '((20 . "#d54e53") (40 . "#e78c45") (60 . "#e7c547") (80 . "#b9ca4a")
-	 (100 . "#70c0b1") (120 . "#7aa6da") (140 . "#c397d8")
-	 (160 . "#d54e53") (180 . "#e78c45") (200 . "#e7c547")
-	 (220 . "#b9ca4a") (240 . "#70c0b1") (260 . "#7aa6da")
-	 (280 . "#c397d8") (300 . "#d54e53") (320 . "#e78c45")
-	 (340 . "#e7c547") (360 . "#b9ca4a")))
- '(vc-annotate-very-old-color nil)
- '(window-divider-mode nil))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(git-gutter:added ((t (:background "#50fa7b"))))
- '(git-gutter:deleted ((t (:background "#ff79c6"))))
- '(git-gutter:modified ((t (:background "#f1fa8c")))))
+;; Keep emacs Custom-settings in separate file
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(when (file-exists-p custom-file)
+  (load custom-file))
 
 ;; Enable magic file name
 (setq file-name-handler-alist my-saved-file-name-handler-alist)
