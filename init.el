@@ -5,9 +5,9 @@
 (require 'package)
 
 (setq package-archives
-      '(("melpa" . "http://melpa.org/packages/")
-		("melpa-stable" . "http://stable.melpa.org/packages/")
-		("gnu" . "http://elpa.gnu.org/packages/")))
+      '(("melpa" . "https://melpa.org/packages/")
+		("melpa-stable" . "https://stable.melpa.org/packages/")
+		("gnu" . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
 
