@@ -924,7 +924,7 @@
   :defer t
   :mode ("\\.html?\\'" . web-mode)
   :config
-  (add-to-list 'auto-mode-alist '("\\.astro\\$" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.astro\\" . web-mode))
   (setq web-mode-enable-current-element-highlight t
 		web-mode-enable-current-column-highlight t
 		web-mode-enable-auto-pairing t))
