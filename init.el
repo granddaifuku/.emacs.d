@@ -964,6 +964,13 @@
   :defer t
   :mode ("\\.toml\\'" . toml-ts-mode))
 
+
+;;;;; json ;;;;;
+(use-package json-ts-mode
+  :defer t
+  :mode ("\\.json\\'" . json-ts-mode))
+
+
 ;;;;; shell ;;;;;
 ;; (add-hook 'after-save-hook
 ;;           'executable-make-buffer-file-executable-if-script-p)
