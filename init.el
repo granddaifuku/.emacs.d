@@ -890,6 +890,8 @@
   :ensure t
   :defer t
   :mode ("\\.rs$" . rust-mode)
+  :init
+  (setq rust-mode-treesitter-derive t)
   :bind
   (:map rust-mode-map
 		("C-c t c" . lsp-rust-analyzer-related-tests))
