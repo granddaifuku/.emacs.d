@@ -959,6 +959,11 @@
   :mode ("\\.ya?ml\\'" . yaml-ts-mode))
 
 
+;;;;; toml ;;;;;
+(use-package toml-ts-mode
+  :defer t
+  :mode ("\\.toml\\'" . toml-ts-mode))
+
 ;;;;; shell ;;;;;
 ;; (add-hook 'after-save-hook
 ;;           'executable-make-buffer-file-executable-if-script-p)
