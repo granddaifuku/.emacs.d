@@ -367,6 +367,7 @@
           (html "https://github.com/tree-sitter/tree-sitter-html")
           (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
           (json "https://github.com/tree-sitter/tree-sitter-json")
+          (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua")
           (make "https://github.com/alemuller/tree-sitter-make")
           (markdown "https://github.com/ikatyang/tree-sitter-markdown")
           (python "https://github.com/tree-sitter/tree-sitter-python")
@@ -923,12 +924,11 @@
 
 
 ;;;;; lua ;;;;;
-(use-package lua-mode
+(use-package lua-ts-mode
   :defer t
-  :ensure t
+  :mode ("\\.lua$" . lua-ts-mode)
   :config
-  (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-  (add-to-list 'interpreter-mode-alist '("lua" . lua-mode)))
+  (add-to-list 'interpreter-mode-alist '("lua" . lua-ts-mode)))
 
 
 ;;;;; web ;;;;;
