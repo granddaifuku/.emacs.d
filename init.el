@@ -954,12 +954,9 @@
 
 
 ;;;;; yaml ;;;;;
-(use-package yaml-mode
-  :ensure t
+(use-package yaml-ts-mode
   :defer t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+  :mode ("\\.ya?ml\\'" . yaml-ts-mode))
 
 
 ;;;;; shell ;;;;;
