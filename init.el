@@ -315,15 +315,8 @@
 (setq modus-themes-bold-constructs t
 	  modus-themes-italic-constructs t
 	  modus-themes-mixed-fonts t
-	  modus-themes-fringes 'nil
-	  modus-themes-region '(bg-only no-extend)
-	  modus-themes-subtle-line-numbers t
-	  modus-themes-syntax '(faint alt-syntax green-strings)
-	  modus-themes-paren-match 'intense
-	  modus-themes-hl-line 'accented
 	  modus-themes-variable-pitch-ui t
-	  modus-themes-prompts '(bold background)
-	  modus-themes-mode-line '(moody))
+	  modus-themes-prompts '(bold background))
 (load-theme 'modus-vivendi)
 
 ;; modeline
