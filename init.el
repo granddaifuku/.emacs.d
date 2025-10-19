@@ -410,7 +410,17 @@
 		("C-c C-l" . lsp-execute-code-action)
 		("C-c r" . lsp-rename))
   :config
-  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'lsp-format-buffer t t))))
+  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'lsp-format-buffer t t)))
+  (lsp-register-custom-settings
+   '(("gopls.hints.assignVariableTypes" t t)
+	 ("gopls.hints.compositeLiteralFields" t t)
+	 ("gopls.hints.compositeLiteralTypes" t t)
+	 ("gopls.hints.constantValues" t t)
+	 ("gopls.hints.functionTypeParameters" t t)
+	 ("gopls.hints.parameterNames" t t)
+	 ("gopls.hints.rangeVariableTypes" t t)
+	 ("gopls.completeUnimported" t t)
+	 ("gopls.staticcheck" t t))))
 
 (use-package lsp-ui
   :ensure t
@@ -860,18 +870,7 @@
 	(add-hook 'before-save-hook #'lsp-format-buffer t t)
 	(add-hook 'before-save-hook #'lsp-organize-imports t t))
   :config
-  (lsp-register-custom-settings
-   '(("gopls.hints"
-	  ((assignVariableTypes . t)
-	   (compositeLiteralFields . t)
-	   (compositeLiteralTypes . t)
-	   (constantValues . t)
-	   (functionTypeParameters . t)
-	   (parameterNames . t)
-	   (rangeVariableTypes . t)))
-	 ("gopls.completeUnimported" t t)
-	 ("gopls.staticcheck" t t))
-   (add-hook 'go-ts-mode-hook #'lsp-go-install-save-hooks)))
+  (add-hook 'go-ts-mode-hook #'lsp-go-install-save-hooks))
 
 (use-package gotest
   :after go-ts-mode
