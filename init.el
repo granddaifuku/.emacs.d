@@ -390,7 +390,7 @@
   :commands lsp
   :hook
   ((rust-mode . (lsp lsp-inlay-hints-mode))
-   (go-mode . (lsp lsp-inlay-hints-mode))
+   (go-ts-mode . (lsp lsp-inlay-hints-mode))
    (c++-mode . lsp))
   :custom
   ;; cc-mode does not work well when following two settings are enabled.
@@ -843,10 +843,10 @@
 
 
 ;;;;; golang ;;;;;
-(use-package go-mode
+(use-package go-ts-mode
   :ensure t
   :defer t
-  :mode ("\\.go$" . go-mode)
+  :mode ("\\.go$" . go-ts-mode)
   :init
   (defun my/golangci-lint ()
 	(interactive)
@@ -871,12 +871,12 @@
 	   (rangeVariableTypes . t)))
 	 ("gopls.completeUnimported" t t)
 	 ("gopls.staticcheck" t t))
-   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)))
+   (add-hook 'go-ts-mode-hook #'lsp-go-install-save-hooks)))
 
 (use-package gotest
-  :after go-mode
+  :after go-ts-mode
   :ensure t
-  :bind (:map go-mode-map
+  :bind (:map go-ts-mode-map
 			  ("C-c x" . go-run)
 			  ("C-c t c" . go-test-current-test)
 			  ("C-c t f" . go-test-current-file)
