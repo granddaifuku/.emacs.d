@@ -119,7 +119,7 @@
   :hook ((prog-mode text-mode) . goggles-mode)
   :custom
   (goggles-pulse-delay 0.03)
-  (goggles-pulse-iteration 3)
+  (goggles-pulse-iterations 3)
   :config
   (setq-default goggles-pulse t)
   :custom-face
@@ -190,7 +190,6 @@
   :custom
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
-  (dashboard-set-init-info t)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t))
 
