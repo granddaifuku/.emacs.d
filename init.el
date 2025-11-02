@@ -1030,15 +1030,6 @@
 		  web-mode which-key yasnippet))
  '(package-vc-selected-packages
    '((dired+ :url "https://github.com/emacsmirror/dired-plus.git")))
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   '((20 . "#d54e53") (40 . "#e78c45") (60 . "#e7c547") (80 . "#b9ca4a")
-	 (100 . "#70c0b1") (120 . "#7aa6da") (140 . "#c397d8")
-	 (160 . "#d54e53") (180 . "#e78c45") (200 . "#e7c547")
-	 (220 . "#b9ca4a") (240 . "#70c0b1") (260 . "#7aa6da")
-	 (280 . "#c397d8") (300 . "#d54e53") (320 . "#e78c45")
-	 (340 . "#e7c547") (360 . "#b9ca4a")))
- '(vc-annotate-very-old-color nil)
  '(window-divider-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
