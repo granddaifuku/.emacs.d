@@ -1013,10 +1013,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(dimmer-buffer-exclusion-regexps
-   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*"
-	 "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
- '(fci-rule-color "#424242")
  '(frame-background-mode 'dark)
  '(objed-cursor-color "#e45649")
  '(package-selected-packages
@@ -1034,7 +1030,6 @@
 		  web-mode which-key yasnippet))
  '(package-vc-selected-packages
    '((dired+ :url "https://github.com/emacsmirror/dired-plus.git")))
- '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    '((20 . "#d54e53") (40 . "#e78c45") (60 . "#e7c547") (80 . "#b9ca4a")
