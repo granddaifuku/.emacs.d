@@ -1,3 +1,5 @@
+;;; init.el --- My init.el  -*- lexical-binding: t; -*-
+
 ;; Disable magic file name
 (defconst my-saved-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
@@ -477,16 +479,6 @@
 (use-package dap-mode
   :ensure t
   :after lsp-mode)
-
-
-;;;;; Org mode ;;;;;
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-(global-set-key (kbd "C-c a") 'org-agenda)
-(use-package toc-org
-  :ensure t
-  :init
-  (add-hook 'org-mode-hook 'toc-org-mode)
-  )
 
 
 ;;;;; Project Root ;;;;;
