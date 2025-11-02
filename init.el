@@ -17,6 +17,11 @@
 ;; warning level
 (setq warning-minimum-level :emergency)
 
+(use-package emacs
+  :custom
+  (use-short-answers t)
+  (window-divider-mode nil))
+
 
 ;; Native compile
 (setq package-native-compile t)
@@ -60,7 +65,6 @@
 
 	  ;; Increase the amount of data which Emacs reads from the process: 1mb
 	  read-process-output-max (* 1024 1024))
-(setopt use-short-answers t)
 (setq-default cursor-type 'bar)
 (savehist-mode 1)
 (save-place-mode 1)
@@ -999,7 +1003,6 @@
 ;;;;; Custom Functions ;;;;;
 
 
-;;;;; color ;;;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -1022,7 +1025,7 @@
 		  web-mode which-key yasnippet))
  '(package-vc-selected-packages
    '((dired+ :url "https://github.com/emacsmirror/dired-plus.git")))
- '(window-divider-mode nil))
+ )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
