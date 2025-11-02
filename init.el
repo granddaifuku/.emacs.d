@@ -1053,9 +1053,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(git-gutter:added ((t (:background "#50fa7b"))))
- '(git-gutter:deleted ((t (:background "#ff79c6"))))
- '(git-gutter:modified ((t (:background "#f1fa8c")))))
+ )
 
 ;; Enable magic file name
 (setq file-name-handler-alist my-saved-file-name-handler-alist)
