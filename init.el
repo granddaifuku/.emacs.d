@@ -856,7 +856,7 @@
 (use-package go-ts-mode
   :ensure t
   :defer t
-  :mode ("\\.go$" . go-ts-mode)
+  :mode ("\\.go\\'" . go-ts-mode)
   :init
   (defun my/golangci-lint ()
 	(interactive)
@@ -888,7 +888,7 @@
 (use-package rust-mode
   :ensure t
   :defer t
-  :mode ("\\.rs$" . rust-mode)
+  :mode ("\\.rs\\'" . rust-mode)
   :init
   (setq rust-mode-treesitter-derive t)
   :bind
@@ -924,7 +924,7 @@
 ;;;;; lua ;;;;;
 (use-package lua-ts-mode
   :defer t
-  :mode ("\\.lua$" . lua-ts-mode)
+  :mode ("\\.lua\\'" . lua-ts-mode)
   :config
   (add-to-list 'interpreter-mode-alist '("lua" . lua-ts-mode)))
 
@@ -933,9 +933,10 @@
 (use-package web-mode
   :ensure t
   :defer t
-  :mode ("\\.html?\\'" . web-mode)
+  :mode
+  (("\\.html?\\'" . web-mode)
+   ("\\.astro\\'"   . web-mode))
   :config
-  (add-to-list 'auto-mode-alist '("\\.astro\\'" . web-mode))
   (setq web-mode-enable-current-element-highlight t
 		web-mode-enable-current-column-highlight t
 		web-mode-enable-auto-pairing t))
@@ -945,7 +946,7 @@
 (use-package terraform-mode
   :ensure t
   :defer t
-  :mode ("\\.tf$" . terraform-mode)
+  :mode ("\\.tf\\'" . terraform-mode)
   :hook (terraform-mode . terraform-format-on-save-mode)
   :custom
   (terraform-indent-level 4))
@@ -994,8 +995,8 @@
 (use-package dockerfile-mode
   :ensure t
   :defer t
-  :config
-  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+  :mode
+  ("Dockerfile\\'" . dockerfile-mode)
   ;; https://github.com/spotify/dockerfile-mode/issues/47
   ;; https://github.com/spotify/dockerfile-mode/commit/9f4381178aa03212cd3400c60c0f48ff306a0994#r30968900
   :hook (dockerfile-mode . (lambda () (setq-local indent-line-function nil))))
