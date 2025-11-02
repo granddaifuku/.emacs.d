@@ -1013,11 +1013,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8"
-		   "#70c0b1" "#eaeaea"))
  '(dimmer-buffer-exclusion-regexps
    '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*"
 	 "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
