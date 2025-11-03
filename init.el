@@ -985,24 +985,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(frame-background-mode 'dark)
- '(objed-cursor-color "#e45649")
- '(package-selected-packages
-   '(affe aggressive-indent auto-async-byte-compile beacon blamer cape
-		  cargo comment-dwim-2 company corfu dap-mode dashboard dimmer
-		  dired+ dired-subtree disable-mouse docker
-		  docker-compose-mode dockerfile-mode exec-path-from-shell
-		  expand-region flymake-diagnostic-at-point git-gutter go-mode
-		  goggles gotest highlight-indent-guides highlight-symbol
-		  hl-todo hungry-delete kind-icon lsp-ui lua-mode magit
-		  marginalia minimap minions moody multi-vterm
-		  multiple-cursors mwim nerd-icons orderless origami
-		  presentation projectile rainbow-delimiters rust-mode slime
-		  terraform-mode toc-org tree-sitter-langs undo-tree vertico
-		  web-mode which-key yasnippet))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
-   '((dired+ :url "https://github.com/emacsmirror/dired-plus.git")))
- )
+   '((dired+ :url "https://github.com/emacsmirror/dired-plus.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
