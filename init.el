@@ -17,32 +17,49 @@
 (use-package emacs
   :init
   (require-theme 'modus-themes)
+  :bind
+  (("C-c <right>" . windmove-right)
+   ("C-c <left>" . windmove-left)
+   ("C-c <up>" . windmove-up)
+   ("C-c <down>" . windmove-down))
   :custom
   (cursor-type 'bar)
   (inhibit-startup-message t)
   (kill-whole-line t)
+  (tab-width 4)
   (use-short-answers t)
   (warning-minimum-level :emergency)
+
   ;; modes
+  (column-number-mode t)
+  (electric-pair-mode 1)
   (frame-background-mode 'dark)
+  ;;(global-tab-line-mode)
   (savehist-mode 1)
   (save-place-mode 1)
+  (show-paren-mode 1)
+  (show-paren-delay 0)
   (tab-bar-mode 1)
-  (window-divider-mode nil)
-  ;;(global-tab-line-mode)
+  (which-function-mode t)
+  (window-divider-mdoe nil)
+
   ;; misc files
   (auto-save-default nil)
   (create-lockfiles nil)
   (delete-auto-save-files t)
   (make-backup-files nil)
+
   ;; suppress bell
   (ring-bell-function 'ignore)
+
   ;; default dirs
   (command-line-default-directory "~/")
   (default-directory "~/")
+
   ;; Increase the amount of data which Emacs reads from the process: 1mb
   (read-process-output-max (* 1024 1024))
   (max-specpdl-size 10000)
+
   ;; always insert a newline at the end
   (require-final-newline t)
   :config
@@ -52,6 +69,8 @@
 		modus-themes-variable-pitch-ui t
 		modus-themes-prompts '(bold background))
   (load-theme 'modus-vivendi)
+  ;; modes
+  (global-display-line-numbers-mode)
   ;; encoding
   (set-language-environment 'utf-8)
   (set-file-name-coding-system 'utf-8)
@@ -514,8 +533,6 @@
   (("C-c o o" . origami-open-node)
    ("C-c o c" . origami-close-node)))
 
-;; line number
-(global-display-line-numbers-mode)
 
 ;; indentation
 (use-package aggressive-indent
@@ -534,13 +551,6 @@
   :custom-face
   (highlight-indent-guides-character-face ((t (:foreground "dimgray")))))
 
-(column-number-mode t)
-(electric-pair-mode 1)
-(show-paren-mode 1)
-(defvar show-paren-delay 0)
-(which-function-mode t)
-
-(setq-default tab-width 4)
 
 ;; parenthesis color
 (use-package rainbow-delimiters
@@ -556,12 +566,6 @@
   :config
   (beacon-mode 1))
 
-
-;;;;; Key Bindings ;;;;;
-(global-set-key (kbd "C-c <left>") 'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>") 'windmove-up)
-(global-set-key (kbd "C-c <down>") 'windmove-down)
 
 (defun copy-line (arg)
   "Copy lines (as many as prefix argument) in the kill ring.
