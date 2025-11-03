@@ -107,8 +107,8 @@
 ;; window manager
 (use-package ace-window
   :ensure t
-  :config
-  (global-set-key (kbd "C-x o") 'ace-window))
+  :bind
+  (("C-x o" . ace-window)))
 
 ;; presentation
 (use-package presentation
@@ -126,17 +126,17 @@
 ;; comment-dwim
 (use-package comment-dwim-2
   :ensure t
-  :config
-  (global-set-key (kbd "M-;") 'comment-dwim-2))
+  :bind
+  (("M-;" . comment-dwim-2)))
 
 ;; multiple-cursors
 (use-package multiple-cursors
   :ensure t
-  :config
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
+  :bind
+  (("C-S-c C-S-c" . mc/edit-lines)
+   ("C->" . mc/mark-next-like-this)
+   ("C-<" . mc/mark-previous-like-this)
+   ("C-c C-<" . mc/mark-all-like-this)))
 
 
 (use-package goggles
@@ -727,8 +727,8 @@
 ;;;;; avy ;;;;;
 (use-package avy
   :ensure t
-  :config
-  (global-set-key (kbd "C-;") 'avy-goto-char-timer))
+  :bind
+  ("C-;" . avy-goto-char-timer))
 
 
 ;;;;; git ;;;;;
