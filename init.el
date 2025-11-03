@@ -316,8 +316,11 @@
 
 
 ;;;;; Spell checking ;;;;;
-(setq-default ispell-program-name "aspell")
-(with-eval-after-load "ispell"
+(use-package ispell
+  :ensure nil
+  :custom
+  (ispell-program-name "aspell")
+  :config
   (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
 
 (use-package flyspell
