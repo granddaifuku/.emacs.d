@@ -14,13 +14,49 @@
 (package-initialize)
 
 
-;; warning level
-(setq warning-minimum-level :emergency)
-
 (use-package emacs
+  :init
+  (require-theme 'modus-themes)
   :custom
+  (cursor-type 'bar)
+  (inhibit-startup-message t)
+  (kill-whole-line t)
   (use-short-answers t)
-  (window-divider-mode nil))
+  (warning-minimum-level :emergency)
+  ;; modes
+  (frame-background-mode 'dark)
+  (savehist-mode 1)
+  (save-place-mode 1)
+  (tab-bar-mode 1)
+  (window-divider-mode nil)
+  ;;(global-tab-line-mode)
+  ;; misc files
+  (auto-save-default nil)
+  (create-lockfiles nil)
+  (delete-auto-save-files t)
+  (make-backup-files nil)
+  ;; suppress bell
+  (ring-bell-function 'ignore)
+  ;; default dirs
+  (command-line-default-directory "~/")
+  (default-directory "~/")
+  ;; Increase the amount of data which Emacs reads from the process: 1mb
+  (read-process-output-max (* 1024 1024))
+  (max-specpdl-size 10000)
+  ;; always insert a newline at the end
+  (require-final-newline t)
+  :config
+  (setq modus-themes-bold-constructs t
+		modus-themes-italic-constructs t
+		modus-themes-mixed-fonts t
+		modus-themes-variable-pitch-ui t
+		modus-themes-prompts '(bold background))
+  (load-theme 'modus-vivendi)
+  ;; encoding
+  (set-language-environment 'utf-8)
+  (set-file-name-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8))
 
 
 ;; Native compile
@@ -34,40 +70,6 @@
   :ensure t
   :init
   (exec-path-from-shell-initialize))
-
-;;;;; Encoding ;;;;;
-(set-language-environment 'utf-8)
-(set-file-name-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-
-;;;;; Environment ;;;;;
-(setq auto-save-default nil
-	  create-lockfiles nil
-	  delete-auto-save-files t
-	  make-backup-files nil
-	  
-	  ;; suppress bell
-	  ring-bell-function 'ignore
-	  
-	  ;; default directory
-	  default-directory "~/"
-	  command-line-default-directory "~/"
-	  
-	  inhibit-startup-message t
-	  
-	  ;; always insert a newline at the end
-	  require-final-newline t
-	  
-	  kill-whole-line t
-	  
-	  max-specpdl-size 10000
-
-	  ;; Increase the amount of data which Emacs reads from the process: 1mb
-	  read-process-output-max (* 1024 1024))
-(setq-default cursor-type 'bar)
-(savehist-mode 1)
-(save-place-mode 1)
 
 
 ;; expand region
@@ -294,10 +296,6 @@
   (treemacs-mode . treemacs-project-follow-mode))
 
 
-;;;;; tab bar ;;;;;
-(tab-bar-mode 1)
-;;(global-tab-line-mode)
-
 ;;;;; Spell checking ;;;;;
 (setq-default ispell-program-name "aspell")
 (with-eval-after-load "ispell"
@@ -315,14 +313,6 @@
 			'(lambda ()
 			   (flyspell-prog-mode))))
 
-
-;; modus theme
-(setq modus-themes-bold-constructs t
-	  modus-themes-italic-constructs t
-	  modus-themes-mixed-fonts t
-	  modus-themes-variable-pitch-ui t
-	  modus-themes-prompts '(bold background))
-(load-theme 'modus-vivendi)
 
 ;; modeline
 (use-package moody
