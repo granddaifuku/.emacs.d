@@ -52,10 +52,6 @@
   ;; suppress bell
   (ring-bell-function 'ignore)
 
-  ;; default dirs
-  (command-line-default-directory "~/")
-  (default-directory "~/")
-
   ;; Increase the amount of data which Emacs reads from the process: 1mb
   (read-process-output-max (* 1024 1024))
   (max-specpdl-size 10000)
@@ -67,7 +63,10 @@
 		modus-themes-italic-constructs t
 		modus-themes-mixed-fonts t
 		modus-themes-variable-pitch-ui t
-		modus-themes-prompts '(bold background))
+		modus-themes-prompts '(bold background)
+		;; default dirs
+		command-line-default-directory "~/"
+		default-directory "~/")
   (load-theme 'modus-vivendi)
   ;; modes
   (global-display-line-numbers-mode)
