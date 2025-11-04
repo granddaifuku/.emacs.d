@@ -9,10 +9,8 @@ auto-save-list/
 elisp/
 elpa/
 elpy/
-quelpa/
 history
 places
-projectile-bookmarks.eld
 projects
 recentf
 slime/
