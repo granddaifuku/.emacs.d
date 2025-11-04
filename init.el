@@ -439,7 +439,7 @@
   (lsp-ui-sideline-show-diagnostics nil)
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-hover nil)
-  :init
+  :preface
   (defun toggle-lsp-ui-sideline ()
 	(interactive)
 	(if lsp-ui-sideline-show-hover
@@ -821,7 +821,6 @@
   (defun lsp-go-install-save-hooks ()
 	(add-hook 'before-save-hook #'lsp-format-buffer t t)
 	(add-hook 'before-save-hook #'lsp-organize-imports t t))
-  :init
   (defun my/golangci-lint ()
 	(interactive)
 	(with-output-to-temp-buffer "*golangci-lint*"
