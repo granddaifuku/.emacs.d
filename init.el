@@ -31,7 +31,7 @@
   (warning-minimum-level :emergency)
 
   ;; modes
-  (column-number-mode t)
+  (column-number-mode 1)
   (electric-pair-mode 1)
   (frame-background-mode 'dark)
   ;;(global-tab-line-mode)
@@ -40,7 +40,7 @@
   (show-paren-mode 1)
   (show-paren-delay 0)
   (tab-bar-mode 1)
-  (which-function-mode t)
+  (which-func-mode t)
   (window-divider-mdoe nil)
 
   ;; misc files
@@ -476,7 +476,9 @@
 
 (use-package lsp-treemacs
   :ensure t
-  :after lsp-mode)
+  :after lsp-mode
+  :config
+  (lsp-treemacs-sync-mode 1))
 
 
 ;;;;; dap ;;;;;
