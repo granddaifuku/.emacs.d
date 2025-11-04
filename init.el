@@ -99,7 +99,6 @@
 
 (use-package which-key
   :ensure nil
-  :diminish which-key-mode
   :hook (after-init . which-key-mode)
   :config
   (setq which-key-popup-type 'minibuffer))
@@ -141,7 +140,6 @@
 
 (use-package goggles
   :ensure t
-  :diminish
   :defer t
   :hook ((prog-mode text-mode) . goggles-mode)
   :custom
@@ -156,7 +154,6 @@
 
 (use-package autorevert
   :ensure nil
-  :diminish
   :hook (after-init . global-auto-revert-mode))
 
 (use-package delsel
@@ -166,13 +163,11 @@
 (use-package hungry-delete
   :ensure t
   :defer t
-  :diminish
   :hook (prog-mode . global-hungry-delete-mode))
 
 (use-package disable-mouse
   :ensure t
   :defer t
-  :diminish disable-mouse-mode
   :init
   (setq disable-mouse-wheel-events nil)
   :hook (emacs-startup . global-disable-mouse-mode))
@@ -288,7 +283,6 @@
   :ensure t
   :defer t
   :hook (prog-mode . global-undo-tree-mode)
-  :diminish undo-tree-mode
   :config
   (setq undo-tree-auto-save-history nil))
 
@@ -328,7 +322,6 @@
   :defer t
   :hook
   (prog-mode . flyspell-mode)
-  :diminish flyspell-mode
   :config
   (define-key flyspell-mode-map (kbd "C-;") nil)
   (add-hook 'prog-mode-hook
@@ -499,8 +492,7 @@
 
 ;;;;; Project Root ;;;;;
 (use-package projectile
-  :ensure t
-  :diminish projectile-mode)
+  :ensure t)
 (defun my-projectile-project-find-function (dir)
   (let ((root (projectile-project-root dir)))
     (and root (cons 'transient root))))
@@ -518,7 +510,6 @@
   :defer t
   :commands
   (minimap-buffer-name minimap-create-window minimap-kill)
-  :diminish
   :custom
   (minimap-major-modes '(prog-mode))
   (minimap-minimum-width 15)
@@ -530,7 +521,6 @@
 (use-package origami
   :ensure t
   :defer t
-  :diminish
   :hook (prog-mode . global-origami-mode)
   :bind
   (("C-c o o" . origami-open-node)
@@ -768,7 +758,7 @@
 
 ;; smerge
 (use-package smerge-mode
-  :diminish)
+  :ensure nil)
 
 
 ;;;;; flymake ;;;;;
