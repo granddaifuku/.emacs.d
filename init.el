@@ -333,18 +333,15 @@
 (use-package moody
   :ensure t
   :config
-  (setq x-underline-at-descent-line t)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode)
   (moody-replace-mode-line-front-space)
-  (moody-replace-eldoc-minibuffer-message-function))
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
 
 (use-package minions
   :ensure t
-  :diminish minions-mode
-  :config
-  (minions-mode 1)
-  (setq minions-mode-line-lighter "[+]"))
+  :hook (after-init . minions-mode)
+  :custom
+  (minions-mode-line-lighter "[+]"))
 
 
 ;;;;; yasnippet ;;;;;
