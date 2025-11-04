@@ -487,15 +487,10 @@
 
 
 ;;;;; Project Root ;;;;;
-(use-package projectile
-  :ensure t)
-(defun my-projectile-project-find-function (dir)
-  (let ((root (projectile-project-root dir)))
-    (and root (cons 'transient root))))
-(projectile-mode t)
-(with-eval-after-load 'project
-  (add-to-list 'project-find-functions 'my-projectile-project-find-function))
-
+(use-package project
+  :ensure nil
+  :custom
+  (project-vc-include-untracked t))
 
 
 ;;;;; Coding Style ;;;;;
