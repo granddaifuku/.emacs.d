@@ -620,12 +620,13 @@
 
 (use-package cape
   :ensure t
-  :config
+  :preface
   (defun my/lsp-capf ()
 	(setq-local completion-at-point-functions
 				(list (cape-capf-super
 					   #'lsp-completion-at-point
 					   (cape-company-to-capf #'company-yasnippet)))))
+  :config
   (add-hook 'lsp-completion-mode-hook #'my/lsp-capf))
 
 
@@ -764,7 +765,7 @@
 (use-package vterm
   :ensure t
   :defer t
-  :init
+  :preface
   (defun open-shell-sub (new)
 	(split-window-below)
 	(enlarge-window 12)
@@ -816,6 +817,10 @@
   :ensure t
   :defer t
   :mode ("\\.go\\'" . go-ts-mode)
+  :preface
+  (defun lsp-go-install-save-hooks ()
+	(add-hook 'before-save-hook #'lsp-format-buffer t t)
+	(add-hook 'before-save-hook #'lsp-organize-imports t t))
   :init
   (defun my/golangci-lint ()
 	(interactive)
@@ -825,9 +830,6 @@
 	   "*golangci-lint*" t)
 	  (pop-to-buffer "*golangci-lint*")
 	  (ansi-color-apply-on-region 1 (buffer-size))))
-  (defun lsp-go-install-save-hooks ()
-	(add-hook 'before-save-hook #'lsp-format-buffer t t)
-	(add-hook 'before-save-hook #'lsp-organize-imports t t))
   :config
   (add-hook 'go-ts-mode-hook #'lsp-go-install-save-hooks))
 
