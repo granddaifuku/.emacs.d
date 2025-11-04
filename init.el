@@ -56,6 +56,9 @@
   (read-process-output-max (* 1024 1024))
   (max-specpdl-size 10000)
 
+  ;; native compile
+  (package-native-compile t)
+
   ;; always insert a newline at the end
   (require-final-newline t)
   :config
@@ -77,8 +80,7 @@
   (prefer-coding-system 'utf-8))
 
 
-;; Native compile
-(setq package-native-compile t)
+;; Byte compile
 (use-package auto-async-byte-compile
   :ensure t
   :init
