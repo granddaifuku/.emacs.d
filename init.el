@@ -167,7 +167,6 @@
 
 (use-package disable-mouse
   :ensure t
-  :defer t
   :init
   (setq disable-mouse-wheel-events nil)
   :hook (emacs-startup . global-disable-mouse-mode))
@@ -206,7 +205,6 @@
 ;;;;; Dashboard ;;;;;
 (use-package dashboard
   :ensure t
-  :defer t
   :hook
   (after-init . dashboard-setup-startup-hook)
   :custom
