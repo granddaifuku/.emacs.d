@@ -510,15 +510,6 @@
   :bind
   (("C-c C-m" . minimap-mode)))
 
-;; Code folding
-(use-package origami
-  :ensure t
-  :defer t
-  :hook (prog-mode . global-origami-mode)
-  :bind
-  (("C-c o o" . origami-open-node)
-   ("C-c o c" . origami-close-node)))
-
 
 ;; indentation
 (use-package aggressive-indent
