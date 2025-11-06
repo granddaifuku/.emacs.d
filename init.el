@@ -796,8 +796,9 @@
   :bind
   (("C-c m" . open-shell)
    ("C-c n" . open-shell-r))
+  :custom
+  (vterm-always-compile module t)
   :config
-  (setq vterm-always-compile-module t)
   (advice-add #'consult-yank-from-kill-ring :around #'vterm-consult-yank-from-kill-ring-action))
 
 
