@@ -3,8 +3,8 @@ name: build
 on:
   push:
     branches:
-      - 'main'
-  pull_request:
+      - 'master'
+  pull_request: {}
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -12,11 +12,13 @@ concurrency:
 
 jobs:
   build-macos:
+    name: Build (macOS)
     strategy:
       matrix:
         os: [macos-14, macos-15, macos-26]
         emacs-version: ['30.2', 'snapshot']
       runs-on: ${{ matrix.os }}
+
       steps:
         - uses: actions/checkout@v5
 
@@ -29,12 +31,14 @@ jobs:
           run: emacs -Q --batch -L . --eval "(setq byte-compile-error-on-warn t)" -f batch-byte-compile *.el
 
   build-linux:
+    name: Build (linux)
     strategy:
       matrix:
         image: ['fedora:39']
         emacs-version: ['30.2', 'snapshot']
       runs-on: ubuntu-latest
       container: ${{ matrix.image }}
+
       steps:
         - uses: actions/checkout@v5
 
