@@ -521,7 +521,7 @@
   :ensure t
   :defer t
   :hook
-  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+  ((prog-mode yaml-ts-mode) . highlight-indent-guides-mode)
   :custom
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-auto-enabled nil)
