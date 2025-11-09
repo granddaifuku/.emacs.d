@@ -17,18 +17,18 @@ jobs:
       matrix:
         os: [macos-14, macos-15, macos-26]
         emacs-version: ['30.2', 'snapshot']
-      runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
 
-      steps:
-        - uses: actions/checkout@v5
+    steps:
+      - uses: actions/checkout@v5
 
-        - name: Setup emacs
-          uses: purcell/setup-emacs@master
-          with:
-            version: ${{ matrix.emacs-version }}
+      - name: Setup emacs
+        uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs-version }}
 
-        - name: Byte-compile
-          run: emacs -Q --batch -L . --eval "(setq byte-compile-error-on-warn t)" -f batch-byte-compile *.el
+      - name: Byte-compile
+        run: emacs -Q --batch -L . --eval "(setq byte-compile-error-on-warn t)" -f batch-byte-compile *.el
 
   build-linux:
     name: Build (linux)
@@ -36,17 +36,17 @@ jobs:
       matrix:
         image: ['fedora:39']
         emacs-version: ['30.2', 'snapshot']
-      runs-on: ubuntu-latest
-      container: ${{ matrix.image }}
+    runs-on: ubuntu-latest
+    container: ${{ matrix.image }}
 
-      steps:
-        - uses: actions/checkout@v5
+    steps:
+      - uses: actions/checkout@v5
 
-        - name: Setup emacs
-          uses: purcell/setup-emacs@master
-          with:
-            version: ${{ matrix.emacs-version }}
+      - name: Setup emacs
+        uses: purcell/setup-emacs@master
+        with:
+          version: ${{ matrix.emacs-version }}
 
-        - name: Byte compile
-          run: emacs -Q --batch -L . --eval "(setq byte-compile-error-on-warn t)" -f batch-byte-compile *.el
+      - name: Byte compile
+        run: emacs -Q --batch -L . --eval "(setq byte-compile-error-on-warn t)" -f batch-byte-compile *.el
 
