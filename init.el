@@ -317,7 +317,7 @@
   (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
 
 (use-package flyspell
-  :ensure t
+  :ensure nil
   :defer t
   :hook
   (prog-mode . flyspell-mode)
