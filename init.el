@@ -320,12 +320,11 @@
   :ensure nil
   :defer t
   :hook
-  (prog-mode . flyspell-mode)
-  :config
-  (define-key flyspell-mode-map (kbd "C-;") nil)
-  (add-hook 'prog-mode-hook
-			'(lambda ()
-			   (flyspell-prog-mode))))
+  ((prog-mode . flyspell-prog-mode)
+   (text-mode . flyspell-mode))
+  :bind
+  (:map flyspell-mode-map
+		("C-;" . nil)))
 
 
 ;; modeline
