@@ -17,11 +17,32 @@
 (use-package emacs
   :init
   (require-theme 'modus-themes)
+  :preface
+  (defun copy-line (arg)
+	"Copy lines (as many as prefix argument) in the kill ring.
+      Ease of use features:
+      - Move to start of next line.
+      - Appends the copy on sequential calls.
+      - Use newline as last char even on the last line of the buffer.
+      - If region is active, copy its lines."
+	(interactive "p")
+	(let ((beg (line-beginning-position))
+          (end (line-end-position arg)))
+      (when mark-active
+		(if (> (point) (mark))
+			(setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
+          (setq end (save-excursion (goto-char (mark)) (line-end-position)))))
+      (if (eq last-command 'copy-line)
+          (kill-append (buffer-substring beg end) (< end beg))
+		(kill-ring-save beg end)))
+	(beginning-of-line (or (and arg (1+ arg)) 2))
+	(if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
   :bind
   (("C-c <right>" . windmove-right)
    ("C-c <left>" . windmove-left)
    ("C-c <up>" . windmove-up)
-   ("C-c <down>" . windmove-down))
+   ("C-c <down>" . windmove-down)
+   ("M-k" . copy-line))
   :custom
   (cursor-type 'bar)
   (inhibit-startup-message t)
@@ -541,33 +562,6 @@
   (beacon-color "orange")
   :config
   (beacon-mode 1))
-
-
-(defun copy-line (arg)
-  "Copy lines (as many as prefix argument) in the kill ring.
-      Ease of use features:
-      - Move to start of next line.
-      - Appends the copy on sequential calls.
-      - Use newline as last char even on the last line of the buffer.
-      - If region is active, copy its lines."
-  (interactive "p")
-  (let ((beg (line-beginning-position))
-        (end (line-end-position arg)))
-    (when mark-active
-      (if (> (point) (mark))
-          (setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
-        (setq end (save-excursion (goto-char (mark)) (line-end-position)))))
-    (if (eq last-command 'copy-line)
-        (kill-append (buffer-substring beg end) (< end beg))
-      (kill-ring-save beg end)))
-  (beginning-of-line (or (and arg (1+ arg)) 2))
-  (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
-
-(global-set-key (kbd "C-c C-n") 'rename-file-and-buffer)
-(global-set-key (kbd "M-k") 'copy-line)
-
-;;;;; Watch Python3 ;;;;;
-(setq python-shell-interpreter "python3")
 
 
 ;;;;; corfu ;;;;;
