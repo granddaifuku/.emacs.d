@@ -1,3 +1,5 @@
+;;; init.el --- My init.el  -*- lexical-binding: t; -*-
+
 ;; Disable magic file name
 (defconst my-saved-file-name-handler-alist file-name-handler-alist)
 (setq file-name-handler-alist nil)
@@ -5,63 +7,110 @@
 (require 'package)
 
 (setq package-archives
-      '(("melpa" . "http://melpa.org/packages/")
-		("melpa-stable" . "http://stable.melpa.org/packages/")
-		("gnu" . "http://elpa.gnu.org/packages/")))
+      '(("melpa" . "https://melpa.org/packages/")
+		("melpa-stable" . "https://stable.melpa.org/packages/")
+		("gnu" . "https://elpa.gnu.org/packages/")))
 
 (package-initialize)
 
 
-;; warning level
-(setq warning-minimum-level :emergency)
+(use-package emacs
+  :init
+  (require-theme 'modus-themes)
+  :preface
+  (defun copy-line (arg)
+	"Copy lines (as many as prefix argument) in the kill ring.
+      Ease of use features:
+      - Move to start of next line.
+      - Appends the copy on sequential calls.
+      - Use newline as last char even on the last line of the buffer.
+      - If region is active, copy its lines."
+	(interactive "p")
+	(let ((beg (line-beginning-position))
+          (end (line-end-position arg)))
+      (when mark-active
+		(if (> (point) (mark))
+			(setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
+          (setq end (save-excursion (goto-char (mark)) (line-end-position)))))
+      (if (eq last-command 'copy-line)
+          (kill-append (buffer-substring beg end) (< end beg))
+		(kill-ring-save beg end)))
+	(beginning-of-line (or (and arg (1+ arg)) 2))
+	(if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
+  :bind
+  (("C-c <right>" . windmove-right)
+   ("C-c <left>" . windmove-left)
+   ("C-c <up>" . windmove-up)
+   ("C-c <down>" . windmove-down)
+   ("M-k" . copy-line))
+  :custom
+  (cursor-type 'bar)
+  (inhibit-startup-message t)
+  (kill-whole-line t)
+  (tab-width 4)
+  (use-short-answers t)
+  (warning-minimum-level :emergency)
+
+  ;; modes
+  (column-number-mode 1)
+  (electric-pair-mode 1)
+  (frame-background-mode 'dark)
+  ;;(global-tab-line-mode)
+  (savehist-mode 1)
+  (save-place-mode 1)
+  (show-paren-mode 1)
+  (show-paren-delay 0)
+  (tab-bar-mode 1)
+  (which-func-mode t)
+  (window-divider-mdoe nil)
+
+  ;; misc files
+  (auto-save-default nil)
+  (create-lockfiles nil)
+  (delete-auto-save-files t)
+  (make-backup-files nil)
+
+  ;; suppress bell
+  (ring-bell-function 'ignore)
+
+  ;; Increase the amount of data which Emacs reads from the process: 1mb
+  (read-process-output-max (* 1024 1024))
+  (max-specpdl-size 10000)
+
+  ;; native compile
+  (package-native-compile t)
+
+  ;; always insert a newline at the end
+  (require-final-newline t)
+  :config
+  (setq modus-themes-bold-constructs t
+		modus-themes-italic-constructs t
+		modus-themes-mixed-fonts t
+		modus-themes-variable-pitch-ui t
+		modus-themes-prompts '(bold background)
+		;; default dirs
+		command-line-default-directory "~/"
+		default-directory "~/")
+  (load-theme 'modus-vivendi)
+  ;; modes
+  (global-display-line-numbers-mode)
+  ;; encoding
+  (set-language-environment 'utf-8)
+  (set-file-name-coding-system 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (prefer-coding-system 'utf-8))
 
 
-;; Native compile
-(setq package-native-compile t)
+;; Byte compile
 (use-package auto-async-byte-compile
   :ensure t
-  :init
-  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
+  :hook
+  (emacs-lisp-mode . auto-async-byte-compile-mode))
 
 (use-package exec-path-from-shell
   :ensure t
   :init
   (exec-path-from-shell-initialize))
-
-;;;;; Encoding ;;;;;
-(set-language-environment 'utf-8)
-(set-file-name-coding-system 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(prefer-coding-system 'utf-8)
-
-;;;;; Environment ;;;;;
-(setq auto-save-default nil
-	  create-lockfiles nil
-	  delete-auto-save-files t
-	  make-backup-files nil
-	  
-	  ;; suppress bell
-	  ring-bell-function 'ignore
-	  
-	  ;; default directory
-	  default-directory "~/"
-	  command-line-default-directory "~/"
-	  
-	  inhibit-startup-message t
-	  
-	  ;; always insert a newline at the end
-	  require-final-newline t
-	  
-	  kill-whole-line t
-	  
-	  max-specpdl-size 10000
-
-	  ;; Increase the amount of data which Emacs reads from the process: 1mb
-	  read-process-output-max (* 1024 1024))
-(setopt use-short-answers t)
-(setq-default cursor-type 'bar)
-(savehist-mode 1)
-(save-place-mode 1)
 
 
 ;; expand region
@@ -72,7 +121,6 @@
 
 (use-package which-key
   :ensure nil
-  :diminish which-key-mode
   :hook (after-init . which-key-mode)
   :config
   (setq which-key-popup-type 'minibuffer))
@@ -80,8 +128,8 @@
 ;; window manager
 (use-package ace-window
   :ensure t
-  :config
-  (global-set-key (kbd "C-x o") 'ace-window))
+  :bind
+  (("C-x o" . ace-window)))
 
 ;; presentation
 (use-package presentation
@@ -99,27 +147,26 @@
 ;; comment-dwim
 (use-package comment-dwim-2
   :ensure t
-  :config
-  (global-set-key (kbd "M-;") 'comment-dwim-2))
+  :bind
+  (("M-;" . comment-dwim-2)))
 
 ;; multiple-cursors
 (use-package multiple-cursors
   :ensure t
-  :config
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this))
+  :bind
+  (("C-S-c C-S-c" . mc/edit-lines)
+   ("C->" . mc/mark-next-like-this)
+   ("C-<" . mc/mark-previous-like-this)
+   ("C-c C-<" . mc/mark-all-like-this)))
 
 
 (use-package goggles
   :ensure t
-  :diminish
   :defer t
   :hook ((prog-mode text-mode) . goggles-mode)
   :custom
   (goggles-pulse-delay 0.03)
-  (goggles-pulse-iteration 3)
+  (goggles-pulse-iterations 3)
   :config
   (setq-default goggles-pulse t)
   :custom-face
@@ -129,7 +176,6 @@
 
 (use-package autorevert
   :ensure nil
-  :diminish
   :hook (after-init . global-auto-revert-mode))
 
 (use-package delsel
@@ -139,13 +185,10 @@
 (use-package hungry-delete
   :ensure t
   :defer t
-  :diminish
   :hook (prog-mode . global-hungry-delete-mode))
 
 (use-package disable-mouse
   :ensure t
-  :defer t
-  :diminish disable-mouse-mode
   :init
   (setq disable-mouse-wheel-events nil)
   :hook (emacs-startup . global-disable-mouse-mode))
@@ -184,13 +227,11 @@
 ;;;;; Dashboard ;;;;;
 (use-package dashboard
   :ensure t
-  :defer t
   :hook
   (after-init . dashboard-setup-startup-hook)
   :custom
   (dashboard-display-icons-p t)
   (dashboard-icon-type 'nerd-icons)
-  (dashboard-set-init-info t)
   (dashboard-set-heading-icons t)
   (dashboard-set-file-icons t))
 
@@ -262,7 +303,6 @@
   :ensure t
   :defer t
   :hook (prog-mode . global-undo-tree-mode)
-  :diminish undo-tree-mode
   :config
   (setq undo-tree-auto-save-history nil))
 
@@ -289,59 +329,38 @@
   (treemacs-mode . treemacs-project-follow-mode))
 
 
-;;;;; tab bar ;;;;;
-(tab-bar-mode 1)
-;;(global-tab-line-mode)
-
 ;;;;; Spell checking ;;;;;
-(setq-default ispell-program-name "aspell")
-(with-eval-after-load "ispell"
+(use-package ispell
+  :ensure nil
+  :custom
+  (ispell-program-name "aspell")
+  :config
   (add-to-list 'ispell-skip-region-alist '("[^\000-\377]+")))
 
 (use-package flyspell
-  :ensure t
+  :ensure nil
   :defer t
   :hook
-  (prog-mode . flyspell-mode)
-  :diminish flyspell-mode
-  :config
-  (define-key flyspell-mode-map (kbd "C-;") nil)
-  (add-hook 'prog-mode-hook
-			'(lambda ()
-			   (flyspell-prog-mode))))
+  ((prog-mode . flyspell-prog-mode)
+   (text-mode . flyspell-mode))
+  :bind
+  (:map flyspell-mode-map
+		("C-;" . nil)))
 
-
-;; modus theme
-(setq modus-themes-bold-constructs t
-	  modus-themes-italic-constructs t
-	  modus-themes-mixed-fonts t
-	  modus-themes-fringes 'nil
-	  modus-themes-region '(bg-only no-extend)
-	  modus-themes-subtle-line-numbers t
-	  modus-themes-syntax '(faint alt-syntax green-strings)
-	  modus-themes-paren-match 'intense
-	  modus-themes-hl-line 'accented
-	  modus-themes-variable-pitch-ui t
-	  modus-themes-prompts '(bold background)
-	  modus-themes-mode-line '(moody))
-(load-theme 'modus-vivendi)
 
 ;; modeline
 (use-package moody
   :ensure t
   :config
-  (setq x-underline-at-descent-line t)
-  (moody-replace-mode-line-buffer-identification)
-  (moody-replace-vc-mode)
   (moody-replace-mode-line-front-space)
-  (moody-replace-eldoc-minibuffer-message-function))
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode))
 
 (use-package minions
   :ensure t
-  :diminish minions-mode
-  :config
-  (minions-mode 1)
-  (setq minions-mode-line-lighter "[+]"))
+  :hook (after-init . minions-mode)
+  :custom
+  (minions-mode-line-lighter "[+]"))
 
 
 ;;;;; yasnippet ;;;;;
@@ -361,15 +380,34 @@
 
 
 ;;;;; tree-sitter ;;;;;
-(use-package tree-sitter
-  :ensure t
-  :defer t
-  :hook
-  (prog-mode . tree-sitter-mode)
+(use-package treesit
   :config
-  (use-package tree-sitter-langs
-	:ensure t)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
+  (setq treesit-font-lock-level 4)
+  (setq treesit-language-source-alist
+		'((bash "https://github.com/tree-sitter/tree-sitter-bash")
+          (cmake "https://github.com/uyha/tree-sitter-cmake")
+          (css "https://github.com/tree-sitter/tree-sitter-css")
+          (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+          (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+          (go "https://github.com/tree-sitter/tree-sitter-go")
+          (html "https://github.com/tree-sitter/tree-sitter-html")
+          (javascript "https://github.com/tree-sitter/tree-sitter-javascript" "master" "src")
+          (json "https://github.com/tree-sitter/tree-sitter-json")
+          (lua "https://github.com/tree-sitter-grammars/tree-sitter-lua")
+          (make "https://github.com/alemuller/tree-sitter-make")
+          (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+          (python "https://github.com/tree-sitter/tree-sitter-python")
+          (rust "https://github.com/tree-sitter/tree-sitter-rust")
+          (toml "https://github.com/tree-sitter/tree-sitter-toml")
+          (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
+          (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
+          (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
+  (dolist (element treesit-language-source-alist)
+	(let* ((lang (car element)))
+      (if (treesit-language-available-p lang)
+          (message "treesit: %s is already installed" lang)
+		(message "treesit: %s is not installed" lang)
+		(treesit-install-language-grammar lang)))))
 
 
 ;;;;; lsp-mode ;;;;;
@@ -379,7 +417,7 @@
   :commands lsp
   :hook
   ((rust-mode . (lsp lsp-inlay-hints-mode))
-   (go-mode . (lsp lsp-inlay-hints-mode))
+   (go-ts-mode . (lsp lsp-inlay-hints-mode))
    (c++-mode . lsp))
   :custom
   ;; cc-mode does not work well when following two settings are enabled.
@@ -399,7 +437,17 @@
 		("C-c C-l" . lsp-execute-code-action)
 		("C-c r" . lsp-rename))
   :config
-  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'lsp-format-buffer t t))))
+  (add-hook 'c++-mode-hook '(lambda() (add-hook 'before-save-hook 'lsp-format-buffer t t)))
+  (lsp-register-custom-settings
+   '(("gopls.hints.assignVariableTypes" t t)
+	 ("gopls.hints.compositeLiteralFields" t t)
+	 ("gopls.hints.compositeLiteralTypes" t t)
+	 ("gopls.hints.constantValues" t t)
+	 ("gopls.hints.functionTypeParameters" t t)
+	 ("gopls.hints.parameterNames" t t)
+	 ("gopls.hints.rangeVariableTypes" t t)
+	 ("gopls.completeUnimported" t t)
+	 ("gopls.staticcheck" t t))))
 
 (use-package lsp-ui
   :ensure t
@@ -413,7 +461,7 @@
   (lsp-ui-sideline-show-diagnostics nil)
   (lsp-ui-sideline-ignore-duplicate t)
   (lsp-ui-sideline-show-hover nil)
-  :init
+  :preface
   (defun toggle-lsp-ui-sideline ()
 	(interactive)
 	(if lsp-ui-sideline-show-hover
@@ -449,7 +497,9 @@
 
 (use-package lsp-treemacs
   :ensure t
-  :after lsp-mode)
+  :after lsp-mode
+  :config
+  (lsp-treemacs-sync-mode 1))
 
 
 ;;;;; dap ;;;;;
@@ -458,27 +508,11 @@
   :after lsp-mode)
 
 
-;;;;; Org mode ;;;;;
-(add-to-list 'auto-mode-alist '("\\.org\\'" . org-mode))
-(global-set-key (kbd "C-c a") 'org-agenda)
-(use-package toc-org
-  :ensure t
-  :init
-  (add-hook 'org-mode-hook 'toc-org-mode)
-  )
-
-
 ;;;;; Project Root ;;;;;
-(use-package projectile
-  :ensure t
-  :diminish projectile-mode)
-(defun my-projectile-project-find-function (dir)
-  (let ((root (projectile-project-root dir)))
-    (and root (cons 'transient root))))
-(projectile-mode t)
-(with-eval-after-load 'project
-  (add-to-list 'project-find-functions 'my-projectile-project-find-function))
-
+(use-package project
+  :ensure nil
+  :custom
+  (project-vc-include-untracked t))
 
 
 ;;;;; Coding Style ;;;;;
@@ -489,7 +523,6 @@
   :defer t
   :commands
   (minimap-buffer-name minimap-create-window minimap-kill)
-  :diminish
   :custom
   (minimap-major-modes '(prog-mode))
   (minimap-minimum-width 15)
@@ -497,18 +530,6 @@
   :bind
   (("C-c C-m" . minimap-mode)))
 
-;; Code folding
-(use-package origami
-  :ensure t
-  :defer t
-  :diminish
-  :hook (prog-mode . global-origami-mode)
-  :bind
-  (("C-c o o" . origami-open-node)
-   ("C-c o c" . origami-close-node)))
-
-;; line number
-(global-display-line-numbers-mode)
 
 ;; indentation
 (use-package aggressive-indent
@@ -520,39 +541,19 @@
   :ensure t
   :defer t
   :hook
-  ((prog-mode yaml-mode) . highlight-indent-guides-mode)
+  ((prog-mode yaml-ts-mode) . highlight-indent-guides-mode)
   :custom
   (highlight-indent-guides-method 'character)
   (highlight-indent-guides-auto-enabled nil)
   :custom-face
   (highlight-indent-guides-character-face ((t (:foreground "dimgray")))))
 
-(column-number-mode t)
-(electric-pair-mode 1)
-(show-paren-mode 1)
-(defvar show-paren-delay 0)
-(which-function-mode t)
-
-(setq-default tab-width 4)
 
 ;; parenthesis color
 (use-package rainbow-delimiters
   :ensure t
-  :config
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
-  (use-package cl-lib
-	:ensure t)
-  (use-package color
-	:ensure t
-	:config
-	(defun rainbow-delimiters-using-stronger-colors ()
-	  (interactive)
-	  (cl-loop
-	   for index from 1 to rainbow-delimiters-max-face-count
-	   do
-	   (let ((face (intern (format "rainbow-delimiters-depth-%d-face" index))))
-		 (cl-callf color-saturate-name (face-foreground face) 30)))))
-  (add-hook 'emacs-startup-hook 'rainbow-delimiters-using-stronger-colors))
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 ;; Cursor
 (use-package beacon
@@ -561,39 +562,6 @@
   (beacon-color "orange")
   :config
   (beacon-mode 1))
-
-
-;;;;; Key Bindings ;;;;;
-(global-set-key (kbd "C-c <left>") 'windmove-left)
-(global-set-key (kbd "C-c <right>") 'windmove-right)
-(global-set-key (kbd "C-c <up>") 'windmove-up)
-(global-set-key (kbd "C-c <down>") 'windmove-down)
-
-(defun copy-line (arg)
-  "Copy lines (as many as prefix argument) in the kill ring.
-      Ease of use features:
-      - Move to start of next line.
-      - Appends the copy on sequential calls.
-      - Use newline as last char even on the last line of the buffer.
-      - If region is active, copy its lines."
-  (interactive "p")
-  (let ((beg (line-beginning-position))
-        (end (line-end-position arg)))
-    (when mark-active
-      (if (> (point) (mark))
-          (setq beg (save-excursion (goto-char (mark)) (line-beginning-position)))
-        (setq end (save-excursion (goto-char (mark)) (line-end-position)))))
-    (if (eq last-command 'copy-line)
-        (kill-append (buffer-substring beg end) (< end beg))
-      (kill-ring-save beg end)))
-  (beginning-of-line (or (and arg (1+ arg)) 2))
-  (if (and arg (not (= 1 arg))) (message "%d lines copied" arg)))
-
-(global-set-key (kbd "C-c C-n") 'rename-file-and-buffer)
-(global-set-key (kbd "M-k") 'copy-line)
-
-;;;;; Watch Python3 ;;;;;
-(setq python-shell-interpreter "python3")
 
 
 ;;;;; corfu ;;;;;
@@ -638,12 +606,13 @@
 
 (use-package cape
   :ensure t
-  :config
+  :preface
   (defun my/lsp-capf ()
 	(setq-local completion-at-point-functions
 				(list (cape-capf-super
 					   #'lsp-completion-at-point
 					   (cape-company-to-capf #'company-yasnippet)))))
+  :config
   (add-hook 'lsp-completion-mode-hook #'my/lsp-capf))
 
 
@@ -651,8 +620,6 @@
 (use-package kind-icon
   :ensure t
   :after corfu
-  :custom
-  (kind-icon-default-face 'corfu-default)
   :config
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
@@ -684,6 +651,17 @@
 ;;;;; Consult ;;;;;
 (use-package consult
   :ensure t
+  :preface
+  (defun consult-ripgrep-symbol-at-point ()
+	(interactive)
+	(consult-ripgrep nil (thing-at-point 'symbol)))
+
+  (defun my/consult-ripgrep (use-symbol)
+	(interactive "p")
+	(cond ((eq use-symbol 1)
+		   (call-interactively 'consult-ripgrep))
+		  ((eq use-symbol 4)
+		   (call-interactively 'consult-ripgrep-symbol-at-point))))
   :bind
   (("M-y" . consult-yank-from-kill-ring)
    ("C-s" . consult-line)
@@ -692,22 +670,11 @@
    ("C-c b" . consult-buffer-other-window)
    ("C-c l" . consult-goto-line)
    ("C-c f" . consult-find)
-   ("C-c !" . consult-flymake))
+   ("C-c !" . consult-flymake)
+   ("C-c g" . my/consult-ripgrep))
   :config
   (use-package affe
 	:ensure t))
-
-(defun consult-ripgrep-symbol-at-point ()
-  (interactive)
-  (consult-ripgrep nil (thing-at-point 'symbol)))
-
-(defun my-consult-ripgrep (use-symbol)
-  (interactive "p")
-  (cond ((eq use-symbol 1)
-		 (call-interactively 'consult-ripgrep))
-		((eq use-symbol 4)
-		 (call-interactively 'consult-ripgrep-symbol-at-point))))
-(global-set-key (kbd "C-c g") 'my-consult-ripgrep)
 
 
 ;;;;; orderless ;;;;;
@@ -728,8 +695,8 @@
 ;;;;; avy ;;;;;
 (use-package avy
   :ensure t
-  :config
-  (global-set-key (kbd "C-;") 'avy-goto-char-timer))
+  :bind
+  ("C-;" . avy-goto-char-timer))
 
 
 ;;;;; git ;;;;;
@@ -769,7 +736,7 @@
 
 ;; smerge
 (use-package smerge-mode
-  :diminish)
+  :ensure nil)
 
 
 ;;;;; flymake ;;;;;
@@ -784,7 +751,7 @@
 (use-package vterm
   :ensure t
   :defer t
-  :init
+  :preface
   (defun open-shell-sub (new)
 	(split-window-below)
 	(enlarge-window 12)
@@ -822,8 +789,9 @@
   :bind
   (("C-c m" . open-shell)
    ("C-c n" . open-shell-r))
+  :custom
+  (vterm-always-compile module t)
   :config
-  (setq vterm-always-compile-module t)
   (advice-add #'consult-yank-from-kill-ring :around #'vterm-consult-yank-from-kill-ring-action))
 
 
@@ -832,11 +800,14 @@
 
 
 ;;;;; golang ;;;;;
-(use-package go-mode
+(use-package go-ts-mode
   :ensure t
   :defer t
-  :mode ("\\.go$" . go-mode)
-  :init
+  :mode ("\\.go\\'" . go-ts-mode)
+  :preface
+  (defun lsp-go-install-save-hooks ()
+	(add-hook 'before-save-hook #'lsp-format-buffer t t)
+	(add-hook 'before-save-hook #'lsp-organize-imports t t))
   (defun my/golangci-lint ()
 	(interactive)
 	(with-output-to-temp-buffer "*golangci-lint*"
@@ -845,27 +816,13 @@
 	   "*golangci-lint*" t)
 	  (pop-to-buffer "*golangci-lint*")
 	  (ansi-color-apply-on-region 1 (buffer-size))))
-  (defun lsp-go-install-save-hooks ()
-	(add-hook 'before-save-hook #'lsp-format-buffer t t)
-	(add-hook 'before-save-hook #'lsp-organize-imports t t))
   :config
-  (lsp-register-custom-settings
-   '(("gopls.hints"
-	  ((assignVariableTypes . t)
-	   (compositeLiteralFields . t)
-	   (compositeLiteralTypes . t)
-	   (constantValues . t)
-	   (functionTypeParameters . t)
-	   (parameterNames . t)
-	   (rangeVariableTypes . t)))
-	 ("gopls.completeUnimported" t t)
-	 ("gopls.staticcheck" t t))
-   (add-hook 'go-mode-hook #'lsp-go-install-save-hooks)))
+  (add-hook 'go-ts-mode-hook #'lsp-go-install-save-hooks))
 
 (use-package gotest
-  :after go-mode
+  :after go-ts-mode
   :ensure t
-  :bind (:map go-mode-map
+  :bind (:map go-ts-mode-map
 			  ("C-c x" . go-run)
 			  ("C-c t c" . go-test-current-test)
 			  ("C-c t f" . go-test-current-file)
@@ -878,7 +835,7 @@
 (use-package rust-mode
   :ensure t
   :defer t
-  :mode ("\\.rs$" . rust-mode)
+  :mode ("\\.rs\\'" . rust-mode)
   :bind
   (:map rust-mode-map
 		("C-c t c" . lsp-rust-analyzer-related-tests))
@@ -891,7 +848,8 @@
   (lsp-rust-analyzer-linked-projects
    ["./Cargo.toml", "clippy_dev/Cargo.toml", "lintcheck/Cargo.toml"])
   :config
-  (setq rust-format-on-save t))
+  (setq rust-format-on-save t
+		rust-mode-treesitter-derive t))
 
 (use-package cargo
   :ensure t
@@ -910,21 +868,21 @@
 
 
 ;;;;; lua ;;;;;
-(use-package lua-mode
+(use-package lua-ts-mode
   :defer t
-  :ensure t
+  :mode ("\\.lua\\'" . lua-ts-mode)
   :config
-  (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
-  (add-to-list 'interpreter-mode-alist '("lua" . lua-mode)))
+  (add-to-list 'interpreter-mode-alist '("lua" . lua-ts-mode)))
 
 
 ;;;;; web ;;;;;
 (use-package web-mode
   :ensure t
   :defer t
-  :mode ("\\.html?\\'" . web-mode)
+  :mode
+  (("\\.html?\\'" . web-mode)
+   ("\\.astro\\'"   . web-mode))
   :config
-  (add-to-list 'auto-mode-alist '("\\.astro\\$" . web-mode))
   (setq web-mode-enable-current-element-highlight t
 		web-mode-enable-current-column-highlight t
 		web-mode-enable-auto-pairing t))
@@ -934,19 +892,28 @@
 (use-package terraform-mode
   :ensure t
   :defer t
-  :mode ("\\.tf$" . terraform-mode)
+  :mode ("\\.tf\\'" . terraform-mode)
   :hook (terraform-mode . terraform-format-on-save-mode)
   :custom
   (terraform-indent-level 4))
 
 
 ;;;;; yaml ;;;;;
-(use-package yaml-mode
-  :ensure t
+(use-package yaml-ts-mode
   :defer t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
-  (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode)))
+  :mode ("\\.ya?ml\\'" . yaml-ts-mode))
+
+
+;;;;; toml ;;;;;
+(use-package toml-ts-mode
+  :defer t
+  :mode ("\\.toml\\'" . toml-ts-mode))
+
+
+;;;;; json ;;;;;
+(use-package json-ts-mode
+  :defer t
+  :mode ("\\.json\\'" . json-ts-mode))
 
 
 ;;;;; shell ;;;;;
@@ -974,8 +941,8 @@
 (use-package dockerfile-mode
   :ensure t
   :defer t
-  :config
-  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+  :mode
+  ("Dockerfile\\'" . dockerfile-mode)
   ;; https://github.com/spotify/dockerfile-mode/issues/47
   ;; https://github.com/spotify/dockerfile-mode/commit/9f4381178aa03212cd3400c60c0f48ff306a0994#r30968900
   :hook (dockerfile-mode . (lambda () (setq-local indent-line-function nil))))
@@ -988,60 +955,20 @@
 ;;;;; Custom Functions ;;;;;
 
 
-;;;;; color ;;;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default bold shadow italic underline bold bold-italic bold])
- '(ansi-color-names-vector
-   (vector "#000000" "#d54e53" "#b9ca4a" "#e7c547" "#7aa6da" "#c397d8"
-		   "#70c0b1" "#eaeaea"))
- '(dimmer-buffer-exclusion-regexps
-   '("^\\*Minibuf-[0-9]+\\*" "^.\\*which-key\\*$" "^*Messages*" "*LV*"
-	 "transient" "*flycheck-posframe-buffer*") nil nil "Customized with use-package dimmer")
- '(fci-rule-color "#424242")
- '(frame-background-mode 'dark)
- '(jdee-db-active-breakpoint-face-colors (cons "#f0f0f0" "#4078f2"))
- '(jdee-db-requested-breakpoint-face-colors (cons "#f0f0f0" "#50a14f"))
- '(jdee-db-spec-breakpoint-face-colors (cons "#f0f0f0" "#9ca0a4"))
- '(objed-cursor-color "#e45649")
- '(package-selected-packages
-   '(affe aggressive-indent auto-async-byte-compile beacon blamer cape
-		  cargo comment-dwim-2 company corfu dap-mode dashboard dimmer
-		  dired+ dired-subtree disable-mouse docker
-		  docker-compose-mode dockerfile-mode exec-path-from-shell
-		  expand-region flymake-diagnostic-at-point git-gutter go-mode
-		  goggles gotest highlight-indent-guides highlight-symbol
-		  hl-todo hungry-delete kind-icon lsp-ui lua-mode magit
-		  marginalia minimap minions moody multi-vterm
-		  multiple-cursors mwim nerd-icons orderless origami
-		  presentation projectile rainbow-delimiters rust-mode slime
-		  terraform-mode toc-org tree-sitter-langs undo-tree vertico
-		  web-mode which-key yasnippet))
+ '(package-selected-packages nil)
  '(package-vc-selected-packages
-   '((dired+ :url "https://github.com/emacsmirror/dired-plus.git")))
- '(pdf-view-midnight-colors (cons "#383a42" "#fafafa"))
- '(vc-annotate-background nil)
- '(vc-annotate-color-map
-   '((20 . "#d54e53") (40 . "#e78c45") (60 . "#e7c547") (80 . "#b9ca4a")
-	 (100 . "#70c0b1") (120 . "#7aa6da") (140 . "#c397d8")
-	 (160 . "#d54e53") (180 . "#e78c45") (200 . "#e7c547")
-	 (220 . "#b9ca4a") (240 . "#70c0b1") (260 . "#7aa6da")
-	 (280 . "#c397d8") (300 . "#d54e53") (320 . "#e78c45")
-	 (340 . "#e7c547") (360 . "#b9ca4a")))
- '(vc-annotate-very-old-color nil)
- '(window-divider-mode nil))
+   '((dired+ :url "https://github.com/emacsmirror/dired-plus.git"))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(git-gutter:added ((t (:background "#50fa7b"))))
- '(git-gutter:deleted ((t (:background "#ff79c6"))))
- '(git-gutter:modified ((t (:background "#f1fa8c")))))
+ )
 
 ;; Enable magic file name
 (setq file-name-handler-alist my-saved-file-name-handler-alist)

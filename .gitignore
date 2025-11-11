@@ -9,14 +9,13 @@ auto-save-list/
 elisp/
 elpa/
 elpy/
-quelpa/
 history
 places
-projectile-bookmarks.eld
 projects
 recentf
 slime/
 tramp
 transient/
+tree-sitter/
 url/
 eln-cache/
