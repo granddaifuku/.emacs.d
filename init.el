@@ -104,8 +104,8 @@
 ;; Byte compile
 (use-package auto-async-byte-compile
   :ensure t
-  :init
-  (add-hook 'emacs-lisp-mode-hook 'enable-auto-async-byte-compile-mode))
+  :hook
+  (emacs-lisp-mode . auto-async-byte-compile-mode))
 
 (use-package exec-path-from-shell
   :ensure t
@@ -552,8 +552,8 @@
 ;; parenthesis color
 (use-package rainbow-delimiters
   :ensure t
-  :config
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  :hook
+  (prog-mode . rainbow-delimiters-mode))
 
 ;; Cursor
 (use-package beacon
