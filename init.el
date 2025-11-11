@@ -298,13 +298,18 @@
   (dimmer-configure-corfu))
 
 
-;;;;; Undo Tree ;;;;;
-(use-package undo-tree
+;;;;; Undo ;;;;;
+(use-package vundo
   :ensure t
   :defer t
-  :hook (prog-mode . global-undo-tree-mode)
+  :bind (("C-x u" . vundo)
+         ("C-/" . undo-only)
+         ("C-?" . undo-redo))
+  :custom
+  (vundo-roll-back-on-quit nil)
+  (vundo-window-max-height 10)
   :config
-  (setq undo-tree-auto-save-history nil))
+  (setq vundo-glyph-alist vundo-unicode-symbols))
 
 
 ;;;;; treemacs ;;;;;
