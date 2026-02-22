@@ -522,6 +522,19 @@
 
 ;;;;; Coding Style ;;;;;
 
+;; rg
+(use-package rg
+  :ensure t
+  :defer t
+  :bind
+  (:map global-map
+		("C-c g" . rg-menu))
+  :config
+  ;; https://github.com/dajva/rg.el/issues/142
+  (add-to-list 'rg-finish-functions (lambda (buffer _) (pop-to-buffer buffer)))
+  :custom
+  (rg-ignore-case 'force))
+
 ;; minimap
 (use-package minimap
   :ensure t
@@ -656,17 +669,6 @@
 ;;;;; Consult ;;;;;
 (use-package consult
   :ensure t
-  :preface
-  (defun consult-ripgrep-symbol-at-point ()
-	(interactive)
-	(consult-ripgrep nil (thing-at-point 'symbol)))
-
-  (defun my/consult-ripgrep (use-symbol)
-	(interactive "p")
-	(cond ((eq use-symbol 1)
-		   (call-interactively 'consult-ripgrep))
-		  ((eq use-symbol 4)
-		   (call-interactively 'consult-ripgrep-symbol-at-point))))
   :bind
   (("M-y" . consult-yank-from-kill-ring)
    ("C-s" . consult-line)
@@ -675,8 +677,7 @@
    ("C-c b" . consult-buffer-other-window)
    ("C-c l" . consult-goto-line)
    ("C-c f" . consult-find)
-   ("C-c !" . consult-flymake)
-   ("C-c g" . my/consult-ripgrep))
+   ("C-c !" . consult-flymake))
   :config
   (use-package affe
 	:ensure t))
