@@ -894,6 +894,13 @@
 		web-mode-enable-auto-pairing t))
 
 
+;;;;; protobuf ;;;;;
+(use-package protobuf-mode
+  :ensure t
+  :defer t
+  :mode ("\\.protobuf\\'" . terraform-mode))
+
+
 ;;;;; terraform ;;;;;
 (use-package terraform-mode
   :ensure t
@@ -966,7 +973,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages nil)
+ '(package-selected-packages
+   '(affe aggressive-indent auto-async-byte-compile beacon blamer cape
+		  cargo comment-dwim-2 company corfu dap-mode dashboard dimmer
+		  dired+ dired-subtree disable-mouse docker
+		  docker-compose-mode dockerfile-mode exec-path-from-shell
+		  expand-region flymake-diagnostic-at-point git-gutter goggles
+		  gotest highlight-indent-guides highlight-symbol hl-todo
+		  hungry-delete kind-icon lsp-ui magit marginalia minimap
+		  minions moody multiple-cursors mwim nerd-icons orderless
+		  presentation protobuf-mode queue rainbow-delimiters rg
+		  rust-mode slime terraform-mode vertico vterm vundo web-mode
+		  yasnippet))
  '(package-vc-selected-packages
    '((dired+ :url "https://github.com/emacsmirror/dired-plus.git"))))
 (custom-set-faces
