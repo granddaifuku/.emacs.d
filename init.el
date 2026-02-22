@@ -522,6 +522,19 @@
 
 ;;;;; Coding Style ;;;;;
 
+;; rg
+(use-package rg
+  :ensure t
+  :defer t
+  :bind
+  (:map global-map
+		("C-c g" . rg-menu))
+  :config
+  ;; https://github.com/dajva/rg.el/issues/142
+  (add-to-list 'rg-finish-functions (lambda (buffer _) (pop-to-buffer buffer)))
+  :custom
+  (rg-ignore-case 'force))
+
 ;; minimap
 (use-package minimap
   :ensure t
