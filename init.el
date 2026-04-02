@@ -386,6 +386,31 @@
 
 ;;;;; tree-sitter ;;;;;
 (use-package treesit
+  :preface
+  (defun my/treesit-install-language-on-demand (lang)
+	"Install tree-sitter grammar LANG when it is first needed."
+	(unless (treesit-language-available-p lang)
+	  (message "tree-sitter: installing grammar for %s" lang)
+	  (treesit-install-language-grammar lang)))
+  (defun my/activate-treesit-mode (mode lang)
+	"Ensure LANG grammar exists, then activate MODE."
+	(my/treesit-install-language-on-demand lang)
+	(funcall mode))
+  (defun my/go-ts-mode ()
+	(interactive)
+	(my/activate-treesit-mode #'go-ts-mode 'go))
+  (defun my/lua-ts-mode ()
+	(interactive)
+	(my/activate-treesit-mode #'lua-ts-mode 'lua))
+  (defun my/yaml-ts-mode ()
+	(interactive)
+	(my/activate-treesit-mode #'yaml-ts-mode 'yaml))
+  (defun my/toml-ts-mode ()
+	(interactive)
+	(my/activate-treesit-mode #'toml-ts-mode 'toml))
+  (defun my/json-ts-mode ()
+	(interactive)
+	(my/activate-treesit-mode #'json-ts-mode 'json))
   :config
   (setq treesit-font-lock-level 4)
   (setq treesit-language-source-alist
@@ -406,13 +431,7 @@
           (toml "https://github.com/tree-sitter/tree-sitter-toml")
           (tsx "https://github.com/tree-sitter/tree-sitter-typescript" "master" "tsx/src")
           (typescript "https://github.com/tree-sitter/tree-sitter-typescript" "master" "typescript/src")
-          (yaml "https://github.com/ikatyang/tree-sitter-yaml")))
-  (dolist (element treesit-language-source-alist)
-	(let* ((lang (car element)))
-      (if (treesit-language-available-p lang)
-          (message "treesit: %s is already installed" lang)
-		(message "treesit: %s is not installed" lang)
-		(treesit-install-language-grammar lang)))))
+          (yaml "https://github.com/ikatyang/tree-sitter-yaml"))))
 
 
 ;;;;; lsp-mode ;;;;;
@@ -809,7 +828,7 @@
 (use-package go-ts-mode
   :ensure t
   :defer t
-  :mode ("\\.go\\'" . go-ts-mode)
+  :mode ("\\.go\\'" . my/go-ts-mode)
   :preface
   (defun lsp-go-install-save-hooks ()
 	(add-hook 'before-save-hook #'lsp-format-buffer t t)
@@ -876,7 +895,7 @@
 ;;;;; lua ;;;;;
 (use-package lua-ts-mode
   :defer t
-  :mode ("\\.lua\\'" . lua-ts-mode)
+  :mode ("\\.lua\\'" . my/lua-ts-mode)
   :config
   (add-to-list 'interpreter-mode-alist '("lua" . lua-ts-mode)))
 
@@ -914,19 +933,19 @@
 ;;;;; yaml ;;;;;
 (use-package yaml-ts-mode
   :defer t
-  :mode ("\\.ya?ml\\'" . yaml-ts-mode))
+  :mode ("\\.ya?ml\\'" . my/yaml-ts-mode))
 
 
 ;;;;; toml ;;;;;
 (use-package toml-ts-mode
   :defer t
-  :mode ("\\.toml\\'" . toml-ts-mode))
+  :mode ("\\.toml\\'" . my/toml-ts-mode))
 
 
 ;;;;; json ;;;;;
 (use-package json-ts-mode
   :defer t
-  :mode ("\\.json\\'" . json-ts-mode))
+  :mode ("\\.json\\'" . my/json-ts-mode))
 
 
 ;;;;; shell ;;;;;
