@@ -927,7 +927,7 @@
   :mode ("\\.tf\\'" . terraform-mode)
   :hook (terraform-mode . terraform-format-on-save-mode)
   :custom
-  (terraform-indent-level 4))
+  (terraform-indent-level 2))
 
 
 ;;;;; yaml ;;;;;
